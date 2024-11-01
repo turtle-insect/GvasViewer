@@ -1,12 +1,4 @@
-﻿using GvasViewer.FileFormat;
-using GvasViewer.FileFormat.Switch;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GvasViewer
+﻿namespace GvasViewer
 {
 	internal class SaveData
 	{

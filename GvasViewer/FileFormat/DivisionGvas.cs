@@ -1,11 +1,5 @@
-﻿using GvasViewer.Util;
-using GvasViewer.Gvas;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GvasViewer.Gvas;
+using GvasViewer.Util;
 
 namespace GvasViewer.FileFormat
 {

@@ -1,11 +1,5 @@
-﻿using GvasViewer.Util;
-using GvasViewer.Gvas;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GvasViewer.Gvas;
+using GvasViewer.Util;
 
 namespace GvasViewer.FileFormat.Switch
 {
