@@ -1,0 +1,35 @@
+﻿<Window x:Class="GvasViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GvasViewer"
+        mc:Ignorable="d"
+		WindowStartupLocation="CenterScreen"
+        Title="GvasViewer" Height="450" Width="600">
+	<Window.DataContext>
+		<local:ViewModel/>
+	</Window.DataContext>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="File">
+				<MenuItem Header="Open" Command="{Binding CommandFileOpen}"/>
+				<!--
+				no tested !
+				disable
+				<MenuItem Header="Save" Command="{Binding CommandFileSave}"/>
+				-->
+				<Separator/>
+				<MenuItem Header="Import" Command="{Binding CommandFileImport}"/>
+				<MenuItem Header="Export" Command="{Binding CommandFileExport}"/>
+			</MenuItem>
+		</Menu>
+		<ToolBar DockPanel.Dock="Top">
+			<Label Content="File Format"/>
+			<ComboBox ItemsSource="{Binding SaveData.Setting.FileFormatInfos}"
+					  DisplayMemberPath="Name"
+					  SelectedIndex="{Binding SaveData.Setting.FileFormatIndex}"/>
+		</ToolBar>
+		<TreeView ItemsSource="{Binding GvasViewItems}"/>
+	</DockPanel>
+</Window>
