@@ -18,7 +18,7 @@ GvasViewer
 This describes the file read settings  
 
 unique File's Format
-[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
+[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/SaveData.cs) `mFormats`  
 If you want to add a unique structure, you can do so in this file as well  
 
 # Build
