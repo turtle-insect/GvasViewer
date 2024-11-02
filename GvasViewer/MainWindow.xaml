@@ -24,12 +24,6 @@
 				<MenuItem Header="Export" Command="{Binding CommandFileExport}"/>
 			</MenuItem>
 		</Menu>
-		<ToolBar DockPanel.Dock="Top">
-			<Label Content="File Format"/>
-			<ComboBox ItemsSource="{Binding SaveData.Setting.FileFormatInfos}"
-					  DisplayMemberPath="Name"
-					  SelectedIndex="{Binding SaveData.Setting.FileFormatIndex}"/>
-		</ToolBar>
 		<TreeView ItemsSource="{Binding GvasViewItems}"/>
 	</DockPanel>
 </Window>

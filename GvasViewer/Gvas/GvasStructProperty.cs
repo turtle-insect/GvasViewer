@@ -49,9 +49,12 @@
 			// extends IFileFormat implementation
 			//   Create(uint address, String name)
 			// function
-			var fileFormat = SaveData.Instance().Setting.FileFormat.Format;
-			var uniqueStruct = fileFormat.Create(address + length, name);
-			if (uniqueStruct.length != 0) return uniqueStruct;
+			var fileFormat = SaveData.Instance().FileFormat;
+			if(fileFormat != null)
+			{
+				var uniqueStruct = fileFormat.Create(address + length, name);
+				if (uniqueStruct.length != 0) return uniqueStruct;
+			}
 
 			switch (name)
 			{

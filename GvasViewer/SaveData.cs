@@ -1,14 +1,22 @@
-﻿namespace GvasViewer
+﻿using GvasViewer.FileFormat;
+using GvasViewer.FileFormat.Switch;
+
+namespace GvasViewer
 {
 	internal class SaveData
 	{
 		private static SaveData mThis = new SaveData();
+		// file format list
+		private static List<IFileFormat> mFormats = new List<IFileFormat>
+		{
+			new PlainGvas(), new DivisionGvas(), new RomancingSaga2(),
+		};
+
 		private String mFileName = String.Empty;
 		private Byte[]? mBuffer = null;
-		public Setting Setting { get; init; } = new Setting();
 		private readonly System.Text.Encoding mEncode = System.Text.Encoding.UTF8;
 		public uint Adventure { private get; set; } = 0;
-
+		public IFileFormat? FileFormat { get; private set; }
 
 		private SaveData() { }
 
@@ -18,27 +26,40 @@
 		{
 			mFileName = String.Empty;
 			mBuffer = null;
-			Setting.Initialize();
+			FileFormat = null;
 		}
 
 		public bool Open(String filename)
 		{
 			if (System.IO.File.Exists(filename) == false) return false;
 
-			Byte[] buffer = Setting.FileFormat.Format.Load(filename);
-			if (mEncode.GetString(buffer, 0, 4) != "GVAS") return false;
+			foreach (var format in mFormats)
+			{
+				try
+				{
+					Byte[] buffer = format.Load(filename);
+					if (mEncode.GetString(buffer, 0, 4) == "GVAS")
+					{
+						// success
+						mFileName = filename;
+						mBuffer = buffer;
+						FileFormat = format;
+						Backup();
+						return true;
+					}
+				}
+				catch { }
+			}
 
-			mFileName = filename;
-			mBuffer = buffer;
-			Backup();
-			return true;
+			return false;
 		}
 
 		public bool Save()
 		{
 			if (String.IsNullOrEmpty(mFileName) || mBuffer == null) return false;
+			if (FileFormat == null) return false;
 
-			Setting.FileFormat.Format.Save(mFileName, mBuffer);
+			FileFormat.Save(mFileName, mBuffer);
 			return true;
 		}
 
