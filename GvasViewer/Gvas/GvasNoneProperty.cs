@@ -2,6 +2,7 @@
 {
 	internal class GvasNoneProperty : GvasProperty
 	{
+		public GvasNoneProperty() { Name = "None"; }
 		public override object Value
 		{
 			get => throw new NotImplementedException();

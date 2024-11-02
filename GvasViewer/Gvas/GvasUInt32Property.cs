@@ -4,12 +4,12 @@
 	{
 		public override Object Value
 		{
-			get => SaveData.Instance().ReadNumber(mAddress + 1, 4);
+			get => SaveData.Instance().ReadNumber(Address + 1, 4);
 			set
 			{
 				uint num;
 				if (!uint.TryParse(value.ToString(), out num)) return;
-				SaveData.Instance().WriteNumber(mAddress + 1, 4, num);
+				SaveData.Instance().WriteNumber(Address + 1, 4, num);
 			}
 		}
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using GvasViewer.Gvas;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ namespace GvasViewer
 		public ICommand CommandFileImport { get; init; }
 		public ICommand CommandFileExport { get; init; }
 
-		public IList<Control.GvasViewItem> GvasViewItems { get; init; } = new ObservableCollection<Control.GvasViewItem>();
+		public IList<GvasProperty> GvasProperties { get; set; } = new ObservableCollection<GvasProperty>();
 
 		public ViewModel()
 		{
@@ -37,14 +38,11 @@ namespace GvasViewer
 
 			try
 			{
-				GvasViewItems.Clear();
-				var properties = Gvas.Gvas.Read();
-
-				foreach (var property in properties)
+				GvasProperties.Clear();
+				foreach (var property in Gvas.Gvas.Read())
 				{
-					var item = new Control.GvasViewItem(property);
-					GvasViewItems.Add(item);
-				}
+					GvasProperties.Add(property);
+				} 
 			}
 			catch
 			{

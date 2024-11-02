@@ -14,16 +14,58 @@
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
 				<MenuItem Header="Open" Command="{Binding CommandFileOpen}"/>
-				<!--
-				no tested !
-				disable
 				<MenuItem Header="Save" Command="{Binding CommandFileSave}"/>
-				-->
 				<Separator/>
 				<MenuItem Header="Import" Command="{Binding CommandFileImport}"/>
 				<MenuItem Header="Export" Command="{Binding CommandFileExport}"/>
 			</MenuItem>
 		</Menu>
-		<TreeView ItemsSource="{Binding GvasViewItems}"/>
+		<TreeView ItemsSource="{Binding GvasProperties}">
+			<TreeView.Resources>
+				<ResourceDictionary>
+					<!-- Style -->
+					<Style TargetType="Label">
+						<Setter Property="FontSize" Value="18"/>
+					</Style>
+					<Style TargetType="TextBox">
+						<Setter Property="FontSize" Value="18"/>
+					</Style>
+
+					<!-- DataTemplate -->
+					<DataTemplate x:Key="GvasTitleTemplateResource">
+						<Label Content="{Binding Name}"/>
+					</DataTemplate>
+					
+					<DataTemplate x:Key="GvasLabelTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content="{Binding Name}"/>
+							<Label Content="{Binding Value}" FontWeight="Bold" Foreground="Blue"/>
+						</StackPanel>
+					</DataTemplate>
+
+					<DataTemplate x:Key="GvasTextBoxTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content="{Binding Name}"/>
+							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+									 VerticalAlignment="Center"
+									 FontWeight="Bold" Foreground="Blue"
+									 BorderThickness="0"/>
+						</StackPanel>
+					</DataTemplate>
+
+					<!-- GvasTemplateSelector -->
+					<local:GvasTemplateSelector x:Key="GvasDataTemplateSelector"
+												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
+												GvasLabelTemplate="{StaticResource GvasLabelTemplateResource}"
+												GvasTextBoxTemplate="{StaticResource GvasTextBoxTemplateResource}"/>
+				</ResourceDictionary>
+			</TreeView.Resources>
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+					<ContentPresenter Content="{Binding}"
+									  ContentTemplateSelector="{StaticResource GvasDataTemplateSelector}"/>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
 	</DockPanel>
 </Window>

@@ -11,8 +11,8 @@
 			for (; ; )
 			{
 				var info = Read(address);
-				properties.Add(info.property);
 				address += info.length;
+				properties.Add(info.property);
 				if (info.property is GvasNoneProperty) break;
 			}
 
@@ -27,9 +27,11 @@
 			var propName = GetString(address);
 			length += propName.length;
 
+			GvasProperty property = new GvasNoneProperty();
+
 			if (propName.name == "None")
 			{
-				return (new GvasNoneProperty(), length);
+				return (property, length);
 			}
 
 			// type
@@ -39,7 +41,6 @@
 			uint size = SaveData.Instance().ReadNumber(address + length, 4);
 			length += 8;
 
-			GvasProperty property = new GvasNoneProperty();
 			switch (propType.name)
 			{
 				case "BoolProperty":

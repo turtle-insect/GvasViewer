@@ -6,7 +6,7 @@
 		{
 			get
 			{
-				uint address = mAddress;
+				uint address = Address;
 				uint length = 6;
 
 				// key

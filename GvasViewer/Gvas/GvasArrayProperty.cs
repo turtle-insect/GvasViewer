@@ -2,7 +2,6 @@
 {
 	class GvasArrayProperty : GvasProperty
 	{
-		public List<GvasProperty> Properties { get; private set; } = new List<GvasProperty>();
 		public override object Value
 		{
 			get => throw new NotImplementedException();
@@ -58,7 +57,7 @@
 					var info = GvasStructProperty.Create(address + length, count);
 					foreach (var property in info.properties)
 					{
-						Properties.Add(property);
+						Children.Add(property);
 					}
 					length += info.length;
 					break;

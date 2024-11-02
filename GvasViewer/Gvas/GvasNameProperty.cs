@@ -4,7 +4,7 @@
 	{
 		public override object Value
 		{
-			get => Gvas.GetString(mAddress + 1).name;
+			get => Gvas.GetString(Address + 1).name;
 			set => throw new NotImplementedException();
 		}
 

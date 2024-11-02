@@ -2,7 +2,6 @@
 {
 	class GvasStructProperty : GvasProperty
 	{
-		public List<GvasProperty> Properties { get; private set; } = new List<GvasProperty>();
 		public override object Value
 		{
 			get => throw new NotImplementedException();
@@ -12,8 +11,7 @@
 		public override uint Read(uint address)
 		{
 			var info = Create(address, 1);
-
-			Properties = info.properties[0].Properties;
+			Children = info.properties[0].Children;
 			return info.length;
 		}
 
@@ -75,8 +73,8 @@
 					for (; ; )
 					{
 						var info = Gvas.Read(address + length);
-						property.Properties.Add(info.property);
 						length += info.length;
+						property.Children.Add(info.property);
 						if (info.property is GvasNoneProperty) break;
 					}
 					break;

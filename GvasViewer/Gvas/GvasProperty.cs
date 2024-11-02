@@ -2,29 +2,12 @@
 {
 	internal abstract class GvasProperty
 	{
-		protected uint mAddress = 0;
-		protected String mName = "";
-		protected uint mSize = 0;
-
-		public abstract uint Read(uint address);
+		public uint Address { get; set; }
+		public String Name { get; set; } = String.Empty;
+		public uint Size { get; set; }
+		public IList<GvasProperty> Children { get; set; } = new List<GvasProperty>();
 		public abstract Object Value { get; set; }
 
-		public uint Address
-		{
-			get => mAddress;
-			set => mAddress = value;
-		}
-
-		public String Name
-		{
-			get => mName;
-			set => mName = value;
-		}
-
-		public uint Size
-		{
-			get => mSize;
-			set => mSize = value;
-		}
+		public abstract uint Read(uint address);
 	}
 }
