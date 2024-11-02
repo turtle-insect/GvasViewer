@@ -9,7 +9,7 @@ namespace GvasViewer
 		// file format list
 		private static List<IFileFormat> mFormats = new List<IFileFormat>
 		{
-			new PlainGvas(), new DivisionGvas(), new RomancingSaga2(),
+			new PlainGvas(), new DivisionGvas(), new RomancingSaga2(), new BravelyDefault2(),
 		};
 
 		private String mFileName = String.Empty;

@@ -41,6 +41,7 @@
 			switch(name)
 			{
 				case "BoolProperty":
+				case "ByteProperty":
 				case "Int8Property":
 					length += 1;
 					break;

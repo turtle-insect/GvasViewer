@@ -91,6 +91,10 @@
 					property = new GvasArrayProperty();
 					break;
 
+				case "SetProperty":
+					property = new GvasSetProperty();
+					break;
+
 				case "MapProperty":
 					property = new GvasMapProperty();
 					break;

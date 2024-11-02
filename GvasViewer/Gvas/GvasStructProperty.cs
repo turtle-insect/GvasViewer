@@ -56,6 +56,7 @@
 
 			switch (name)
 			{
+				case "Timespan":
 				case "DateTime":
 				case "Vector2D":
 					length += 8;
