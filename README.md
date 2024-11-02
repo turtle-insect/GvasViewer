@@ -9,15 +9,14 @@ GvasViewer
 
 # Usage
 * Prepare GVAS files
-* Select File Format
 * File -> Open
 * Using the Tree View
 
 # Developer
-[Setting](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/Setting.cs) 
-This describes the file read settings  
-
 unique File's Format
+[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
+implementation this Interface
+
 [SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/SaveData.cs) `mFormats`  
 If you want to add a unique structure, you can do so in this file as well  
 
