@@ -7,22 +7,19 @@ namespace GvasViewer.FileFormat.Switch
 	{
 		public Byte[] Load(String filename)
 		{
-			Byte[] tmp = System.IO.File.ReadAllBytes(filename);
-			Byte[] comp = new Byte[tmp.Length - 4];
-			Array.Copy(tmp, 4, comp, 0, tmp.Length - 4);
-			Byte[] result = Zlib.Decompress(comp);
+			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
+			buffer = buffer.Skip(4).ToArray();
+			buffer = Zlib.Decompress(buffer);
 
-			return result;
+			return buffer;
 		}
 
 		public void Save(String filename, Byte[] buffer)
 		{
-			Byte[] comp = Zlib.Compression(buffer);
-			Byte[] tmp = new Byte[comp.Length + 4];
-			Byte[] size = BitConverter.GetBytes(buffer.Length);
-			Array.Copy(size, 0, tmp, 0, size.Length);
-			Array.Copy(comp, 0, tmp, 4, comp.Length);
-			System.IO.File.WriteAllBytes(filename, tmp);
+			int fileSize = buffer.Length;
+			buffer = Zlib.Compression(buffer);
+			buffer = BitConverter.GetBytes(fileSize).Concat(buffer).ToArray();
+			System.IO.File.WriteAllBytes(filename, buffer);
 		}
 
 		public (GvasStructProperty property, uint length) Create(uint address, string name)

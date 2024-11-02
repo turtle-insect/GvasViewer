@@ -15,18 +15,12 @@ namespace GvasViewer.FileFormat
 				int size = BitConverter.ToInt32(buffer, index + 0x10);
 				Byte[] comp = new Byte[size];
 				Array.Copy(buffer, index + 0x30, comp, 0, comp.Length);
-				try
-				{
-					Byte[] tmp = Zlib.Decompress(comp);
-					Array.Resize(ref output, output.Length + tmp.Length);
-					Array.Copy(tmp, 0, output, output.Length - tmp.Length, tmp.Length);
-					if (BitConverter.ToInt32(buffer, index + 0x18) != 0x20000) break;
-					index += size + 0x30;
-				}
-				catch
-				{
-					return output;
-				}
+
+				Byte[] tmp = Zlib.Decompress(comp);
+				Array.Resize(ref output, output.Length + tmp.Length);
+				Array.Copy(tmp, 0, output, output.Length - tmp.Length, tmp.Length);
+				if (BitConverter.ToInt32(buffer, index + 0x18) != 0x20000) break;
+				index += size + 0x30;
 			}
 
 			// remove file size
