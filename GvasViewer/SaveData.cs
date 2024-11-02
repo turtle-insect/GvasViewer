@@ -22,13 +22,6 @@ namespace GvasViewer
 
 		public static SaveData Instance() => mThis;
 
-		public void Clear()
-		{
-			mFileName = String.Empty;
-			mBuffer = null;
-			FileFormat = null;
-		}
-
 		public bool Open(String filename)
 		{
 			if (System.IO.File.Exists(filename) == false) return false;
