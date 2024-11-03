@@ -1,10 +1,10 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 using GvasViewer.Util;
 
 namespace GvasViewer.FileFormat
 {
-	// https://github.com/turtle-insect/UnrealEngineZlib
-	internal class DivisionGvas : IFileFormat
+    // https://github.com/turtle-insect/UnrealEngineZlib
+    internal class DivisionGvas : IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{

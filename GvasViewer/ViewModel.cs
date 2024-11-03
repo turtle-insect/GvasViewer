@@ -1,4 +1,4 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace GvasViewer
 {
-	internal class ViewModel
+    internal class ViewModel
 	{
 		public SaveData SaveData { get; init; } = SaveData.Instance();
 

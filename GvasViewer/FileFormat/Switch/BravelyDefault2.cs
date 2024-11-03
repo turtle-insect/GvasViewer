@@ -1,10 +1,10 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 using GvasViewer.Util;
 using System.Text;
 
 namespace GvasViewer.FileFormat.Switch
 {
-	internal class BravelyDefault2 : IFileFormat
+    internal class BravelyDefault2 : IFileFormat
 	{
 		public byte[] Load(string filename)
 		{

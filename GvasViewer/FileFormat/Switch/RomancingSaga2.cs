@@ -1,9 +1,9 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 using GvasViewer.Util;
 
 namespace GvasViewer.FileFormat.Switch
 {
-	internal class RomancingSaga2 : IFileFormat
+    internal class RomancingSaga2 : IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{

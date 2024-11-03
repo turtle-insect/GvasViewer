@@ -1,8 +1,8 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 
 namespace GvasViewer.FileFormat
 {
-	internal interface IFileFormat
+    internal interface IFileFormat
 	{
 		Byte[] Load(String filename);
 		void Save(String filename, Byte[] buffer);

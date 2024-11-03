@@ -1,8 +1,8 @@
-﻿using GvasViewer.Gvas;
+﻿using GvasViewer.Gvas.Property;
 
 namespace GvasViewer.FileFormat
 {
-	internal class PlainGvas : IFileFormat
+    internal class PlainGvas : IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
