@@ -48,18 +48,26 @@
 					length += propName.length;
 
 					// type
+					// StructProperty
 					propType = Gvas.GetString(address + length);
 					length += propType.length;
 
 					// size
 					length += 8;
 
-					var info = GvasStructProperty.Create(address + length, count);
-					foreach (var property in info.properties)
+					// name
+					propName = Gvas.GetString(address + length);
+					length += propName.length;
+
+					// ???
+					length += 17;
+
+					for (uint i = 0; i < count; i++)
 					{
+						var property = new GvasStructProperty();
+						length += property.Create(address + length, propName.name);
 						Children.Add(property);
 					}
-					length += info.length;
 					break;
 
 				default:

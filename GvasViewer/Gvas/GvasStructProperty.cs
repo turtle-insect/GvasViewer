@@ -10,15 +10,7 @@
 
 		public override uint Read(uint address)
 		{
-			var info = Create(address, 1);
-			Children = info.properties[0].Children;
-			return info.length;
-		}
-
-		public static (List<GvasStructProperty> properties, uint length) Create(uint address, uint count)
-		{
 			uint length = 0;
-			var properties = new List<GvasStructProperty>();
 
 			var propName = Gvas.GetString(address + length);
 			length += propName.length;
@@ -26,21 +18,14 @@
 			// ???
 			length += 17;
 
-			for (uint i = 0; i < count; i++)
-			{
-				var info = Create(address + length, propName.name);
-				properties.Add(info.property);
-				length += info.length;
-			}
-
-			return (properties, length);
+			length += Create(address + length, propName.name);
+			return length;
 		}
 
-		public static (GvasStructProperty property, uint length) Create(uint address, String name)
+		public uint Create(uint address, String name)
 		{
-			var property = new GvasStructProperty();
-			property.Address = address;
-			property.Name = name;
+			Address = address;
+			Name = name;
 			uint length = 0;
 
 			// if you make unique struct
@@ -48,10 +33,10 @@
 			//   Create(uint address, String name)
 			// function
 			var fileFormat = SaveData.Instance().FileFormat;
-			if(fileFormat != null)
+			if (fileFormat != null)
 			{
-				var uniqueStruct = fileFormat.Create(address + length, name);
-				if (uniqueStruct.length != 0) return uniqueStruct;
+				length = fileFormat.Create(this, address + length, name);
+				if (length != 0) return length;
 			}
 
 			switch (name)
@@ -75,13 +60,13 @@
 					{
 						var info = Gvas.Read(address + length);
 						length += info.length;
-						property.Children.Add(info.property);
+						Children.Add(info.property);
 						if (info.property is GvasNoneProperty) break;
 					}
 					break;
 			}
 
-			return (property, length);
+			return length;
 		}
 	}
 }

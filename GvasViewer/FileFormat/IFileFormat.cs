@@ -6,6 +6,6 @@ namespace GvasViewer.FileFormat
 	{
 		Byte[] Load(String filename);
 		void Save(String filename, Byte[] buffer);
-		(GvasStructProperty property, uint length) Create(uint address, String name);
+		uint Create(GvasStructProperty property, uint address, String name);
 	}
 }

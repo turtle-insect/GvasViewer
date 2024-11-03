@@ -62,8 +62,8 @@
 					break;
 
 				case "StructProperty":
-					var prop = GvasStructProperty.Create(address + length, "");
-					length += prop.length;
+					var property = new GvasStructProperty();
+					length += property.Create(address + length, "");
 					break;
 
 				default:

@@ -55,9 +55,9 @@ namespace GvasViewer.FileFormat
 			System.IO.File.WriteAllBytes(filename, output);
 		}
 
-		public (GvasStructProperty property, uint length) Create(uint address, String name)
+		public uint Create(GvasStructProperty property, uint address, String name)
 		{
-			return (new GvasStructProperty(), 0);
+			return 0;
 		}
 	}
 }

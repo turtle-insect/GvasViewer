@@ -11,17 +11,6 @@ namespace GvasViewer.FileFormat.Switch
 {
 	internal class BravelyDefault2 : IFileFormat
 	{
-		public (GvasStructProperty property, uint length) Create(uint address, string name)
-		{
-			switch(name)
-			{
-				case "Rotator":
-					return (new GvasStructProperty(), 12);
-			}
-
-			return (new GvasStructProperty(), 0);
-		}
-
 		public byte[] Load(string filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
@@ -39,8 +28,18 @@ namespace GvasViewer.FileFormat.Switch
 			buffer = Zlib.Compression(buffer);
 
 			buffer = header.Concat(buffer).ToArray();
-
 			System.IO.File.WriteAllBytes(filename, buffer);
+		}
+
+		public uint Create(GvasStructProperty property, uint address, String name)
+		{
+			switch (name)
+			{
+				case "Rotator":
+					return 12;
+			}
+			
+			return 0;
 		}
 	}
 }
