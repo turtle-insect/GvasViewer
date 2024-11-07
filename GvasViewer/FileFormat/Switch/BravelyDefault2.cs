@@ -9,7 +9,7 @@ namespace GvasViewer.FileFormat.Switch
 		public byte[] Load(string filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
-			buffer = buffer.Skip(12).ToArray();
+			buffer = buffer[12..^0];
 			buffer = Zlib.Decompress(buffer);
 			return buffer;
 		}
