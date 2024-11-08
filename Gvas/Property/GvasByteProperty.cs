@@ -10,11 +10,18 @@
 
         public override uint Read(uint address)
         {
-            uint length = 4;
-            length += SaveData.Instance().ReadNumber(address, 4);
-            //return length;
+			uint length = 0;
 
-            return 11;
-        }
+			// name
+			length += Gvas.GetString(address).length;
+
+			// ???
+			length++;
+
+			// values
+			length += Size;
+
+			return length;
+		}
     }
 }
