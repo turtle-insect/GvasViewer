@@ -1,10 +1,10 @@
-﻿using System.Windows;
+﻿using Gvas.Property;
+using System.Windows;
 using System.Windows.Controls;
-using GvasViewer.Gvas.Property;
 
 namespace GvasViewer
 {
-    internal class GvasTemplateSelector : DataTemplateSelector
+	internal class GvasTemplateSelector : DataTemplateSelector
 	{
 #pragma warning disable CS8618
 		// use xaml
@@ -17,13 +17,13 @@ namespace GvasViewer
 		{
 			switch(item)
 			{
+				case GvasIntProperty:
+					return GvasTextBoxTemplate;
+
 				case GvasTextProperty:
 				case GvasStrProperty:
 				case GvasNameProperty:
 					return GvasLabelTemplate;
-
-				case GvasIntProperty:
-					return GvasTextBoxTemplate;
 
 				default:
 					return GvasTitleTemplate;

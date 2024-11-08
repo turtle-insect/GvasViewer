@@ -1,6 +1,6 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal class GvasStrProperty : GvasProperty
+	public class GvasStrProperty : GvasProperty
     {
         public override object Value
         {

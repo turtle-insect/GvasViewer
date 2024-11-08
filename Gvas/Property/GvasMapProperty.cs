@@ -1,4 +1,4 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
     internal class GvasMapProperty : GvasProperty
     {

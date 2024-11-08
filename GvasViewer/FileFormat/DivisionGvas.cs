@@ -1,10 +1,9 @@
-﻿using GvasViewer.Gvas.Property;
-using GvasViewer.Util;
+﻿using Gvas.Property;
 
-namespace GvasViewer.FileFormat
+namespace GvasViwer.FileFormat
 {
-    // https://github.com/turtle-insect/UnrealEngineZlib
-    internal class DivisionGvas : IFileFormat
+	// https://github.com/turtle-insect/UnrealEngineZlib
+	internal class DivisionGvas : Gvas.FileFormat.IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
@@ -16,7 +15,7 @@ namespace GvasViewer.FileFormat
 				Byte[] comp = new Byte[size];
 				Array.Copy(buffer, index + 0x30, comp, 0, comp.Length);
 
-				Byte[] tmp = Zlib.Decompress(comp);
+				Byte[] tmp = Util.Zlib.Decompress(comp);
 				Array.Resize(ref output, output.Length + tmp.Length);
 				Array.Copy(tmp, 0, output, output.Length - tmp.Length, tmp.Length);
 				if (BitConverter.ToInt32(buffer, index + 0x18) != 0x20000) break;
@@ -40,7 +39,7 @@ namespace GvasViewer.FileFormat
 
 				Byte[] decomp = new Byte[size];
 				Array.Copy(buffer, index, decomp, 0, decomp.Length);
-				Byte[] tmp = Zlib.Compression(decomp);
+				Byte[] tmp = Util.Zlib.Compression(decomp);
 				int length = output.Length;
 				Array.Resize(ref output, length + tmp.Length + 0x30);
 				Array.Copy(BitConverter.GetBytes(0x9E2A83C1), 0, output, length, 4);

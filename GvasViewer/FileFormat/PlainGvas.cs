@@ -1,8 +1,6 @@
-﻿using GvasViewer.Gvas.Property;
-
-namespace GvasViewer.FileFormat
+﻿namespace GvasViwer.FileFormat
 {
-    internal class PlainGvas : IFileFormat
+	internal class PlainGvas : Gvas.FileFormat.IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
@@ -14,7 +12,7 @@ namespace GvasViewer.FileFormat
 			System.IO.File.WriteAllBytes(filename, buffer);
 		}
 
-		public uint Create(GvasStructProperty property, uint address, String name)
+		public uint Create(Gvas.Property.GvasStructProperty property, uint address, String name)
 		{
 			return 0;
 		}

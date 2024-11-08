@@ -1,4 +1,4 @@
-﻿namespace GvasViewer.Gvas
+﻿namespace Gvas
 {
 	internal class GvasEngine
 	{

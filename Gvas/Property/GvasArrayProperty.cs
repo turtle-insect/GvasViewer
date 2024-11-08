@@ -1,4 +1,4 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
     class GvasArrayProperty : GvasProperty
     {

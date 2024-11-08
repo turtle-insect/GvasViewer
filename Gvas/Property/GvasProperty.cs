@@ -1,6 +1,6 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal abstract class GvasProperty
+    public abstract class GvasProperty
     {
         public uint Address { get; set; }
         public string Name { get; set; } = string.Empty;

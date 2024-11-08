@@ -1,6 +1,6 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal class GvasBoolProperty : GvasProperty
+    internal class GvasInt64Property : GvasProperty
     {
         public override object Value
         {
@@ -10,10 +10,10 @@
 
         public override uint Read(uint address)
         {
-            uint length = 0;
+            uint length = 1;
 
-            // value [0] -> 2Byte
-            length += 2;
+            // value [1] -> 8Byte
+            length += 8;
 
             return length;
         }

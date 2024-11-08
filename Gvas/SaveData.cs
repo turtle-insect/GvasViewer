@@ -1,22 +1,18 @@
-﻿using GvasViewer.FileFormat;
-using GvasViewer.FileFormat.Switch;
+﻿using Gvas.FileFormat;
 
-namespace GvasViewer
+namespace Gvas
 {
-	internal class SaveData
+	public class SaveData
 	{
 		private static SaveData mThis = new SaveData();
 		// file format list
-		private static List<IFileFormat> mFormats = new List<IFileFormat>
-		{
-			new PlainGvas(), new DivisionGvas(), new RomancingSaga2(), new BravelyDefault2(),
-		};
+		public List<IFileFormat> mFormats { get; init; } = new();
+		public uint Adventure { private get; set; } = 0;
 
 		private String mFileName = String.Empty;
 		private Byte[]? mBuffer = null;
 		private readonly System.Text.Encoding mEncode = System.Text.Encoding.UTF8;
-		public uint Adventure { private get; set; } = 0;
-		public IFileFormat? FileFormat { get; private set; }
+		internal IFileFormat? FileFormat { get; private set; }
 
 		private SaveData() { }
 

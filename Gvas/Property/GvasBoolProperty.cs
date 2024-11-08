@@ -1,6 +1,6 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal class GvasSoftObjectProperty : GvasProperty
+    internal class GvasBoolProperty : GvasProperty
     {
         public override object Value
         {
@@ -11,9 +11,9 @@
         public override uint Read(uint address)
         {
             uint length = 0;
-            var info = Gvas.GetString(address + length);
-            length += info.length;
-            length += 4;
+
+            // value [0] -> 2Byte
+            length += 2;
 
             return length;
         }

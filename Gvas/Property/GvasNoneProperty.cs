@@ -1,7 +1,8 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal class GvasByteProperty : GvasProperty
+    internal class GvasNoneProperty : GvasProperty
     {
+        public GvasNoneProperty() { Name = "None"; }
         public override object Value
         {
             get => throw new NotImplementedException();
@@ -10,11 +11,7 @@
 
         public override uint Read(uint address)
         {
-            uint length = 4;
-            length += SaveData.Instance().ReadNumber(address, 4);
-            //return length;
-
-            return 11;
+            return 0;
         }
     }
 }

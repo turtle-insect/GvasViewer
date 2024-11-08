@@ -1,4 +1,5 @@
-﻿using GvasViewer.Gvas.Property;
+﻿using GvasViwer.FileFormat;
+using GvasViwer.FileFormat.Switch;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -6,16 +7,16 @@ using System.Windows.Input;
 
 namespace GvasViewer
 {
-    internal class ViewModel
+	internal class ViewModel
 	{
-		public SaveData SaveData { get; init; } = SaveData.Instance();
+		public Gvas.SaveData SaveData { get; init; } = Gvas.SaveData.Instance();
 
 		public ICommand CommandFileOpen { get; init; }
 		public ICommand CommandFileSave { get; init; }
 		public ICommand CommandFileImport { get; init; }
 		public ICommand CommandFileExport { get; init; }
 
-		public IList<GvasProperty> GvasProperties { get; set; } = new ObservableCollection<GvasProperty>();
+		public IList<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new ObservableCollection<Gvas.Property.GvasProperty>();
 
 		public ViewModel()
 		{
@@ -23,6 +24,13 @@ namespace GvasViewer
 			CommandFileSave = new ActionCommand(FileSave);
 			CommandFileImport = new ActionCommand(FileImport);
 			CommandFileExport = new ActionCommand(FileExport);
+
+			var fileFormat = Gvas.SaveData.Instance().mFormats;
+			fileFormat.Clear();
+			fileFormat.Add(new PlainGvas());
+			fileFormat.Add(new DivisionGvas());
+			fileFormat.Add(new BravelyDefault2());
+			fileFormat.Add(new RomancingSaga2());
 		}
 
 		private void FileOpen(Object? parameter)

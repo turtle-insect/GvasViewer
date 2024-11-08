@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GvasViewer.Util
+namespace GvasViwer.Util
 {
 	internal class Zlib
 	{

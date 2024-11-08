@@ -1,15 +1,14 @@
-﻿using GvasViewer.Gvas.Property;
-using GvasViewer.Util;
+﻿using Gvas.Property;
 
-namespace GvasViewer.FileFormat.Switch
+namespace GvasViwer.FileFormat.Switch
 {
-    internal class RomancingSaga2 : IFileFormat
+	internal class RomancingSaga2 : Gvas.FileFormat.IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
 			buffer = buffer[4..^0];
-			buffer = Zlib.Decompress(buffer);
+			buffer = Util.Zlib.Decompress(buffer);
 
 			return buffer;
 		}
@@ -17,7 +16,7 @@ namespace GvasViewer.FileFormat.Switch
 		public void Save(String filename, Byte[] buffer)
 		{
 			int fileSize = buffer.Length;
-			buffer = Zlib.Compression(buffer);
+			buffer = Util.Zlib.Compression(buffer);
 			buffer = BitConverter.GetBytes(fileSize).Concat(buffer).ToArray();
 			System.IO.File.WriteAllBytes(filename, buffer);
 		}

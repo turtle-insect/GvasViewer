@@ -1,8 +1,8 @@
-﻿using GvasViewer.Gvas.Property;
+﻿using Gvas.Property;
 
-namespace GvasViewer.Gvas
+namespace Gvas
 {
-    internal class Gvas
+	public class Gvas
 	{
 		public static List<GvasProperty> Read()
 		{

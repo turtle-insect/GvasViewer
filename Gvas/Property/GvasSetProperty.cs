@@ -1,6 +1,6 @@
-﻿namespace GvasViewer.Gvas.Property
+﻿namespace Gvas.Property
 {
-    internal class GvasEnumProperty : GvasProperty
+    internal class GvasSetProperty : GvasProperty
     {
         public override object Value
         {
@@ -15,10 +15,8 @@
             var propType = Gvas.GetString(address + length);
             length += propType.length;
 
-            length++;
-
-            var propName = Gvas.GetString(address + length);
-            length += propName.length;
+            // value
+            length += Size + 1;
 
             return length;
         }
