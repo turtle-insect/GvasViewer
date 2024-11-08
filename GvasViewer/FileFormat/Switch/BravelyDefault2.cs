@@ -26,12 +26,6 @@ namespace GvasViwer.FileFormat.Switch
 
 		public uint Create(GvasStructProperty property, uint address, String name)
 		{
-			switch (name)
-			{
-				case "Rotator":
-					return 12;
-			}
-			
 			return 0;
 		}
 	}

@@ -43,19 +43,28 @@
             {
                 case "Timespan":
                 case "DateTime":
-                case "Vector2D":
                     length += 8;
                     break;
 
-                case "Color":
-                    length += 4;
+                // Vector
+				case "Vector2D":
+                    length += 8;
+                    break;
+				case "Vector":
+				case "Rotator":
+					length += 3 * 4;
                     break;
 
-                case "Vector":
-                    length += 3 * 4;
+				// Color
+				case "Color":
+					length += 4;
+					break;
+				case "LinearColor":
+                    length += 16;
                     break;
 
-                default:
+
+				default:
                     for (; ; )
                     {
                         var info = Gvas.Read(address + length);
