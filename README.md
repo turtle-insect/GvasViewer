@@ -21,7 +21,7 @@ unique File's Format
 [IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/Gvas/FileFormat/IFileFormat.cs)  
 implementation this Interface
 
-[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/SaveData.cs) `mFormats`  
+[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/Gvas/SaveData.cs) `Formats`  
 If you want to add a unique structure, you can do so in this file as well  
 
 # Build
