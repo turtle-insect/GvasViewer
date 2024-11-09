@@ -1,15 +1,15 @@
 ﻿namespace Gvas.Property
 {
-    internal class GvasByteProperty : GvasProperty
-    {
-        public override object Value
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+	internal class GvasByteProperty : GvasProperty
+	{
+		public override object Value
+		{
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
+		}
 
-        public override uint Read(uint address)
-        {
+		public override uint Read(uint address)
+		{
 			uint length = 0;
 
 			// name
@@ -23,5 +23,5 @@
 
 			return length;
 		}
-    }
+	}
 }

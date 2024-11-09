@@ -2,7 +2,7 @@
 
 namespace Gvas.FileFormat
 {
-    public interface IFileFormat
+	public interface IFileFormat
 	{
 		Byte[] Load(String filename);
 		void Save(String filename, Byte[] buffer);
