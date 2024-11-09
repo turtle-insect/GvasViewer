@@ -6,7 +6,7 @@ namespace Gvas
 	{
 		private static SaveData mThis = new SaveData();
 		// file format list
-		public List<IFileFormat> mFormats { get; init; } = new();
+		public List<IFileFormat> Formats { get; init; } = new();
 		public uint Adventure { private get; set; } = 0;
 
 		private String mFileName = String.Empty;
@@ -22,7 +22,7 @@ namespace Gvas
 		{
 			if (System.IO.File.Exists(filename) == false) return false;
 
-			foreach (var format in mFormats)
+			foreach (var format in Formats)
 			{
 				try
 				{

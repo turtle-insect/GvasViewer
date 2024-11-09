@@ -25,7 +25,7 @@ namespace GvasViewer
 			CommandFileImport = new ActionCommand(FileImport);
 			CommandFileExport = new ActionCommand(FileExport);
 
-			var fileFormat = Gvas.SaveData.Instance().mFormats;
+			var fileFormat = Gvas.SaveData.Instance().Formats;
 			fileFormat.Clear();
 			fileFormat.Add(new PlainGvas());
 			fileFormat.Add(new DivisionGvas());
