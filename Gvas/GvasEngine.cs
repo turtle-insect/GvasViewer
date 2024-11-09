@@ -9,7 +9,7 @@
 			// header [0] -> 4Byte
 
 			// save version [4] -> 4Byte
-			uint version = SaveData.Instance().ReadNumber(4, 4);
+			var version = SaveData.Instance().ReadNumber(4, 4);
 
 			// engine name's length [*]-> length
 			if(version == 2) address = 22;
@@ -22,7 +22,7 @@
 			// ???
 			address += 4;
 
-			var count = SaveData.Instance().ReadNumber(address, 4);
+			var count = (uint)SaveData.Instance().ReadNumber(address, 4);
 			address += 4;
 
 			// ??? block info

@@ -101,7 +101,7 @@ namespace Gvas
 			mBuffer = tmp;
 		}
 
-		public uint ReadNumber(uint address, uint size)
+		public UInt128 ReadNumber(uint address, uint size)
 		{
 			if (mBuffer == null) return 0;
 			address = CalcAddress(address);
@@ -154,7 +154,7 @@ namespace Gvas
 			return mEncode.GetString(tmp).Trim('\0');
 		}
 
-		public void WriteNumber(uint address, uint size, uint value)
+		public void WriteNumber(uint address, uint size, UInt128 value)
 		{
 			if (mBuffer == null) return;
 			address = CalcAddress(address);

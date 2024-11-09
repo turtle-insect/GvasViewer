@@ -18,6 +18,7 @@ namespace GvasViewer
 			switch(item)
 			{
 				case GvasIntProperty:
+				case GvasInt64Property:
 					return GvasTextBoxTemplate;
 
 				case GvasTextProperty:

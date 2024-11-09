@@ -40,7 +40,7 @@ namespace Gvas
 			var propType = GetString(address + length);
 			length += propType.length;
 
-			uint size = SaveData.Instance().ReadNumber(address + length, 4);
+			uint size = (uint)SaveData.Instance().ReadNumber(address + length, 4);
 			length += 8;
 
 			switch (propType.name)
@@ -122,7 +122,7 @@ namespace Gvas
 
 		public static (String name, uint length) GetString(uint address)
 		{
-			uint length = SaveData.Instance().ReadNumber(address, 4);
+			uint length = (uint)SaveData.Instance().ReadNumber(address, 4);
 			if ((length & 0x80000000) == 0x80000000)
 			{
 				length = uint.MaxValue - length + 1;

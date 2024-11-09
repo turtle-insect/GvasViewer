@@ -15,7 +15,11 @@
 
 		public override uint Read(uint address)
 		{
-			return 5;
+			uint length = 1;
+
+			length += 4;
+
+			return length;
 		}
 	}
 }

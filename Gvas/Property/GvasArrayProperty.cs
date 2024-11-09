@@ -19,18 +19,25 @@
 			length++;
 
 			// array's count
-			uint count = SaveData.Instance().ReadNumber(address + length, 4);
+			uint count = (uint)SaveData.Instance().ReadNumber(address + length, 4);
 			length += 4;
 
 			switch (propType.name)
 			{
 				case "BoolProperty":
+					length += count;
+					break;
+
 				case "ByteProperty":
 					length += count;
 					break;
 
 				case "IntProperty":
 					length += count * 4;
+					break;
+
+				case "Int64Property":
+					length += count * 8;
 					break;
 
 				case "NameProperty":

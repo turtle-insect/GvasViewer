@@ -20,7 +20,7 @@
 			// ???
 			length += 5;
 
-			uint count = SaveData.Instance().ReadNumber(address + length, 4);
+			uint count = (uint)SaveData.Instance().ReadNumber(address + length, 4);
 			length += 4;
 
 			for (uint i = 0; i < count; i++)
@@ -48,6 +48,10 @@
 
 				case "IntProperty":
 					length += 4;
+					break;
+
+				case "Int64Property":
+					length += 8;
 					break;
 
 				case "TextProperty":
