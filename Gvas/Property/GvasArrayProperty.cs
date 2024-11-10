@@ -29,7 +29,9 @@
 					break;
 
 				case "ByteProperty":
-					length += count;
+					// The contents of ByteProperty can be freely defined.
+					// Some games may include the GVAS format in the ByteProperty
+					length += Size - 4;
 					break;
 
 				case "IntProperty":
