@@ -47,6 +47,7 @@
 					break;
 
 				case "IntProperty":
+				case "UInt32Property":
 					length += 4;
 					break;
 

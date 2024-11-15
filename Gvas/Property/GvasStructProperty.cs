@@ -41,6 +41,7 @@
 
 			switch (name)
 			{
+				// Date & Time
 				case "Timespan":
 				case "DateTime":
 					length += 8;
@@ -62,7 +63,6 @@
 				case "LinearColor":
 					length += 16;
 					break;
-
 
 				default:
 					for (; ; )
