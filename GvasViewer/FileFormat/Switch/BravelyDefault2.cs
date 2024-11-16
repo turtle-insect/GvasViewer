@@ -7,7 +7,7 @@ namespace GvasViwer.FileFormat.Switch
 		public byte[] Load(string filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
-			buffer = buffer[12..^0];
+			buffer = buffer[12..];
 			buffer = Util.Zlib.Decompress(buffer);
 			return buffer;
 		}

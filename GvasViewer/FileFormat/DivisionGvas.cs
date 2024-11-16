@@ -23,7 +23,7 @@ namespace GvasViwer.FileFormat
 			}
 
 			// remove file size
-			return output.Skip(4).ToArray();
+			return output[4..];
 		}
 
 		public void Save(String filename, Byte[] buffer)
