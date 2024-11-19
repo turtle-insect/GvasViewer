@@ -1,11 +1,16 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasUInt64Property : GvasProperty
+	public class GvasUInt64Property : GvasProperty
 	{
 		public override object Value
 		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
+			get => SaveData.Instance().ReadNumber(Address + 1, 8);
+			set
+			{
+				UInt128 num;
+				if (!UInt128.TryParse(value.ToString(), out num)) return;
+				SaveData.Instance().WriteNumber(Address + 1, 8, num);
+			}
 		}
 
 		public override uint Read(uint address)
