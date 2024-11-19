@@ -10,7 +10,7 @@
 
 		public override uint Read(uint address)
 		{
-			uint length = 0;
+			uint length = 1;
 			var info = Gvas.GetString(address + length);
 			length += info.length;
 			length += 4;
