@@ -55,6 +55,10 @@
 				case "Rotator":
 					length += 3 * 4;
 					break;
+				// Quaternion
+				case "Quat":
+					length += 4 * 4;
+					break;
 
 				// Color
 				case "Color":
