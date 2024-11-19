@@ -105,6 +105,10 @@ namespace Gvas
 					property = new GvasStructProperty();
 					break;
 
+				case "ObjectProperty":
+					property = new GvasObjectProperty();
+					break;
+
 				case "SoftObjectProperty":
 					property = new GvasSoftObjectProperty();
 					break;
