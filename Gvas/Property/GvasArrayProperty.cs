@@ -35,11 +35,21 @@
 					break;
 
 				case "IntProperty":
-					length += count * 4;
+					for (uint i = 0; i < count; i++)
+					{
+						var property = new GvasIntProperty() { Name = $"[{i}]", Address = address + length };
+						Children.Add(property);
+						length += 4;
+					}
 					break;
 
 				case "Int64Property":
-					length += count * 8;
+					for (uint i = 0; i < count; i++)
+					{
+						var property = new GvasInt64Property() { Name = $"[{i}]", Address = address + length };
+						Children.Add(property);
+						length += 8;
+					}
 					break;
 
 				case "NameProperty":

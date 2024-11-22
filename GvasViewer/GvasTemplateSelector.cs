@@ -21,6 +21,7 @@ namespace GvasViewer
 				case GvasUInt32Property:
 				case GvasInt64Property:
 				case GvasUInt64Property:
+				case GvasFloatProperty:
 					return GvasTextBoxTemplate;
 
 				case GvasTextProperty:

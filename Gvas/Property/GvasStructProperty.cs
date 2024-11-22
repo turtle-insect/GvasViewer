@@ -44,28 +44,69 @@
 				// Date & Time
 				case "Timespan":
 				case "DateTime":
-					length += 8;
+					{
+						var property = new GvasUInt64Property() { Name = "Time", Address = address + length };
+						Children.Add(property);
+						length += 8;
+					}
 					break;
 
 				// Vector
 				case "Vector2D":
-					length += 8;
+					{
+						String[] names = { "X", "Y" };
+						foreach(var n in names)
+						{
+							var property = new GvasIntProperty() { Name = n, Address = address + length };
+							Children.Add(property);
+							length += 4;
+						}
+					}
 					break;
 				case "Vector":
 				case "Rotator":
-					length += 3 * 4;
+					{
+						String[] names = { "X", "Y", "Z" };
+						foreach (var n in names)
+						{
+							var property = new GvasIntProperty() { Name = n, Address = address + length };
+							Children.Add(property);
+							length += 4;
+						}
+					}
 					break;
 				// Quaternion
 				case "Quat":
-					length += 4 * 4;
+					{
+						String[] names = { "X", "Y", "Z", "W" };
+						foreach (var n in names)
+						{
+							var property = new GvasIntProperty() { Name = n, Address = address + length };
+							Children.Add(property);
+							length += 4;
+						}
+					}
 					break;
 
 				// Color
 				case "Color":
-					length += 4;
+					{
+						var property = new GvasIntProperty() { Name = name, Address = address + length };
+						Children.Add(property);
+						length += 4;
+					}
 					break;
+
 				case "LinearColor":
-					length += 16;
+					{
+						String[] names = { "A", "R", "G", "B" };
+						foreach (var n in names)
+						{
+							var property = new GvasIntProperty() { Name = n, Address = address + length };
+							Children.Add(property);
+							length += 4;
+						}
+					}
 					break;
 
 				default:

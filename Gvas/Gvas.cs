@@ -117,7 +117,6 @@ namespace Gvas
 					throw new NotImplementedException();
 			}
 
-			property.Address = address + length;
 			property.Name = propName.name;
 			property.Size = size;
 			length += property.Read(address + length);

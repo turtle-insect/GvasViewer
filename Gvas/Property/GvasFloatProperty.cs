@@ -1,18 +1,28 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasFloatProperty : GvasProperty
+	public class GvasFloatProperty : GvasProperty
 	{
 		public override object Value
 		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
+			get
+			{
+				var buffer = SaveData.Instance().ReadValue(Address, 4);
+				return BitConverter.ToSingle(buffer);
+			}
+			set
+			{
+				float num;
+				if (float.TryParse(value.ToString(), out num)) return;
+				var buffer = BitConverter.GetBytes(num);
+				SaveData.Instance().WriteValue(Address, buffer);
+			}
 		}
 
 		public override uint Read(uint address)
 		{
 			uint length = 1;
 
-			// value [1] -> 4Byte
+			Address = address + length;
 			length += 4;
 
 			return length;
