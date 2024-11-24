@@ -2,7 +2,7 @@
 
 namespace GvasViewer
 {
-	internal class ActionCommand : ICommand
+	class ActionCommand : ICommand
 	{
 #pragma warning disable CS0067
 		public event EventHandler? CanExecuteChanged;

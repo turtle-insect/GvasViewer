@@ -2,25 +2,35 @@
 {
 	public class GvasIntProperty : GvasProperty
 	{
+		private int mValue;
 		public override object Value
 		{
-			get => SaveData.Instance().ReadNumber(Address, 4);
+			get => mValue;
 			set
 			{
-				uint num;
-				if (!uint.TryParse(value.ToString(), out num)) return;
-				SaveData.Instance().WriteNumber(Address, 4, num);
+				int tmp;
+				if (int.TryParse(value.ToString(), out tmp) == false) return;
+				mValue = tmp;
 			}
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 1;
+			var size = reader.ReadUInt64();
 
-			Address = address + length;
-			length += 4;
+			// ???
+			reader.ReadByte();
 
-			return length;
+			mValue = reader.ReadInt32();
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "IntProperty");
+			writer.Write((Int64)4);
+			writer.Write('\0');
+			writer.Write(mValue);
 		}
 	}
 }

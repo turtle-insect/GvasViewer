@@ -2,30 +2,30 @@
 {
 	public class GvasFloatProperty : GvasProperty
 	{
+		private float mValue;
 		public override object Value
 		{
-			get
-			{
-				var buffer = SaveData.Instance().ReadValue(Address, 4);
-				return BitConverter.ToSingle(buffer);
-			}
-			set
-			{
-				float num;
-				if (float.TryParse(value.ToString(), out num)) return;
-				var buffer = BitConverter.GetBytes(num);
-				SaveData.Instance().WriteValue(Address, buffer);
-			}
+			get => mValue;
+			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 1;
+			var size = reader.ReadUInt64();
 
-			Address = address + length;
-			length += 4;
+			// ???
+			reader.ReadByte();
 
-			return length;
+			mValue = reader.ReadSingle();
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "FloatProperty");
+			writer.Write((Int64)4);
+			writer.Write('\0');
+			writer.Write(mValue);
 		}
 	}
 }

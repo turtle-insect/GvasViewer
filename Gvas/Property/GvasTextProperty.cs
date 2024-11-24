@@ -2,21 +2,91 @@
 {
 	public class GvasTextProperty : GvasProperty
 	{
+		private String mKey = String.Empty;
+		private List<String> mValue = new();
+
+		private Byte mFlag;
+		private int mPattern;
+		private Byte[] mBuffer = [];
+
 		public override object Value
 		{
-			get => Gvas.GetString(Address).name;
-			set => throw new NotImplementedException();
+			get
+			{
+				if (mValue.Count == 0) return "";
+				return mValue[0];
+			}
+			set
+			{
+				if (mValue.Count == 0) return;
+				mValue[0] = value.ToString() ?? "";
+			}
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 6;
+			var size = reader.ReadUInt64();
 
-			var propName = Gvas.GetString(address + length);
-			length += propName.length;
-			Address = address + length;
+			// ???
+			reader.ReadByte();
 
-			return Size + 1;
+			mFlag = reader.ReadByte();
+			if(mFlag != 0)
+			{
+				reader.BaseStream.Position--;
+				mBuffer = reader.ReadBytes((int)size);
+			}
+			else
+			{
+				var position = reader.BaseStream.Position;
+				mPattern = reader.ReadInt32();
+				uint length = 0;
+				try
+				{
+					for (; length < size - 5;)
+					{
+						var str = Util.ReadString(reader);
+						mValue.Add(str);
+						length += 4;
+						length += (uint)str.Length + 1;
+					}
+				}
+				catch
+				{
+					mValue.Clear();
+					reader.BaseStream.Position = position - 1;
+					mBuffer = reader.ReadBytes((int)size);
+				}
+			}
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "TextProperty");
+			if (mBuffer.Length > 0)
+			{
+				writer.Write(mBuffer.LongLength);
+				writer.Write('\0');
+				writer.Write(mBuffer);
+			}
+			else
+			{
+				UInt64 size = 0;
+				foreach (var value in mValue)
+				{
+					size += 4;
+					size += (uint)value.Length + 1;
+				}
+				writer.Write(size + 5);
+				writer.Write('\0');
+				writer.Write(mFlag);
+				writer.Write(mPattern);
+				foreach (var value in mValue)
+				{
+					Util.WriteString(writer, value);
+				}
+			}
 		}
 	}
 }

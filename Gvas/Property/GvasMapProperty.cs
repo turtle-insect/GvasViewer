@@ -2,80 +2,37 @@
 {
 	internal class GvasMapProperty : GvasProperty
 	{
+		private String mKeyType = String.Empty;
+		private String mValueType = String.Empty;
+		private Byte[] mValue = [];
 		public override object Value
 		{
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 0;
-			var propKey = Gvas.GetString(address);
-			length += propKey.length;
+			var size = reader.ReadUInt64();
 
-			var propType = Gvas.GetString(address + length);
-			length += propType.length;
+			mKeyType = Util.ReadString(reader);
+			mValueType = Util.ReadString(reader);
 
 			// ???
-			length += 5;
+			reader.ReadByte();
 
-			uint count = (uint)SaveData.Instance().ReadNumber(address + length, 4);
-			length += 4;
-
-			for (uint i = 0; i < count; i++)
-			{
-				// key
-				length += CreateProperty(propKey.name, address + length);
-
-				// value
-				length += CreateProperty(propType.name, address + length);
-			}
-
-			return length;
+			mValue = reader.ReadBytes((int)size);
 		}
 
-		private uint CreateProperty(string name, uint address)
+		public override void Write(BinaryWriter writer)
 		{
-			uint length = 0;
-			switch (name)
-			{
-				case "BoolProperty":
-				case "ByteProperty":
-				case "Int8Property":
-					length += 1;
-					break;
-
-				case "IntProperty":
-				case "UInt32Property":
-					length += 4;
-					break;
-
-				case "Int64Property":
-					length += 8;
-					break;
-
-				case "TextProperty":
-					length += 9;
-					break;
-
-				case "StrProperty":
-				case "NameProperty":
-				case "EnumProperty":
-					var key = Gvas.GetString(address + length);
-					length += key.length;
-					break;
-
-				case "StructProperty":
-					var property = new GvasStructProperty();
-					length += property.ReadEntity(address + length, "");
-					break;
-
-				default:
-					throw new NotImplementedException();
-			}
-
-			return length;
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "MapProperty");
+			writer.Write(mValue.LongLength);
+			Util.WriteString(writer, mKeyType);
+			Util.WriteString(writer, mValueType);
+			writer.Write('\0');
+			writer.Write(mValue);
 		}
 	}
 }

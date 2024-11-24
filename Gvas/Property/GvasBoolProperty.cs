@@ -1,21 +1,32 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasBoolProperty : GvasProperty
+	public class GvasBoolProperty : GvasProperty
 	{
+		private Byte mValue;
+
 		public override object Value
 		{
-			get => throw new NotImplementedException();
+			get => mValue;
 			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 0;
+			var size = reader.ReadUInt64();
 
-			// value [0] -> 2Byte
-			length += 2;
+			mValue = reader.ReadByte();
 
-			return length;
+			// ???
+			reader.ReadByte();
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "BoolProperty");
+			writer.Write((Int64)0);
+			writer.Write(mValue);
+			writer.Write('\0');
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasObjectProperty : GvasProperty
+	internal class GvasLiteralProperty : GvasProperty
 	{
 		private Byte[] mValue = [];
 		public override object Value
@@ -11,20 +11,16 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			var size = reader.ReadUInt64();
+			throw new NotImplementedException();
+		}
 
-			// ???
-			reader.ReadByte();
-
-			mValue = reader.ReadBytes((int)size);
+		public void Read(BinaryReader reader, int size)
+		{
+			mValue = reader.ReadBytes(size);
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
-			Util.WriteString(writer, "ObjectProperty");
-			writer.Write(mValue.LongLength);
-			writer.Write('\0');
 			writer.Write(mValue);
 		}
 	}

@@ -1,14 +1,13 @@
-﻿using Gvas.Property;
+﻿using GvasViewer.Util;
 
-namespace GvasViwer.FileFormat
+namespace GvasViewer.FileFormat
 {
-	// https://github.com/turtle-insect/UnrealEngineZlib
-	internal class DivisionGvas : Gvas.FileFormat.IFileFormat
+	internal class DivisionGvas : IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
-			Byte[] output = Array.Empty<Byte>();
+			Byte[] output = [];
 			for (int index = 0; index < buffer.Length;)
 			{
 				int size = BitConverter.ToInt32(buffer, index + 0x10);
@@ -31,7 +30,7 @@ namespace GvasViwer.FileFormat
 			// append file size
 			buffer = BitConverter.GetBytes(buffer.Length).Concat(buffer).ToArray();
 
-			Byte[] output = Array.Empty<Byte>();
+			Byte[] output = [];
 			for (int index = 0; index < buffer.Length; index += 0x20000)
 			{
 				int size = 0x20000;
@@ -39,7 +38,7 @@ namespace GvasViwer.FileFormat
 
 				Byte[] decomp = new Byte[size];
 				Array.Copy(buffer, index, decomp, 0, decomp.Length);
-				Byte[] tmp = Util.Zlib.Compression(decomp);
+				Byte[] tmp = Zlib.Compression(decomp);
 				int length = output.Length;
 				Array.Resize(ref output, length + tmp.Length + 0x30);
 				Array.Copy(BitConverter.GetBytes(0x9E2A83C1), 0, output, length, 4);
@@ -52,11 +51,6 @@ namespace GvasViwer.FileFormat
 			}
 
 			System.IO.File.WriteAllBytes(filename, output);
-		}
-
-		public uint Create(GvasStructProperty property, uint address, String name)
-		{
-			return 0;
 		}
 	}
 }

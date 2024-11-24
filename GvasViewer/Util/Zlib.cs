@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GvasViwer.Util
+namespace GvasViewer.Util
 {
 	internal class Zlib
 	{
@@ -10,6 +10,7 @@ namespace GvasViwer.Util
 			using var output = new MemoryStream();
 			using var zlib = new System.IO.Compression.ZLibStream(output, System.IO.Compression.CompressionLevel.Fastest);
 			input.CopyTo(zlib);
+			zlib.Flush();
 
 			return output.ToArray();
 		}

@@ -1,10 +1,8 @@
-﻿using Gvas.Property;
-
-namespace GvasViwer.FileFormat.Switch
+﻿namespace GvasViewer.FileFormat.Switch
 {
-	internal class BravelyDefault2 : Gvas.FileFormat.IFileFormat
+	internal class BravelyDefault2 : IFileFormat
 	{
-		public byte[] Load(string filename)
+		public Byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
 			buffer = buffer[12..];
@@ -12,7 +10,7 @@ namespace GvasViwer.FileFormat.Switch
 			return buffer;
 		}
 
-		public void Save(string filename, byte[] buffer)
+		public void Save(String filename, Byte[] buffer)
 		{
 			Byte[] header = System.Text.Encoding.UTF8.GetBytes("SAVE");
 			header = header.Concat(BitConverter.GetBytes(1)).ToArray();
@@ -22,11 +20,6 @@ namespace GvasViwer.FileFormat.Switch
 
 			buffer = header.Concat(buffer).ToArray();
 			System.IO.File.WriteAllBytes(filename, buffer);
-		}
-
-		public uint Create(GvasStructProperty property, uint address, String name)
-		{
-			return 0;
 		}
 	}
 }

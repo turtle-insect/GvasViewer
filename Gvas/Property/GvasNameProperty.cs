@@ -2,21 +2,47 @@
 {
 	public class GvasNameProperty : GvasProperty
 	{
+		private Byte[] mBuffer = [];
+		private String mValue = String.Empty;
 		public override object Value
 		{
-			get => Gvas.GetString(Address).name;
-			set => throw new NotImplementedException();
+			get => mValue;
+			set => mValue = value.ToString() ?? "";
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 1;
+			var size = reader.ReadUInt64();
 
-			Address = address + length;
-			var info = Gvas.GetString(address + length);
-			length += info.length;
+			// ???
+			reader.ReadByte();
 
-			return length;
+			try
+			{
+				mValue = Util.ReadString(reader);
+			}
+			catch
+			{
+				mBuffer = reader.ReadBytes((int)size);
+			}
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "NameProperty");
+			if (mBuffer.Length == 0)
+			{
+				writer.Write((UInt64)mValue.Length + 5);
+				writer.Write('\0');
+				Util.WriteString(writer, mValue);
+			}
+			else
+			{
+				writer.Write(mBuffer.LongLength);
+				writer.Write('\0');
+				writer.Write(mBuffer);
+			}
 		}
 	}
 }

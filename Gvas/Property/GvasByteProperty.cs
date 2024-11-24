@@ -2,26 +2,34 @@
 {
 	internal class GvasByteProperty : GvasProperty
 	{
+		private String mPropertyName = String.Empty;
+		private Byte[] mValue = [];
 		public override object Value
 		{
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 0;
+			var size = reader.ReadUInt64();
 
-			// name
-			length += Gvas.GetString(address).length;
+			mPropertyName = Util.ReadString(reader);
 
 			// ???
-			length++;
+			reader.ReadByte();
 
-			// values
-			length += Size;
+			mValue = reader.ReadBytes((int)size);
+		}
 
-			return length;
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "ByteProperty");
+			writer.Write(mValue.LongLength);
+			Util.WriteString(writer, mPropertyName);
+			writer.Write('\0');
+			writer.Write(mValue);
 		}
 	}
 }

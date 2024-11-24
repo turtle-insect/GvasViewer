@@ -1,10 +1,10 @@
 ﻿using Gvas.Property;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace GvasViewer
 {
-	internal class GvasTemplateSelector : DataTemplateSelector
+    class GvasTemplateSelector : DataTemplateSelector
 	{
 #pragma warning disable CS8618
 		// use xaml
@@ -15,19 +15,17 @@ namespace GvasViewer
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
-			switch(item)
+			switch (item)
 			{
 				case GvasIntProperty:
 				case GvasUInt32Property:
 				case GvasInt64Property:
 				case GvasUInt64Property:
 				case GvasFloatProperty:
-					return GvasTextBoxTemplate;
-
 				case GvasTextProperty:
 				case GvasStrProperty:
 				case GvasNameProperty:
-					return GvasLabelTemplate;
+					return GvasTextBoxTemplate;
 
 				default:
 					return GvasTitleTemplate;

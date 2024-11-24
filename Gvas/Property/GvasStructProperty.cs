@@ -2,125 +2,116 @@
 {
 	public class GvasStructProperty : GvasProperty
 	{
+		public String Detail { get; set; } = String.Empty;
+		public Byte[] GUID { get; set; } = [];
 		public override object Value
 		{
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 0;
+			var size = reader.ReadUInt64();
 
-			var propName = Gvas.GetString(address + length);
-			length += propName.length;
+			// name
+			Detail = Util.ReadString(reader);
 
+			GUID = reader.ReadBytes(16);
 			// ???
-			length += 17;
+			reader.ReadByte();
 
-			length += ReadEntity(address + length, propName.name);
-			return length;
+			ReadChild(reader, Detail);
 		}
 
-		public uint ReadEntity(uint address, string name)
+		public void ReadChild(BinaryReader reader, String propertyName)
 		{
-			Address = address;
-			Name = name;
-			uint length = 0;
-
-			// if you make unique struct
-			// extends IFileFormat implementation
-			//   Create(uint address, String name)
-			// function
-			var fileFormat = SaveData.Instance().FileFormat;
-			if (fileFormat != null)
-			{
-				length = fileFormat.Create(this, address + length, name);
-				if (length != 0) return length;
-			}
-
-			switch (name)
+			switch (propertyName)
 			{
 				// Date & Time
 				case "Timespan":
 				case "DateTime":
 					{
-						var property = new GvasUInt64Property() { Name = "Time", Address = address + length };
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 8);
 						Children.Add(property);
-						length += 8;
 					}
 					break;
 
 				// Vector
 				case "Vector2D":
 					{
-						String[] names = { "X", "Y" };
-						foreach(var n in names)
-						{
-							var property = new GvasIntProperty() { Name = n, Address = address + length };
-							Children.Add(property);
-							length += 4;
-						}
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 8);
+						Children.Add(property);
 					}
 					break;
 				case "Vector":
 				case "Rotator":
 					{
-						String[] names = { "X", "Y", "Z" };
-						foreach (var n in names)
-						{
-							var property = new GvasIntProperty() { Name = n, Address = address + length };
-							Children.Add(property);
-							length += 4;
-						}
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 12);
+						Children.Add(property);
 					}
 					break;
 				// Quaternion
 				case "Quat":
 					{
-						String[] names = { "X", "Y", "Z", "W" };
-						foreach (var n in names)
-						{
-							var property = new GvasIntProperty() { Name = n, Address = address + length };
-							Children.Add(property);
-							length += 4;
-						}
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 16);
+						Children.Add(property);
 					}
 					break;
 
 				// Color
 				case "Color":
 					{
-						var property = new GvasIntProperty() { Name = name, Address = address + length };
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 4);
 						Children.Add(property);
-						length += 4;
 					}
 					break;
-
 				case "LinearColor":
 					{
-						String[] names = { "A", "R", "G", "B" };
-						foreach (var n in names)
-						{
-							var property = new GvasIntProperty() { Name = n, Address = address + length };
-							Children.Add(property);
-							length += 4;
-						}
+						var property = new GvasLiteralProperty();
+						property.Read(reader, 16);
+						Children.Add(property);
 					}
 					break;
 
 				default:
 					for (; ; )
 					{
-						var info = Gvas.Read(address + length);
-						length += info.length;
-						Children.Add(info.property);
-						if (info.property is GvasNoneProperty) break;
+						var property = Util.Read(reader);
+						Children.Add(property);
+						if (property is GvasNoneProperty) break;
 					}
 					break;
 			}
+		}
 
-			return length;
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "StructProperty");
+
+			using var ms = new MemoryStream();
+			using var bw = new BinaryWriter(ms);
+			WriteChild(bw);
+
+			writer.Write(ms.Length);
+			Util.WriteString(writer, Detail);
+			writer.Write(GUID);
+			writer.Write('\0');
+			writer.Write(ms.ToArray());
+		}
+
+		public void WriteChild(BinaryWriter writer)
+		{
+			foreach (var property in Children)
+			{
+				property.Write(writer);
+			}
 		}
 	}
 }

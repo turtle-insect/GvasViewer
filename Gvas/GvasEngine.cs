@@ -1,38 +1,53 @@
-﻿namespace Gvas
+﻿using System.Text;
+
+namespace Gvas
 {
-	internal class GvasEngine
+	public class GvasEngine
 	{
-		public uint Read()
+		public String Header { get; private set; } = String.Empty;
+		public String Name { get; private set; } = String.Empty;
+
+		private Byte[] mBuffer = [];
+		private readonly IList<Guid> mGuid = new List<Guid>();
+
+		public void Read(BinaryReader reader)
 		{
-			uint address = 0;
+			Byte[] buffer = reader.ReadBytes(4);
+			Header = Encoding.UTF8.GetString(buffer);
 
-			// header [0] -> 4Byte
+			if (Header != "GVAS") throw new Exception();
 
-			// save version [4] -> 4Byte
-			var version = SaveData.Instance().ReadNumber(4, 4);
+			var version = reader.ReadUInt32();
+			reader.BaseStream.Position += 14;
+			if (version == 3) reader.BaseStream.Position += 4;
 
-			// engine name's length [*]-> length
-			if(version == 2) address = 22;
-			else if (version == 3) address = 26;
-
-			// name
-			var propName = Gvas.GetString(address);
-			address += propName.length;
+			Name = Util.ReadString(reader);
 
 			// ???
-			address += 4;
+			reader.BaseStream.Position += 4;
 
-			var count = (uint)SaveData.Instance().ReadNumber(address, 4);
-			address += 4;
+			uint count = reader.ReadUInt32();
 
-			// ??? block info
-			// one block's size => 20Byte
-			address += count * 20;
+			for (uint index = 0; index < count; index++)
+			{
+				buffer = reader.ReadBytes(16);
+				reader.ReadInt32();
+				Guid guid = new Guid(buffer);
+				mGuid.Add(guid);
+			}
 
-			var propDate = Gvas.GetString(address);
-			address += propDate.length;
+			// data
+			Util.ReadString(reader);
 
-			return address;
+			// TODO
+			long length = reader.BaseStream.Position;
+			reader.BaseStream.Position = 0;
+			mBuffer = reader.ReadBytes((int)length);
+		}
+
+		public void Write(BinaryWriter writer)
+		{
+			writer.Write(mBuffer);
 		}
 	}
 }

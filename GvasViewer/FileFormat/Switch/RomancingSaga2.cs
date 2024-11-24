@@ -1,8 +1,6 @@
-﻿using Gvas.Property;
-
-namespace GvasViwer.FileFormat.Switch
+﻿namespace GvasViewer.FileFormat.Switch
 {
-	internal class RomancingSaga2 : Gvas.FileFormat.IFileFormat
+	internal class RomancingSaga2 : IFileFormat
 	{
 		public Byte[] Load(String filename)
 		{
@@ -19,11 +17,6 @@ namespace GvasViwer.FileFormat.Switch
 			buffer = Util.Zlib.Compression(buffer);
 			buffer = BitConverter.GetBytes(fileSize).Concat(buffer).ToArray();
 			System.IO.File.WriteAllBytes(filename, buffer);
-		}
-
-		public uint Create(GvasStructProperty property, uint address, String name)
-		{
-			return 0;
 		}
 	}
 }

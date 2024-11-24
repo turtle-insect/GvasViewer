@@ -1,26 +1,35 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasEnumProperty : GvasProperty
+	public class GvasEnumProperty : GvasProperty
 	{
+		private String mKey = String.Empty;
+		private String mValue = String.Empty;
+
 		public override object Value
 		{
-			get => throw new NotImplementedException();
+			get => mValue;
 			set => throw new NotImplementedException();
 		}
 
-		public override uint Read(uint address)
+		public override void Read(BinaryReader reader)
 		{
-			uint length = 0;
+			var size = reader.ReadUInt64();
 
-			var propType = Gvas.GetString(address + length);
-			length += propType.length;
+			mKey = Util.ReadString(reader);
+			// ???
+			reader.ReadByte();
 
-			length++;
+			mValue = Util.ReadString(reader);
+		}
 
-			var propName = Gvas.GetString(address + length);
-			length += propName.length;
-
-			return length;
+		public override void Write(BinaryWriter writer)
+		{
+			Util.WriteString(writer, Name);
+			Util.WriteString(writer, "EnumProperty");
+			writer.Write((UInt64)mValue.Length + 5);
+			Util.WriteString(writer, mKey);
+			writer.Write('\0');
+			Util.WriteString(writer, mValue);
 		}
 	}
 }

@@ -4,135 +4,34 @@ namespace Gvas
 {
 	public class Gvas
 	{
-		public static List<GvasProperty> Read()
+		public GvasEngine Engine { get; private set; } = new GvasEngine();
+		public IList<GvasProperty> Properties { get; private set; } = new List<GvasProperty>();
+		private Byte[] mFooter = [];
+		public void Read(BinaryReader reader)
 		{
-			var engine = new GvasEngine();
-			var address = engine.Read();
-			var properties = new List<GvasProperty>();
+			Properties.Clear();
 
-			for (; ; )
+			Engine.Read(reader);
+			for(; ;)
 			{
-				var info = Read(address);
-				address += info.length;
-				properties.Add(info.property);
-				if (info.property is GvasNoneProperty) break;
+				var property = Util.Read(reader);
+				Properties.Add(property);
+				if (property is GvasNoneProperty) break;
 			}
 
-			return properties;
+			// rest
+			var length = reader.BaseStream.Length - reader.BaseStream.Position;
+			mFooter = reader.ReadBytes((int)length);
 		}
 
-		public static (GvasProperty property, uint length) Read(uint address)
+		public void Write(BinaryWriter writer)
 		{
-			uint length = 0;
-
-			// name
-			var propName = GetString(address);
-			length += propName.length;
-
-			GvasProperty property = new GvasNoneProperty();
-
-			if (propName.name == "None")
+			Engine.Write(writer);
+			foreach (var property in Properties)
 			{
-				return (property, length);
+				property.Write(writer);
 			}
-
-			// type
-			var propType = GetString(address + length);
-			length += propType.length;
-
-			uint size = (uint)SaveData.Instance().ReadNumber(address + length, 4);
-			length += 8;
-
-			switch (propType.name)
-			{
-				case "BoolProperty":
-					property = new GvasBoolProperty();
-					break;
-
-				case "ByteProperty":
-					property = new GvasByteProperty();
-					break;
-
-				case "IntProperty":
-					property = new GvasIntProperty();
-					break;
-
-				case "UInt32Property":
-					property = new GvasUInt32Property();
-					break;
-
-				case "Int64Property":
-					property = new GvasInt64Property();
-					break;
-
-				case "UInt64Property":
-					property = new GvasUInt64Property();
-					break;
-
-				case "FloatProperty":
-					property = new GvasFloatProperty();
-					break;
-
-				case "TextProperty":
-					property = new GvasTextProperty();
-					break;
-
-				case "StrProperty":
-					property = new GvasStrProperty();
-					break;
-
-				case "NameProperty":
-					property = new GvasNameProperty();
-					break;
-
-				case "EnumProperty":
-					property = new GvasEnumProperty();
-					break;
-
-				case "ArrayProperty":
-					property = new GvasArrayProperty();
-					break;
-
-				case "SetProperty":
-					property = new GvasSetProperty();
-					break;
-
-				case "MapProperty":
-					property = new GvasMapProperty();
-					break;
-
-				case "StructProperty":
-					property = new GvasStructProperty();
-					break;
-
-				case "ObjectProperty":
-					property = new GvasObjectProperty();
-					break;
-
-				case "SoftObjectProperty":
-					property = new GvasSoftObjectProperty();
-					break;
-
-				default:
-					throw new NotImplementedException();
-			}
-
-			property.Name = propName.name;
-			property.Size = size;
-			length += property.Read(address + length);
-			return (property, length);
-		}
-
-		public static (String name, uint length) GetString(uint address)
-		{
-			uint length = (uint)SaveData.Instance().ReadNumber(address, 4);
-			if ((length & 0x80000000) == 0x80000000)
-			{
-				length = uint.MaxValue - length + 1;
-				length *= 2;
-			}
-			String name = SaveData.Instance().ReadText(address + 4, length);
-			return (name, length + 4);
+			writer.Write(mFooter);
 		}
 	}
 }
