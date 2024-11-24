@@ -13,6 +13,7 @@ namespace GvasViewer
     {
 		public ICommand CommandFileOpen { get; init; }
 		public ICommand CommandFileSave { get; init; }
+		public ICommand CommandFileExport { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -23,6 +24,7 @@ namespace GvasViewer
 		{
 			CommandFileOpen = new ActionCommand(FileOpen);
 			CommandFileSave = new ActionCommand(FileSave);
+			CommandFileExport = new ActionCommand(FileExport);
 		}
 
 		private void FileOpen(Object? parameter)
@@ -90,11 +92,26 @@ namespace GvasViewer
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
+			mFileFormat.Save(dlg.FileName, ReadGvas());
+		}
+
+		private void FileExport(Object? parameter)
+		{
+			if (mFileFormat == null) return;
+
+			var dlg = new SaveFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			File.WriteAllBytes(dlg.FileName, ReadGvas());
+		}
+
+		private Byte[] ReadGvas()
+		{
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
 			mGvas.Write(writer);
 
-			mFileFormat.Save(dlg.FileName, ms.ToArray());
+			return ms.ToArray();
 		}
 	}
 }
