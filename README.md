@@ -18,10 +18,10 @@ GvasViewer
 
 # Developer
 unique File's Format
-[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/Gvas/FileFormat/IFileFormat.cs)  
+[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
 implementation this Interface
 
-[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/Gvas/SaveData.cs) `Formats`  
+[ViewModel](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/ViewModel.cs) `FileOpen` method  
 If you want to add a unique structure, you can do so in this file as well  
 
 # Build
