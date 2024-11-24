@@ -13,13 +13,13 @@
 		{
 			get
 			{
-				if (mValue.Count == 0) return "";
-				return mValue[0];
+				if (mValue.Count < 2) return "";
+				return mValue[1];
 			}
 			set
 			{
-				if (mValue.Count == 0) return;
-				mValue[0] = value.ToString() ?? "";
+				if (mValue.Count < 2) return;
+				mValue[1] = value.ToString() ?? "";
 			}
 		}
 
