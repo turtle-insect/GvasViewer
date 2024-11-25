@@ -23,5 +23,10 @@
 		{
 			writer.Write(mValue);
 		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -22,7 +22,7 @@
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
 			<Label DockPanel.Dock="Left" Content="Filter"/>
-			<Button DockPanel.Dock="Right" Content="Search" Command="{Binding CommandPropertyFilter}"/>
+			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandPropertyFilter}"/>
 			<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
 		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
@@ -44,7 +44,8 @@
 					<DataTemplate x:Key="GvasCheckBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
 							<Label Content="{Binding Name}"/>
-							<CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center"/>
+							<CheckBox IsChecked="{Binding Value}"
+									  VerticalAlignment="Center"/>
 						</StackPanel>
 					</DataTemplate>
 
@@ -66,7 +67,7 @@
 				</ResourceDictionary>
 			</TreeView.Resources>
 			<TreeView.ItemTemplate>
-				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+				<HierarchicalDataTemplate ItemsSource="{Binding Childrens}">
 					<ContentPresenter Content="{Binding}"
 									  ContentTemplateSelector="{StaticResource GvasDataTemplateSelector}"/>
 				</HierarchicalDataTemplate>

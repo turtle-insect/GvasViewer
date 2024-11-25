@@ -22,40 +22,128 @@
 			// ???
 			reader.ReadByte();
 
-			if (mPropertyType == "StructProperty")
+			switch(mPropertyType)
 			{
-				var targetProperty = new GvasStructProperty();
-				mProperty = targetProperty;
-				uint count = reader.ReadUInt32();
+				case "BoolProperty":
+					{
+						mProperty = new GvasBoolProperty();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasBoolProperty();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadBoolean();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				// name
-				targetProperty.Name = Util.ReadString(reader);
+				case "IntProperty":
+					{
+						mProperty = new GvasIntProperty();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasIntProperty();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadInt32();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				// type
-				// StructProperty
-				Util.ReadString(reader);
+				case "UInt32Property":
+					{
+						mProperty = new GvasUInt32Property();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasUInt32Property();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadUInt32();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				// size
-				reader.ReadUInt64();
+				case "Int64Property":
+					{
+						mProperty = new GvasInt64Property();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasInt64Property();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadInt64();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				targetProperty.Detail = Util.ReadString(reader);
-				targetProperty.GUID = reader.ReadBytes(16);
+				case "UInt64Property":
+					{
+						mProperty = new GvasUInt64Property();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasUInt64Property();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadUInt64();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				// ???
-				reader.ReadByte();
+				case "FloatProperty":
+					{
+						mProperty = new GvasFloatProperty();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasFloatProperty();
+							property.Name = $"[{index}]";
+							property.Value = reader.ReadSingle();
+							Childrens.Add(property);
+						}
+					}
+					break;
 
-				for (uint index = 0; index < count; index++)
-				{
-					var property = new GvasStructProperty();
-					property.Name = targetProperty.Name;
-					property.Detail = targetProperty.Detail;
-					property.ReadChild(reader, targetProperty.Detail);
-					Children.Add(property);
-				}
-			}
-			else
-			{
-				mValue = reader.ReadBytes((int)size);
+				case "StructProperty":
+					{
+						var targetProperty = new GvasStructProperty();
+						mProperty = targetProperty;
+						uint count = reader.ReadUInt32();
+
+						// name
+						targetProperty.Name = Util.ReadString(reader);
+
+						// type
+						// StructProperty
+						Util.ReadString(reader);
+
+						// size
+						reader.ReadUInt64();
+
+						targetProperty.Detail = Util.ReadString(reader);
+						targetProperty.GUID = reader.ReadBytes(16);
+
+						// ???
+						reader.ReadByte();
+
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasStructProperty();
+							property.Name = targetProperty.Name;
+							property.Detail = targetProperty.Detail;
+							property.ReadChild(reader, targetProperty.Detail);
+							Childrens.Add(property);
+						}
+					}
+					break;
+
+				default:
+					mValue = reader.ReadBytes((int)size);
+					break;
 			}
 		}
 
@@ -63,38 +151,74 @@
 		{
 			Util.WriteString(writer, Name);
 			Util.WriteString(writer, "ArrayProperty");
-			if (mProperty is GvasStructProperty targetProperty)
-			{
-				using var ms = new MemoryStream();
-				using var bw = new BinaryWriter(ms);
-				foreach (var property in Children)
-				{
-					var tmp = property as GvasStructProperty;
-					if (tmp == null) continue;
-					tmp.WriteChild(bw);
-				}
 
-				// size
-				// (Children.Count ~ ms.ToArray()).size
-				writer.Write((Int64)4 + (targetProperty.Name.Length + 5) + 19 + 8 + (targetProperty.Detail.Length + 5) + 17 + ms.Length);
-				Util.WriteString(writer, mPropertyType);
-				writer.Write('\0');
-				writer.Write(Children.Count);
-				Util.WriteString(writer, targetProperty.Name);
-				Util.WriteString(writer, "StructProperty");
-				writer.Write(ms.Length);
-				Util.WriteString(writer, targetProperty.Detail);
-				writer.Write(targetProperty.GUID);
-				writer.Write('\0');
-				writer.Write(ms.ToArray());
-			}
-			else
+			var WriteProperty = (uint size) =>
 			{
-				writer.Write(mValue.LongLength);
+				// Count + Childrens
+				writer.Write((Int64)Childrens.Count * size + 4);
 				Util.WriteString(writer, mPropertyType);
 				writer.Write('\0');
-				writer.Write(mValue);
+				writer.Write(Childrens.Count);
+				foreach (var children in Childrens)
+				{
+					children.WriteValue(writer);
+				}
+			};
+
+			switch(mProperty)
+			{
+				case GvasBoolProperty:
+					WriteProperty(1);
+					break;
+
+				case GvasIntProperty:
+				case GvasUInt32Property:
+				case GvasFloatProperty:
+					WriteProperty(4);
+					break;
+
+				case GvasInt64Property:
+				case GvasUInt64Property:
+					WriteProperty(8);
+					break;
+
+				case GvasStructProperty structProperty:
+					{
+						using var ms = new MemoryStream();
+						using var bw = new BinaryWriter(ms);
+						foreach (var children in Childrens)
+						{
+							children.WriteValue(bw);
+						}
+
+						// size
+						// (Children.Count ~ ms.ToArray()).size
+						writer.Write((Int64)4 + (structProperty.Name.Length + 5) + 19 + 8 + (structProperty.Detail.Length + 5) + 17 + ms.Length);
+						Util.WriteString(writer, mPropertyType);
+						writer.Write('\0');
+						writer.Write(Childrens.Count);
+						Util.WriteString(writer, structProperty.Name);
+						Util.WriteString(writer, "StructProperty");
+						writer.Write(ms.Length);
+						Util.WriteString(writer, structProperty.Detail);
+						writer.Write(structProperty.GUID);
+						writer.Write('\0');
+						writer.Write(ms.ToArray());
+					}
+					break;
+
+				default:
+					writer.Write(mValue.LongLength);
+					Util.WriteString(writer, mPropertyType);
+					writer.Write('\0');
+					writer.Write(mValue);
+					break;
 			}
+		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

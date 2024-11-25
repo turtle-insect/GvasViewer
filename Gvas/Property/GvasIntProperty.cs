@@ -2,14 +2,14 @@
 {
 	public class GvasIntProperty : GvasProperty
 	{
-		private int mValue;
+		private Int32 mValue;
 		public override object Value
 		{
 			get => mValue;
 			set
 			{
-				int tmp;
-				if (int.TryParse(value.ToString(), out tmp) == false) return;
+				Int32 tmp;
+				if (Int32.TryParse(value.ToString(), out tmp) == false) return;
 				mValue = tmp;
 			}
 		}
@@ -30,6 +30,11 @@
 			Util.WriteString(writer, "IntProperty");
 			writer.Write((Int64)4);
 			writer.Write('\0');
+			writer.Write(mValue);
+		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
 			writer.Write(mValue);
 		}
 	}

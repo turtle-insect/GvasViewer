@@ -3,6 +3,7 @@ using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Switch;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -147,9 +148,9 @@ namespace GvasViewer
 				GvasProperties.Add(property);
 			}
 
-			foreach(var child  in property.Children)
+			foreach(var children  in property.Childrens)
 			{
-				PropertyFilter(child);
+				PropertyFilter(children);
 			}
 		}
 	}

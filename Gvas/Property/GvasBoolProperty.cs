@@ -33,5 +33,10 @@
 			writer.Write(mValue);
 			writer.Write('\0');
 		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			writer.Write(mValue);
+		}
 	}
 }

@@ -44,5 +44,10 @@
 				writer.Write(mBuffer);
 			}
 		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

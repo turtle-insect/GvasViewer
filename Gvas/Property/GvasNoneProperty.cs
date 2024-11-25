@@ -16,5 +16,10 @@
 		{
 			Util.WriteString(writer, Name);
 		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
