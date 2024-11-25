@@ -1,4 +1,5 @@
-﻿using GvasViewer.FileFormat;
+﻿using Gvas.Property;
+using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Switch;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
@@ -14,20 +15,24 @@ namespace GvasViewer
 		public ICommand CommandFileOpen { get; init; }
 		public ICommand CommandFileSave { get; init; }
 		public ICommand CommandFileExport { get; init; }
+		public ICommand CommandPropertyFilter { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
 		private IFileFormat? mFileFormat;
 		private Gvas.Gvas mGvas = new();
 
+		public String Filter { get; set; } = String.Empty;
+
 		public ViewModel()
 		{
 			CommandFileOpen = new ActionCommand(FileOpen);
 			CommandFileSave = new ActionCommand(FileSave);
 			CommandFileExport = new ActionCommand(FileExport);
+			CommandPropertyFilter = new ActionCommand(PropertyFilter);
 		}
 
-		private void FileOpen(Object? parameter)
+		private void FileOpen()
 		{
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -39,8 +44,6 @@ namespace GvasViewer
 				new BravelyDefault2(),
 				new RomancingSaga2(),
 			];
-
-			GvasProperties.Clear();
 			mFileFormat = null;
 
 			String filename = dlg.FileName;
@@ -61,22 +64,18 @@ namespace GvasViewer
 				catch { }
 			}
 
-			if(buffer.Length < 4 || mFileFormat == null)
+			if(mFileFormat == null)
 			{
 				MessageBox.Show("not gvas format");
 				return;
 			}
 
-			using var ms = new MemoryStream(buffer);
-			using var reader = new BinaryReader(ms);
-			mGvas.Read(reader);
-
 			try
 			{
-				foreach (var property in mGvas.Properties)
-				{
-					GvasProperties.Add(property);
-				}
+				using var ms = new MemoryStream(buffer);
+				using var reader = new BinaryReader(ms);
+				mGvas.Read(reader);
+				PropertyFilter();
 			}
 			catch
 			{
@@ -85,7 +84,7 @@ namespace GvasViewer
 			}
 		}
 
-		private void FileSave(Object? parameter)
+		private void FileSave()
 		{
 			if (mFileFormat == null) return;
 
@@ -95,7 +94,7 @@ namespace GvasViewer
 			mFileFormat.Save(dlg.FileName, ReadGvas());
 		}
 
-		private void FileExport(Object? parameter)
+		private void FileExport()
 		{
 			if (mFileFormat == null) return;
 
@@ -112,6 +111,34 @@ namespace GvasViewer
 			mGvas.Write(writer);
 
 			return ms.ToArray();
+		}
+
+		private void PropertyFilter()
+		{
+			GvasProperties.Clear();
+			foreach (var property in mGvas.Properties)
+			{
+				PropertyFilter(property);
+			}
+		}
+
+		private void PropertyFilter(GvasProperty property)
+		{
+			if(String.IsNullOrEmpty(Filter))
+			{
+				GvasProperties.Add(property);
+				return;
+			}
+
+			if(property.Name.IndexOf(Filter) >= 0)
+			{
+				GvasProperties.Add(property);
+			}
+
+			foreach(var child  in property.Children)
+			{
+				PropertyFilter(child);
+			}
 		}
 	}
 }

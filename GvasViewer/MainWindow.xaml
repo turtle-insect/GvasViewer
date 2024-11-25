@@ -19,6 +19,11 @@
 				<MenuItem Header="Export" Command="{Binding CommandFileExport}"/>
 			</MenuItem>
 		</Menu>
+		<DockPanel DockPanel.Dock="Top">
+			<Label DockPanel.Dock="Left" Content="Filter"/>
+			<Button DockPanel.Dock="Right" Content="Search" Command="{Binding CommandPropertyFilter}"/>
+			<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
 			<TreeView.Resources>
 				<ResourceDictionary>
