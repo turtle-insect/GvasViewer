@@ -3,7 +3,6 @@ using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Switch;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
