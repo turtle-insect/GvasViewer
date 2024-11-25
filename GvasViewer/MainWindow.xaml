@@ -31,9 +31,11 @@
 					<!-- Style -->
 					<Style TargetType="Label">
 						<Setter Property="FontSize" Value="18"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
 					</Style>
 					<Style TargetType="TextBox">
 						<Setter Property="FontSize" Value="18"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
 					</Style>
 
 					<!-- DataTemplate -->
@@ -41,11 +43,32 @@
 						<Label Content="{Binding Name}"/>
 					</DataTemplate>
 
+					<DataTemplate x:Key="GvasArrayPropertyTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content="{Binding Name}"/>
+							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightBlue">
+								<Label Content="Array" FontSize="10"/>
+							</Border>
+						</StackPanel>
+					</DataTemplate>
+
+					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content="{Binding Name}"/>
+							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightGreen">
+								<Label Content="Struct" FontSize="10"/>
+							</Border>
+						</StackPanel>
+					</DataTemplate>
+
 					<DataTemplate x:Key="GvasCheckBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
 							<Label Content="{Binding Name}"/>
-							<CheckBox IsChecked="{Binding Value}"
-									  VerticalAlignment="Center"/>
+							<CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center">
+								<CheckBox.LayoutTransform>
+									<ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+								</CheckBox.LayoutTransform>
+							</CheckBox>
 						</StackPanel>
 					</DataTemplate>
 
@@ -53,7 +76,6 @@
 						<StackPanel Orientation="Horizontal">
 							<Label Content="{Binding Name}"/>
 							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-									 VerticalAlignment="Center"
 									 FontWeight="Bold" Foreground="Blue"
 									 BorderThickness="0"/>
 						</StackPanel>
@@ -62,6 +84,8 @@
 					<!-- GvasTemplateSelector -->
 					<local:GvasTemplateSelector x:Key="GvasDataTemplateSelector"
 												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
+												GvasArrayPropertyTemplate="{StaticResource GvasArrayPropertyTemplateResource}"
+												GvasStructPropertyTemplate="{StaticResource GvasStructPropertyTemplateResource}"
 												GvasCheckBoxTemplate="{StaticResource GvasCheckBoxTemplateResource}"
 												GvasTextBoxTemplate="{StaticResource GvasTextBoxTemplateResource}"/>
 				</ResourceDictionary>

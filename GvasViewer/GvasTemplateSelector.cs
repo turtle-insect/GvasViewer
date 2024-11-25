@@ -9,6 +9,8 @@ namespace GvasViewer
 #pragma warning disable CS8618
 		// use xaml
 		public DataTemplate GvasTitleTemplate { get; set; }
+		public DataTemplate GvasArrayPropertyTemplate { get; set; }
+		public DataTemplate GvasStructPropertyTemplate { get; set; }
 		public DataTemplate GvasCheckBoxTemplate { get; set; }
 		public DataTemplate GvasTextBoxTemplate { get; set; }
 #pragma warning restore CS8618
@@ -29,6 +31,12 @@ namespace GvasViewer
 				case GvasStrProperty:
 				case GvasNameProperty:
 					return GvasTextBoxTemplate;
+
+				case GvasArrayProperty:
+					return GvasArrayPropertyTemplate;
+
+				case GvasStructProperty:
+					return GvasStructPropertyTemplate;
 
 				default:
 					return GvasTitleTemplate;
