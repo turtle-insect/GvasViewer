@@ -10,14 +10,20 @@
 	<Window.DataContext>
 		<local:ViewModel/>
 	</Window.DataContext>
+	<Window.InputBindings>
+		<KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding CommandFileOpen}"/>
+		<KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding CommandFileSave}"/>
+		<KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="{Binding CommandFileSaveAs}"/>
+		<KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding CommandFileExport}"/>
+	</Window.InputBindings>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
-				<MenuItem Header="Open..." Command="{Binding CommandFileOpen}"/>
-				<MenuItem Header="Save" Command="{Binding CommandFileSave}"/>
-				<MenuItem Header="SaveAs..." Command="{Binding CommandFileSaveAs}"/>
+				<MenuItem Header="Open..." InputGestureText="Ctrl+O" Command="{Binding CommandFileOpen}"/>
+				<MenuItem Header="Save" InputGestureText="Ctrl+S" Command="{Binding CommandFileSave}"/>
+				<MenuItem Header="SaveAs..." InputGestureText="Ctrl+Shift+S" Command="{Binding CommandFileSaveAs}"/>
 				<Separator/>
-				<MenuItem Header="Export..." Command="{Binding CommandFileExport}"/>
+				<MenuItem Header="Export..." InputGestureText="Ctrl+E" Command="{Binding CommandFileExport}"/>
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
