@@ -14,11 +14,13 @@ namespace GvasViewer
     {
 		public ICommand CommandFileOpen { get; init; }
 		public ICommand CommandFileSave { get; init; }
+		public ICommand CommandFileSaveAs { get; init; }
 		public ICommand CommandFileExport { get; init; }
 		public ICommand CommandPropertyFilter { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
+		private String mFileName = String.Empty;
 		private IFileFormat? mFileFormat;
 		private Gvas.Gvas mGvas = new();
 
@@ -28,6 +30,7 @@ namespace GvasViewer
 		{
 			CommandFileOpen = new ActionCommand(FileOpen);
 			CommandFileSave = new ActionCommand(FileSave);
+			CommandFileSaveAs = new ActionCommand(FileSaveAs);
 			CommandFileExport = new ActionCommand(FileExport);
 			CommandPropertyFilter = new ActionCommand(PropertyFilter);
 		}
@@ -75,6 +78,7 @@ namespace GvasViewer
 				using var ms = new MemoryStream(buffer);
 				using var reader = new BinaryReader(ms);
 				mGvas.Read(reader);
+				mFileName = filename;
 				PropertyFilter();
 			}
 			catch
@@ -88,10 +92,18 @@ namespace GvasViewer
 		{
 			if (mFileFormat == null) return;
 
+			mFileFormat.Save(mFileName, ReadGvas());
+		}
+
+		private void FileSaveAs()
+		{
+			if (mFileFormat == null) return;
+
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			mFileFormat.Save(dlg.FileName, ReadGvas());
+			mFileName = dlg.FileName;
+			FileSave();
 		}
 
 		private void FileExport()

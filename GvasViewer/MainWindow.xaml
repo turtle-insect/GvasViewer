@@ -13,10 +13,11 @@
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
-				<MenuItem Header="Open" Command="{Binding CommandFileOpen}"/>
+				<MenuItem Header="Open..." Command="{Binding CommandFileOpen}"/>
 				<MenuItem Header="Save" Command="{Binding CommandFileSave}"/>
+				<MenuItem Header="SaveAs..." Command="{Binding CommandFileSaveAs}"/>
 				<Separator/>
-				<MenuItem Header="Export" Command="{Binding CommandFileExport}"/>
+				<MenuItem Header="Export..." Command="{Binding CommandFileExport}"/>
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
