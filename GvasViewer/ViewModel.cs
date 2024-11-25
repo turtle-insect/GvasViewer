@@ -121,6 +121,7 @@ namespace GvasViewer
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
 			mGvas.Write(writer);
+			writer.Flush();
 
 			return ms.ToArray();
 		}

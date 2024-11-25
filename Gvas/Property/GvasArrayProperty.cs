@@ -190,6 +190,7 @@
 						{
 							children.WriteValue(bw);
 						}
+						bw.Flush();
 
 						// size
 						// (Children.Count ~ ms.ToArray()).size

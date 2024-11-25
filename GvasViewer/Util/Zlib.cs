@@ -11,9 +11,10 @@ namespace GvasViewer.Util
 			{
 				using (var output = new MemoryStream())
 				{
-					using (var zlib = new System.IO.Compression.ZLibStream(output, System.IO.Compression.CompressionLevel.Fastest))
+					using (var zlib = new System.IO.Compression.ZLibStream(output, System.IO.Compression.CompressionLevel.Optimal))
 					{
 						input.CopyTo(zlib);
+						zlib.Flush();
 					}
 					result = output.ToArray();
 				}
@@ -32,6 +33,7 @@ namespace GvasViewer.Util
 					using (var output = new MemoryStream())
 					{
 						zlib.CopyTo(output);
+						output.Flush();
 						result = output.ToArray();
 					}
 				}

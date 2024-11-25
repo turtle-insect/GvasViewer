@@ -98,6 +98,7 @@
 			using var ms = new MemoryStream();
 			using var bw = new BinaryWriter(ms);
 			WriteValue(bw);
+			bw.Flush();
 
 			writer.Write(ms.Length);
 			Util.WriteString(writer, Detail);
