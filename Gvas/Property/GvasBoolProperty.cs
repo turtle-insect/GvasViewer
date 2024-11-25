@@ -2,19 +2,24 @@
 {
 	public class GvasBoolProperty : GvasProperty
 	{
-		private Byte mValue;
+		private Boolean mValue;
 
 		public override object Value
 		{
 			get => mValue;
-			set => throw new NotImplementedException();
+			set
+			{
+				Boolean tmp;
+				Boolean.TryParse(value.ToString(), out tmp);
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();
 
-			mValue = reader.ReadByte();
+			mValue = reader.ReadBoolean();
 
 			// ???
 			reader.ReadByte();

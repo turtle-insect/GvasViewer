@@ -41,10 +41,10 @@
 						<Label Content="{Binding Name}"/>
 					</DataTemplate>
 
-					<DataTemplate x:Key="GvasLabelTemplateResource">
+					<DataTemplate x:Key="GvasCheckBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
 							<Label Content="{Binding Name}"/>
-							<Label Content="{Binding Value}" FontWeight="Bold" Foreground="Blue"/>
+							<CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center"/>
 						</StackPanel>
 					</DataTemplate>
 
@@ -61,7 +61,7 @@
 					<!-- GvasTemplateSelector -->
 					<local:GvasTemplateSelector x:Key="GvasDataTemplateSelector"
 												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
-												GvasLabelTemplate="{StaticResource GvasLabelTemplateResource}"
+												GvasCheckBoxTemplate="{StaticResource GvasCheckBoxTemplateResource}"
 												GvasTextBoxTemplate="{StaticResource GvasTextBoxTemplateResource}"/>
 				</ResourceDictionary>
 			</TreeView.Resources>

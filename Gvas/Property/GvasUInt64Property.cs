@@ -6,7 +6,12 @@
 		public override object Value
 		{
 			get => mValue;
-			set => throw new NotImplementedException();
+			set
+			{
+				UInt64 tmp;
+				if (UInt64.TryParse(value.ToString(), out tmp) == false) return;
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
