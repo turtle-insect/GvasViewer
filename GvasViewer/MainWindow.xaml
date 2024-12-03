@@ -28,7 +28,7 @@
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
 			<Label DockPanel.Dock="Left" Content="Filter"/>
-			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandPropertyFilter}"/>
+			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandFilterProperty}"/>
 			<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
 		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
@@ -47,6 +47,18 @@
 					<!-- DataTemplate -->
 					<DataTemplate x:Key="GvasTitleTemplateResource">
 						<Label Content="{Binding Name}"/>
+					</DataTemplate>
+
+					<DataTemplate x:Key="GvasBytePropertyTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content=""/>
+							<Button Content="Export"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandExportByteProperty}"
+									CommandParameter="{Binding}"/>
+							<Button Content="Import"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandImportByteProperty}"
+									CommandParameter="{Binding}"/>
+						</StackPanel>
 					</DataTemplate>
 
 					<DataTemplate x:Key="GvasArrayPropertyTemplateResource">
@@ -90,6 +102,7 @@
 					<!-- GvasTemplateSelector -->
 					<local:GvasTemplateSelector x:Key="GvasDataTemplateSelector"
 												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
+												GvasBytePropertyTemplate="{StaticResource GvasBytePropertyTemplateResource}"
 												GvasArrayPropertyTemplate="{StaticResource GvasArrayPropertyTemplateResource}"
 												GvasStructPropertyTemplate="{StaticResource GvasStructPropertyTemplateResource}"
 												GvasCheckBoxTemplate="{StaticResource GvasCheckBoxTemplateResource}"

@@ -1,14 +1,15 @@
 ﻿using Gvas.Property;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GvasViewer
 {
-    class GvasTemplateSelector : DataTemplateSelector
+	class GvasTemplateSelector : DataTemplateSelector
 	{
 #pragma warning disable CS8618
 		// use xaml
 		public DataTemplate GvasTitleTemplate { get; set; }
+		public DataTemplate GvasBytePropertyTemplate { get; set; }
 		public DataTemplate GvasArrayPropertyTemplate { get; set; }
 		public DataTemplate GvasStructPropertyTemplate { get; set; }
 		public DataTemplate GvasCheckBoxTemplate { get; set; }
@@ -21,6 +22,9 @@ namespace GvasViewer
 			{
 				case GvasBoolProperty:
 					return GvasCheckBoxTemplate;
+
+				case GvasByteProperty:
+					return GvasBytePropertyTemplate;
 
 				case GvasIntProperty:
 				case GvasUInt32Property:

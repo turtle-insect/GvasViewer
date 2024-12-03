@@ -22,7 +22,7 @@
 			// ???
 			reader.ReadByte();
 
-			switch(mPropertyType)
+			switch (mPropertyType)
 			{
 				case "BoolProperty":
 					{
@@ -35,6 +35,15 @@
 							property.Value = reader.ReadBoolean();
 							Childrens.Add(property);
 						}
+					}
+					break;
+
+				case "ByteProperty":
+					{
+						mProperty = new GvasByteProperty();
+						uint count = reader.ReadUInt32();
+						mProperty.Value = reader.ReadBytes((int)count);
+						Childrens.Add(mProperty);
 					}
 					break;
 
@@ -152,34 +161,33 @@
 			Util.WriteString(writer, Name);
 			Util.WriteString(writer, "ArrayProperty");
 
-			var WriteProperty = (uint size) =>
-			{
-				// Count + Childrens
-				writer.Write((Int64)Childrens.Count * size + 4);
-				Util.WriteString(writer, mPropertyType);
-				writer.Write('\0');
-				writer.Write(Childrens.Count);
-				foreach (var children in Childrens)
-				{
-					children.WriteValue(writer);
-				}
-			};
-
 			switch(mProperty)
 			{
 				case GvasBoolProperty:
-					WriteProperty(1);
+					WritePropertyValue(writer, 1);
+					break;
+
+				case GvasByteProperty:
+					{
+						var buffer = mProperty.Value as Byte[];
+						if(buffer == null) throw new NotImplementedException();
+						writer.Write((Int64)buffer.Length + 4);
+						Util.WriteString(writer, mPropertyType);
+						writer.Write('\0');
+						writer.Write(buffer.Length);
+						writer.Write(buffer);
+					}
 					break;
 
 				case GvasIntProperty:
 				case GvasUInt32Property:
 				case GvasFloatProperty:
-					WriteProperty(4);
+					WritePropertyValue(writer, 4);
 					break;
 
 				case GvasInt64Property:
 				case GvasUInt64Property:
-					WriteProperty(8);
+					WritePropertyValue(writer, 8);
 					break;
 
 				case GvasStructProperty structProperty:
@@ -220,6 +228,19 @@
 		public override void WriteValue(BinaryWriter writer)
 		{
 			throw new NotImplementedException();
+		}
+
+		private void WritePropertyValue(BinaryWriter writer, uint size)
+		{
+			// Count + Childrens
+			writer.Write((Int64)Childrens.Count * size + 4);
+			Util.WriteString(writer, mPropertyType);
+			writer.Write('\0');
+			writer.Write(Childrens.Count);
+			foreach (var children in Childrens)
+			{
+				children.WriteValue(writer);
+			}
 		}
 	}
 }

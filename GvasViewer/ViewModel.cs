@@ -16,7 +16,9 @@ namespace GvasViewer
 		public ICommand CommandFileSave { get; init; }
 		public ICommand CommandFileSaveAs { get; init; }
 		public ICommand CommandFileExport { get; init; }
-		public ICommand CommandPropertyFilter { get; init; }
+		public ICommand CommandFilterProperty { get; init; }
+		public ICommand CommandExportByteProperty { get; init; }
+		public ICommand CommandImportByteProperty { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -32,10 +34,12 @@ namespace GvasViewer
 			CommandFileSave = new ActionCommand(FileSave);
 			CommandFileSaveAs = new ActionCommand(FileSaveAs);
 			CommandFileExport = new ActionCommand(FileExport);
-			CommandPropertyFilter = new ActionCommand(PropertyFilter);
+			CommandFilterProperty = new ActionCommand(FilterProperty);
+			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
+			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
 		}
 
-		private void FileOpen()
+		private void FileOpen(Object? parameter)
 		{
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -79,7 +83,7 @@ namespace GvasViewer
 				using var reader = new BinaryReader(ms);
 				mGvas.Read(reader);
 				mFileName = filename;
-				PropertyFilter();
+				FilterProperty();
 			}
 			catch
 			{
@@ -88,14 +92,14 @@ namespace GvasViewer
 			}
 		}
 
-		private void FileSave()
+		private void FileSave(Object? parameter)
 		{
 			if (mFileFormat == null) return;
 
 			mFileFormat.Save(mFileName, ReadGvas());
 		}
 
-		private void FileSaveAs()
+		private void FileSaveAs(Object? parameter)
 		{
 			if (mFileFormat == null) return;
 
@@ -103,10 +107,10 @@ namespace GvasViewer
 			if (dlg.ShowDialog() == false) return;
 
 			mFileName = dlg.FileName;
-			FileSave();
+			FileSave(null);
 		}
 
-		private void FileExport()
+		private void FileExport(Object? parameter)
 		{
 			if (mFileFormat == null) return;
 
@@ -114,6 +118,35 @@ namespace GvasViewer
 			if (dlg.ShowDialog() == false) return;
 
 			File.WriteAllBytes(dlg.FileName, ReadGvas());
+		}
+
+		private void FilterProperty(Object? parameter)
+		{
+			FilterProperty();
+		}
+
+		private void ExportByteProperty(Object? parameter)
+		{
+			GvasByteProperty? property = parameter as GvasByteProperty;
+			if (property == null) return;
+			Byte[]? buffer = property.Value as Byte[];
+			if (buffer == null) return;
+
+			var dlg = new SaveFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			File.WriteAllBytes(dlg.FileName, buffer);
+		}
+
+		private void ImportByteProperty(Object? parameter)
+		{
+			GvasByteProperty? property = parameter as GvasByteProperty;
+			if (property == null) return;
+
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			property.Value = File.ReadAllBytes(dlg.FileName);
 		}
 
 		private Byte[] ReadGvas()
@@ -126,16 +159,16 @@ namespace GvasViewer
 			return ms.ToArray();
 		}
 
-		private void PropertyFilter()
+		private void FilterProperty()
 		{
 			GvasProperties.Clear();
 			foreach (var property in mGvas.Properties)
 			{
-				PropertyFilter(property);
+				FilterPropertyChildren(property);
 			}
 		}
 
-		private void PropertyFilter(GvasProperty property)
+		private void FilterPropertyChildren(GvasProperty property)
 		{
 			if(String.IsNullOrEmpty(Filter))
 			{
@@ -150,7 +183,7 @@ namespace GvasViewer
 
 			foreach(var children  in property.Childrens)
 			{
-				PropertyFilter(children);
+				FilterPropertyChildren(children);
 			}
 		}
 	}

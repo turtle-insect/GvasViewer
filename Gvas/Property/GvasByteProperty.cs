@@ -1,13 +1,19 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasByteProperty : GvasProperty
+	public class GvasByteProperty : GvasProperty
 	{
 		private String mPropertyName = String.Empty;
 		private Byte[] mValue = [];
 		public override object Value
 		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
+			get => mValue;
+			set
+			{
+				Byte[]? tmp = value as Byte[];
+				if (tmp == null) return;
+
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
@@ -34,7 +40,7 @@
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			throw new NotImplementedException();
+			writer.Write(mValue);
 		}
 	}
 }
