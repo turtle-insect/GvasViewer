@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:GvasViewer"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
+		AllowDrop="True" Drop="Window_Drop" PreviewDragOver="Window_PreviewDragOver"
         Title="GvasViewer" Height="450" Width="600">
 	<Window.DataContext>
 		<local:ViewModel/>

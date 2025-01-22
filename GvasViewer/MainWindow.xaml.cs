@@ -11,5 +11,21 @@ namespace GvasViewer
         {
             InitializeComponent();
         }
-    }
+
+		private void Window_PreviewDragOver(object sender, DragEventArgs e)
+		{
+			e.Handled = e.Data.GetDataPresent(DataFormats.FileDrop);
+		}
+
+		private void Window_Drop(object sender, DragEventArgs e)
+		{
+			String[]? files = e.Data.GetData(DataFormats.FileDrop) as String[];
+			if (files == null) return;
+
+			var vm = DataContext as ViewModel;
+			if (vm == null) return;
+
+			vm.LoadFile(files[0]);
+		}
+	}
 }

@@ -39,12 +39,9 @@ namespace GvasViewer
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
 		}
 
-		private void FileOpen(Object? parameter)
+		public void LoadFile(String fileName)
 		{
-			var dlg = new OpenFileDialog();
-			if (dlg.ShowDialog() == false) return;
-
-			IFileFormat[] fileFormats = 
+			IFileFormat[] fileFormats =
 			[
 				new PlainGvas(),
 				new DivisionGvas(),
@@ -53,14 +50,13 @@ namespace GvasViewer
 			];
 			mFileFormat = null;
 
-			String filename = dlg.FileName;
 			Byte[] buffer = [];
 
 			foreach (var fileFormat in fileFormats)
 			{
 				try
 				{
-					var tmp = fileFormat.Load(filename);
+					var tmp = fileFormat.Load(fileName);
 					if (tmp.Length > 4 && Encoding.UTF8.GetString(tmp[..4].ToArray()) == "GVAS")
 					{
 						buffer = tmp;
@@ -71,7 +67,7 @@ namespace GvasViewer
 				catch { }
 			}
 
-			if(mFileFormat == null)
+			if (mFileFormat == null)
 			{
 				MessageBox.Show("not gvas format");
 				return;
@@ -82,7 +78,7 @@ namespace GvasViewer
 				using var ms = new MemoryStream(buffer);
 				using var reader = new BinaryReader(ms);
 				mGvas.Read(reader);
-				mFileName = filename;
+				mFileName = fileName;
 				FilterProperty();
 			}
 			catch
@@ -90,6 +86,14 @@ namespace GvasViewer
 				mFileFormat = null;
 				MessageBox.Show("not support game");
 			}
+		}
+
+		private void FileOpen(Object? parameter)
+		{
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			LoadFile(dlg.FileName);
 		}
 
 		private void FileSave(Object? parameter)
