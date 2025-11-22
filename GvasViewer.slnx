@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Gvas/Gvas.csproj" />
+  <Project Path="GvasViewer/GvasViewer.csproj" />
+</Solution>
