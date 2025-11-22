@@ -9,7 +9,7 @@ GvasViewer
 
 # Advance
 * Windows 10(or 11)
-* [.NET 9](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+* [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
 # Usage
 * Prepare GVAS files
