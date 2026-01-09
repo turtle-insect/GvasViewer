@@ -96,23 +96,8 @@
 
 						for (uint index = 0; index < 20; index++)
 						{
-							var structProperty = new GvasStructProperty();
-
-							structProperty.Name = Util.ReadString(reader);
-							Util.ReadString(reader);
-							reader.ReadUInt64();
-
-							Util.ReadString(reader);
-							reader.ReadBytes(17);
-
-							for (; ; )
-							{
-								var property = Util.Read(reader);
-								structProperty.Childrens.Add(property);
-								if (property is GvasNoneProperty) break;
-							}
-
-							Childrens.Add(structProperty);
+							var property = Util.Read(reader);
+							Childrens.Add(property);
 						}
 					}
 					break;
