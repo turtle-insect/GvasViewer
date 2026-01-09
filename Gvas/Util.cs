@@ -50,6 +50,7 @@ namespace Gvas
 				"Int64Property" => new GvasInt64Property(),
 				"UInt64Property" => new GvasUInt64Property(),
 				"FloatProperty" => new GvasFloatProperty(),
+				"DoubleProperty" => new GvasDoubleProperty(),
 				"TextProperty" => new GvasTextProperty(),
 				"StrProperty" => new GvasStrProperty(),
 				"NameProperty" => new GvasNameProperty(),
