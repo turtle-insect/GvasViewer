@@ -79,6 +79,44 @@
 					}
 					break;
 
+				// Dragon Quest VII Reimagined
+				case "BP_GameInstance_C#SaveLoadAdventureLogStruct":
+					{
+						Childrens.Add(Util.Read(reader));
+						Childrens.Add(Util.Read(reader));
+
+						// Memory
+						//   ArrayProperty -> ByteProperty
+						Util.ReadString(reader);
+						Util.ReadString(reader);
+						reader.ReadUInt64();
+						Util.ReadString(reader);
+						reader.ReadByte();
+						reader.ReadUInt32();
+
+						for (uint index = 0; index < 20; index++)
+						{
+							var structProperty = new GvasStructProperty();
+
+							structProperty.Name = Util.ReadString(reader);
+							Util.ReadString(reader);
+							reader.ReadUInt64();
+
+							Util.ReadString(reader);
+							reader.ReadBytes(17);
+
+							for (; ; )
+							{
+								var property = Util.Read(reader);
+								structProperty.Childrens.Add(property);
+								if (property is GvasNoneProperty) break;
+							}
+
+							Childrens.Add(structProperty);
+						}
+					}
+					break;
+
 				default:
 					for (; ; )
 					{
