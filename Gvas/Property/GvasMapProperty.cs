@@ -21,6 +21,33 @@
 			// ???
 			reader.ReadByte();
 
+			var position = reader.BaseStream.Position;
+			reader.ReadBytes(4);
+			var count = reader.ReadUInt32();
+			for (uint index = 0; index < count; index++)
+			{
+				var name = "";
+				if (mKeyType == "NameProperty")
+				{
+					name = Util.ReadString(reader);
+				}
+				else
+				{
+					break;
+				}
+
+				switch (mValueType)
+				{
+					case "StructProperty":
+						var property = new GvasStructProperty();
+						property.Name = name;
+						property.ReadChild(reader, name);
+						Childrens.Add(property);
+						break;
+				}
+			}
+			reader.BaseStream.Position = position;
+
 			mValue = reader.ReadBytes((int)size);
 		}
 
