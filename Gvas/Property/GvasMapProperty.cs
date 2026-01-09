@@ -36,14 +36,23 @@
 					break;
 				}
 
-				switch (mValueType)
+				if(mValueType == "StructProperty")
 				{
-					case "StructProperty":
-						var property = new GvasStructProperty();
-						property.Name = name;
-						property.ReadChild(reader, name);
-						Childrens.Add(property);
-						break;
+					var property = new GvasStructProperty();
+					property.Name = name;
+					property.ReadChild(reader, name);
+					Childrens.Add(property);
+				}
+				else if (mValueType == "BoolProperty")
+				{
+					var property = new GvasBoolProperty();
+					property.Name = name;
+					property.Value = reader.ReadBoolean();
+					Childrens.Add(property);
+				}
+				else
+				{
+					break;
 				}
 			}
 			reader.BaseStream.Position = position;
