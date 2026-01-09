@@ -27,33 +27,42 @@
 			for (uint index = 0; index < count; index++)
 			{
 				var name = "";
-				if (mKeyType == "NameProperty")
+				if (mKeyType == "ByteProperty" ||
+					mKeyType == "NameProperty")
 				{
 					name = Util.ReadString(reader);
 				}
-				else
-				{
-					break;
-				}
+				else break;
 
-				if(mValueType == "StructProperty")
-				{
-					var property = new GvasStructProperty();
-					property.Name = name;
-					property.ReadChild(reader, name);
-					Childrens.Add(property);
-				}
-				else if (mValueType == "BoolProperty")
+				if (mValueType == "BoolProperty")
 				{
 					var property = new GvasBoolProperty();
 					property.Name = name;
 					property.Value = reader.ReadBoolean();
 					Childrens.Add(property);
 				}
-				else
+				else if (mValueType == "IntProperty")
 				{
-					break;
+					var property = new GvasIntProperty();
+					property.Name = name;
+					property.Value = reader.ReadInt32();
+					Childrens.Add(property);
 				}
+				else if (mValueType == "NameProperty")
+				{
+					var property = new GvasNameProperty();
+					property.Name = name;
+					property.Value = Util.ReadString(reader);
+					Childrens.Add(property);
+				}
+				else if (mValueType == "StructProperty")
+				{
+					var property = new GvasStructProperty();
+					property.Name = name;
+					property.ReadChild(reader, name);
+					Childrens.Add(property);
+				}
+				else break;
 			}
 			reader.BaseStream.Position = position;
 
