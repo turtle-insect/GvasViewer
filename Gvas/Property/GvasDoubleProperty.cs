@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Gvas.Property
 {
-	internal class GvasDoubleProperty : GvasProperty
+	public class GvasDoubleProperty : GvasProperty
 	{
 		private double mValue;
 		public override object Value

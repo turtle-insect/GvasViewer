@@ -31,6 +31,7 @@ namespace GvasViewer
 				case GvasInt64Property:
 				case GvasUInt64Property:
 				case GvasFloatProperty:
+				case GvasDoubleProperty:
 				case GvasTextProperty:
 				case GvasStrProperty:
 				case GvasNameProperty:
