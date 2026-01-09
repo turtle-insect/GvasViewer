@@ -41,8 +41,7 @@
 				case "ByteProperty":
 					{
 						mProperty = new GvasByteProperty();
-						uint count = reader.ReadUInt32();
-						mProperty.Value = reader.ReadBytes((int)count);
+						mProperty.Value = reader.ReadBytes((int)(size));
 						Childrens.Add(mProperty);
 					}
 					break;
