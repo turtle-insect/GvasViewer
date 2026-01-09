@@ -41,79 +41,27 @@ namespace Gvas
 			}
 
 			var propertyType = ReadString(reader);
-			switch (propertyType)
+			property = propertyType switch
 			{
-				case "BoolProperty":
-					property = new GvasBoolProperty();
-					break;
-
-				case "ByteProperty":
-					property = new GvasByteProperty();
-					break;
-
-				case "IntProperty":
-					property = new GvasIntProperty();
-					break;
-
-				case "UInt32Property":
-					property = new GvasUInt32Property();
-					break;
-
-				case "Int64Property":
-					property = new GvasInt64Property();
-					break;
-
-				case "UInt64Property":
-					property = new GvasUInt64Property();
-					break;
-
-				case "FloatProperty":
-					property = new GvasFloatProperty();
-					break;
-
-				case "TextProperty":
-					property = new GvasTextProperty();
-					break;
-
-				case "StrProperty":
-					property = new GvasStrProperty();
-					break;
-
-				case "NameProperty":
-					property = new GvasNameProperty();
-					break;
-
-				case "EnumProperty":
-					property = new GvasEnumProperty();
-					break;
-
-				case "ArrayProperty":
-					property = new GvasArrayProperty();
-					break;
-
-				case "SetProperty":
-					property = new GvasSetProperty();
-					break;
-
-				case "MapProperty":
-					property = new GvasMapProperty();
-					break;
-
-				case "StructProperty":
-					property = new GvasStructProperty();
-					break;
-
-				case "ObjectProperty":
-					property = new GvasObjectProperty();
-					break;
-
-				case "SoftObjectProperty":
-					property = new GvasSoftObjectProperty();
-					break;
-
-				default:
-					throw new NotImplementedException();
-			}
+				"BoolProperty" => new GvasBoolProperty(),
+				"ByteProperty" => new GvasByteProperty(),
+				"IntProperty" => new GvasIntProperty(),
+				"UInt32Property" => new GvasUInt32Property(),
+				"Int64Property" => new GvasInt64Property(),
+				"UInt64Property" => new GvasUInt64Property(),
+				"FloatProperty" => new GvasFloatProperty(),
+				"TextProperty" => new GvasTextProperty(),
+				"StrProperty" => new GvasStrProperty(),
+				"NameProperty" => new GvasNameProperty(),
+				"EnumProperty" => new GvasEnumProperty(),
+				"ArrayProperty" => new GvasArrayProperty(),
+				"SetProperty" => new GvasSetProperty(),
+				"MapProperty" => new GvasMapProperty(),
+				"StructProperty" => new GvasStructProperty(),
+				"ObjectProperty" => new GvasObjectProperty(),
+				"SoftObjectProperty" => new GvasSoftObjectProperty(),
+				_ => throw new NotImplementedException(),
+			};
 
 			property.Name = propertyName;
 			property.Read(reader);
