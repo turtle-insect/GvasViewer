@@ -41,7 +41,8 @@
 				case "ByteProperty":
 					{
 						mProperty = new GvasByteProperty();
-						mProperty.Value = reader.ReadBytes((int)(size));
+						uint count = reader.ReadUInt32();
+						mProperty.Value = reader.ReadBytes((int)(size - 4));
 						Childrens.Add(mProperty);
 					}
 					break;
@@ -111,6 +112,20 @@
 							var property = new GvasFloatProperty();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadSingle();
+							Childrens.Add(property);
+						}
+					}
+					break;
+
+				case "NameProperty":
+					{
+						mProperty = new GvasNameProperty();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasNameProperty();
+							property.Name = $"[{index}]";
+							property.Value = Util.ReadString(reader);
 							Childrens.Add(property);
 						}
 					}
@@ -187,6 +202,24 @@
 				case GvasInt64Property:
 				case GvasUInt64Property:
 					WritePropertyValue(writer, 8);
+					break;
+
+				case GvasNameProperty nameProperty:
+					{
+						using var ms = new MemoryStream();
+						using var bw = new BinaryWriter(ms);
+						foreach (var children in Childrens)
+						{
+							children.WriteValue(bw);
+						}
+						bw.Flush();
+
+						writer.Write((UInt64)ms.Length);
+						Util.WriteString(writer, mPropertyType);
+						writer.Write('\0');
+						writer.Write(Childrens.Count);
+						writer.Write(ms.ToArray());
+					}
 					break;
 
 				case GvasStructProperty structProperty:
