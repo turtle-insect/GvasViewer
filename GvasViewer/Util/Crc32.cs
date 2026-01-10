@@ -8,7 +8,7 @@ namespace GvasViewer.Util
 	{
 		private readonly uint[] mTable;
 
-		public Crc32()
+		public Crc32(UInt32 seed)
 		{
 			mTable = new uint[256];
 			for (uint i = 0; i < 256; i++)
@@ -16,7 +16,7 @@ namespace GvasViewer.Util
 				var x = i;
 				for (var j = 0; j < 8; j++)
 				{
-					x = (x & 1) == 0 ? x >> 1 : 0xEDB88320 ^ x >> 1;
+					x = (x & 1) == 0 ? x >> 1 : seed ^ x >> 1;
 				}
 				mTable[i] = x;
 			}

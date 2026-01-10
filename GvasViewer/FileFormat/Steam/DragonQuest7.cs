@@ -35,7 +35,7 @@ namespace GvasViewer.FileFormat.Switch
 			Array.Copy(BitConverter.GetBytes(buffer.Length), 0, tmp, 8, 4);
 			Array.Copy(buffer, 0, tmp, 12, buffer.Length);
 			Array.Copy(BitConverter.GetBytes(buffer.Length + 12), 0, tmp, tmp.Length - 16, 4);
-			var crc32 = new Util.Crc32();
+			var crc32 = new Util.Crc32(0xEDB88320);
 			var sum = crc32.Calc(ref tmp, 0, buffer.Length + 12);
 			Array.Copy(BitConverter.GetBytes(sum), 0, tmp, tmp.Length - 12, 4);
 			buffer = tmp;
