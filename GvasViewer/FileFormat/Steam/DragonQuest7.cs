@@ -4,17 +4,37 @@ namespace GvasViewer.FileFormat.Switch
 {
 	internal class DragonQuest7 : IFileFormat
 	{
-		// Dragon Quest VII Reimagined Demo
-		const String AESKey = "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH";
+		// Create Key
+		// "DQ7R_DEMO-Win64-Shipping.exe"+1B815D9 - E8 A2FA0000
+		//   - call "DQ7R_DEMO-Win64-Shipping.exe"+1B91080
+
+		// Zlib
+		// "DQ7R_DEMO-Win64-Shipping.exe"+AAFC8D - E8 2E530601
+		//   - call "DQ7R_DEMO-Win64-Shipping.exe"+1B14FC0
+
+		// Checksum
+		// "DQ7R_DEMO-Win64-Shipping.exe"+15E2BB6 - E8 05825C00
+		//   - call "DQ7R_DEMO-Win64-Shipping.exe"+1BAADC0
+		// slicing-by-8 algorithm
+
+		private UInt32 mVersion;
+		private readonly Dictionary<UInt32, String> mKeys = new()
+		{
+			// Demo
+			{ 0x0100, "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH" },
+		};
+
 		public Byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
-			buffer = buffer[8..];
+			mVersion = BitConverter.ToUInt32(buffer);
+			if (!mKeys.ContainsKey(mVersion)) return [];
 
+			buffer = buffer[8..];
 			using var aes = Aes.Create();
 			aes.Mode = CipherMode.ECB;
 			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(AESKey);
+			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mVersion]);
 			using var cryptor = aes.CreateDecryptor();
 			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 
@@ -43,11 +63,11 @@ namespace GvasViewer.FileFormat.Switch
 			using var aes = Aes.Create();
 			aes.Mode = CipherMode.ECB;
 			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(AESKey);
+			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mVersion]);
 			using var cryptor = aes.CreateEncryptor();
 			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 			tmp = new Byte[buffer.Length + 8];
-			tmp[1] = 0x01;
+			Array.Copy(BitConverter.GetBytes(mVersion), tmp, 4);
 			Array.Copy(BitConverter.GetBytes(buffer.Length), 0, tmp, 4, 4);
 			Array.Copy(buffer, 0, tmp, 8, buffer.Length);
 			buffer = tmp;
