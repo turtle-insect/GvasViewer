@@ -47,6 +47,7 @@ namespace GvasViewer
 				new DivisionGvas(),
 				new BravelyDefault2(),
 				new RomancingSaga2(),
+				new DragonQuest7(),
 			];
 			mFileFormat = null;
 
