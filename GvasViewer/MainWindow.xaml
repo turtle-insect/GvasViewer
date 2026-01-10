@@ -25,6 +25,7 @@
 				<MenuItem Header="SaveAs..." InputGestureText="Ctrl+Shift+S" Command="{Binding CommandFileSaveAs}"/>
 				<Separator/>
 				<MenuItem Header="Export..." InputGestureText="Ctrl+E" Command="{Binding CommandFileExport}"/>
+				<MenuItem Header="Import..." InputGestureText="Ctrl+I" Command="{Binding CommandFileImport}"/>
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">

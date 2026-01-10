@@ -16,6 +16,7 @@ namespace GvasViewer
 		public ICommand CommandFileSave { get; init; }
 		public ICommand CommandFileSaveAs { get; init; }
 		public ICommand CommandFileExport { get; init; }
+		public ICommand CommandFileImport { get; init; }
 		public ICommand CommandFilterProperty { get; init; }
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
@@ -34,6 +35,7 @@ namespace GvasViewer
 			CommandFileSave = new ActionCommand(FileSave);
 			CommandFileSaveAs = new ActionCommand(FileSaveAs);
 			CommandFileExport = new ActionCommand(FileExport);
+			CommandFileImport = new ActionCommand(FileImport);
 			CommandFilterProperty = new ActionCommand(FilterProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
@@ -58,12 +60,11 @@ namespace GvasViewer
 				try
 				{
 					var tmp = fileFormat.Load(fileName);
-					if (tmp.Length > 4 && Encoding.UTF8.GetString(tmp[..4].ToArray()) == "GVAS")
-					{
-						buffer = tmp;
-						mFileFormat = fileFormat;
-						break;
-					}
+					if (tmp.Length < 4 || Encoding.UTF8.GetString(tmp[..4]) != "GVAS") continue;
+
+					buffer = tmp;
+					mFileFormat = fileFormat;
+					break;
 				}
 				catch { }
 			}
@@ -123,6 +124,32 @@ namespace GvasViewer
 			if (dlg.ShowDialog() == false) return;
 
 			File.WriteAllBytes(dlg.FileName, ReadGvas());
+		}
+
+		private void FileImport(Object? parameter)
+		{
+			if (mFileFormat == null) return;
+
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			var buffer = File.ReadAllBytes(dlg.FileName);
+			if (buffer.Length < 4 || Encoding.UTF8.GetString(buffer[..4]) != "GVAS") return;
+
+			try
+			{
+				using var ms = new MemoryStream(buffer);
+				using var reader = new BinaryReader(ms);
+				var gvas = new Gvas.Gvas();
+				gvas.Read(reader);
+
+				mGvas = gvas;
+				FilterProperty();
+			}
+			catch
+			{
+				return;
+			}
 		}
 
 		private void FilterProperty(Object? parameter)
