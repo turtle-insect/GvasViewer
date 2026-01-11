@@ -41,8 +41,7 @@
 				case "ByteProperty":
 					{
 						mProperty = new GvasByteProperty();
-						uint count = reader.ReadUInt32();
-						mProperty.Value = reader.ReadBytes((int)(size - 4));
+						mProperty.Value = reader.ReadBytes((int)size);
 						Childrens.Add(mProperty);
 					}
 					break;
@@ -172,10 +171,9 @@
 						var buffer = mProperty.Value as Byte[];
 						if(buffer == null) throw new NotImplementedException();
 
-						writer.Write((Int64)buffer.Length + 4);
+						writer.Write((Int64)buffer.Length);
 						Util.WriteString(writer, mPropertyType);
 						writer.Write('\0');
-						writer.Write(Childrens.Count);
 						writer.Write(buffer);
 					}
 					break;
