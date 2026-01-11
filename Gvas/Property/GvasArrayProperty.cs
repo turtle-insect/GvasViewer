@@ -2,7 +2,7 @@
 {
 	public class GvasArrayProperty : GvasProperty
 	{
-		private String mPropertyType = String.Empty;
+		public String PropertyType { get; private set; } = String.Empty;
 		private GvasProperty? mProperty;
 
 		private Byte[] mValue = [];
@@ -17,12 +17,12 @@
 			var size = reader.ReadUInt64();
 
 			// type
-			mPropertyType = Util.ReadString(reader);
+			PropertyType = Util.ReadString(reader);
 
 			// ???
 			reader.ReadByte();
 
-			switch (mPropertyType)
+			switch (PropertyType)
 			{
 				case "BoolProperty":
 					{
@@ -186,7 +186,7 @@
 						if(buffer == null) throw new NotImplementedException();
 
 						writer.Write((Int64)buffer.Length);
-						Util.WriteString(writer, mPropertyType);
+						Util.WriteString(writer, PropertyType);
 						writer.Write('\0');
 						writer.Write(buffer);
 					}
@@ -214,7 +214,7 @@
 						bw.Flush();
 
 						writer.Write(ms.Length + 4);
-						Util.WriteString(writer, mPropertyType);
+						Util.WriteString(writer, PropertyType);
 						writer.Write('\0');
 						writer.Write(Childrens.Count);
 						writer.Write(ms.ToArray());
@@ -234,7 +234,7 @@
 						// size
 						// (Children.Count ~ ms.ToArray()).size
 						writer.Write((Int64)4 + (structProperty.Name.Length + 5) + 19 + 8 + (structProperty.Detail.Length + 5) + 17 + ms.Length);
-						Util.WriteString(writer, mPropertyType);
+						Util.WriteString(writer, PropertyType);
 						writer.Write('\0');
 						writer.Write(Childrens.Count);
 						Util.WriteString(writer, structProperty.Name);
@@ -249,7 +249,7 @@
 
 				default:
 					writer.Write(mValue.LongLength);
-					Util.WriteString(writer, mPropertyType);
+					Util.WriteString(writer, PropertyType);
 					writer.Write('\0');
 					writer.Write(mValue);
 					break;
@@ -265,7 +265,7 @@
 		{
 			// Count + Childrens
 			writer.Write((Int64)Childrens.Count * size + 4);
-			Util.WriteString(writer, mPropertyType);
+			Util.WriteString(writer, PropertyType);
 			writer.Write('\0');
 			writer.Write(Childrens.Count);
 			foreach (var children in Childrens)

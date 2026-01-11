@@ -69,6 +69,9 @@
 							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightBlue">
 								<Label Content="Array" FontSize="10"/>
 							</Border>
+							<Button Content="Append"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandAppendArrayProperty}"
+									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
 

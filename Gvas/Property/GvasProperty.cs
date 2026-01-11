@@ -3,7 +3,7 @@
 	public abstract class GvasProperty
 	{
 		public String Name { get; set; } = String.Empty;
-		public List<GvasProperty> Childrens { get; private set; } = new();
+		public System.Collections.ObjectModel.ObservableCollection<GvasProperty> Childrens { get; private set; } = new();
 		public abstract Object Value { get; set; }
 
 		public abstract void Read(BinaryReader reader);

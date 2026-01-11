@@ -19,6 +19,7 @@ namespace GvasViewer
 		public ICommand CommandFilterProperty { get; init; }
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
+		public ICommand CommandAppendArrayProperty { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -38,6 +39,7 @@ namespace GvasViewer
 			CommandFilterProperty = new ActionCommand(FilterProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
+			CommandAppendArrayProperty = new ActionCommand(AppendArrayProperty);
 		}
 
 		public void LoadFile(String fileName)
@@ -179,6 +181,15 @@ namespace GvasViewer
 			if (dlg.ShowDialog() == false) return;
 
 			property.Value = File.ReadAllBytes(dlg.FileName);
+		}
+
+		private void AppendArrayProperty(Object? parameter)
+		{
+			GvasArrayProperty? property = parameter as GvasArrayProperty;
+			if (property == null) return;
+			if (property.PropertyType != "NameProperty") return;
+
+			property.Childrens.Add(new GvasNameProperty() { Name = $"{property.Childrens.Count}" });
 		}
 
 		private Byte[] ReadGvas()
