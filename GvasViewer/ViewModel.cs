@@ -192,7 +192,7 @@ namespace GvasViewer
 			if (property == null) return;
 			if (property.PropertyType != "NameProperty") return;
 
-			property.Childrens.Add(new GvasNameProperty() { Name = $"{property.Childrens.Count}" });
+			property.Childrens.Add(new GvasNameProperty() { Name = $"[{property.Childrens.Count}]" });
 		}
 
 		private void AppendMapProperty(Object? parameter)
