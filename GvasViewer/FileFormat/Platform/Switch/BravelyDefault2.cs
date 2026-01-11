@@ -1,4 +1,4 @@
-﻿namespace GvasViewer.FileFormat.Switch
+﻿namespace GvasViewer.FileFormat.Platform.Switch
 {
 	internal class BravelyDefault2 : IFileFormat
 	{

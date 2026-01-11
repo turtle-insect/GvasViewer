@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GvasViewer.Util
+namespace GvasViewer.FileFormat.Util
 {
 	internal class Crc32
 	{

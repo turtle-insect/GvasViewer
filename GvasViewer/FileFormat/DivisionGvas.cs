@@ -1,4 +1,4 @@
-﻿using GvasViewer.Util;
+﻿using GvasViewer.FileFormat.Util;
 
 namespace GvasViewer.FileFormat
 {

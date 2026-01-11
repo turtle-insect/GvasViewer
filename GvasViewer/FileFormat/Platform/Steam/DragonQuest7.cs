@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace GvasViewer.FileFormat.Steam
+namespace GvasViewer.FileFormat.Platform.Steam
 {
 	internal class DragonQuest7 : IFileFormat
 	{

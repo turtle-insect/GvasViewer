@@ -46,9 +46,9 @@ namespace GvasViewer
 			[
 				new PlainGvas(),
 				new DivisionGvas(),
-				new FileFormat.Switch.BravelyDefault2(),
-				new FileFormat.Switch.RomancingSaga2(),
-				new FileFormat.Steam.DragonQuest7(),
+				new FileFormat.Platform.Switch.BravelyDefault2(),
+				new FileFormat.Platform.Switch.RomancingSaga2(),
+				new FileFormat.Platform.Steam.DragonQuest7(),
 			];
 			mFileFormat = null;
 
