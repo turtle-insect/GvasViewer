@@ -147,6 +147,7 @@ namespace GvasViewer
 			}
 			catch
 			{
+				MessageBox.Show("not gvas format");
 				return;
 			}
 		}
