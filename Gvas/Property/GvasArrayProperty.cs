@@ -116,6 +116,20 @@
 					}
 					break;
 
+				case "NameProperty":
+					{
+						mProperty = new GvasNameProperty();
+						uint count = reader.ReadUInt32();
+						for (uint index = 0; index < count; index++)
+						{
+							var property = new GvasNameProperty();
+							property.Name = $"[{index}]";
+							property.Value = Util.ReadString(reader);
+							Childrens.Add(property);
+						}
+					}
+					break;
+
 				case "StructProperty":
 					{
 						var targetProperty = new GvasStructProperty();
@@ -187,6 +201,24 @@
 				case GvasInt64Property:
 				case GvasUInt64Property:
 					WritePropertyValue(writer, 8);
+					break;
+
+				case GvasNameProperty nameProperty:
+					{
+						using var ms = new MemoryStream();
+						using var bw = new BinaryWriter(ms);
+						foreach (var children in Childrens)
+						{
+							children.WriteValue(bw);
+						}
+						bw.Flush();
+
+						writer.Write(ms.Length + 4);
+						Util.WriteString(writer, mPropertyType);
+						writer.Write('\0');
+						writer.Write(Childrens.Count);
+						writer.Write(ms.ToArray());
+					}
 					break;
 
 				case GvasStructProperty structProperty:
