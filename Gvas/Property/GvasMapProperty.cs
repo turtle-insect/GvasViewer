@@ -1,6 +1,6 @@
 ﻿namespace Gvas.Property
 {
-	internal class GvasMapProperty : GvasProperty
+	public class GvasMapProperty : GvasProperty
 	{
 		private String mKeyType = String.Empty;
 		private String mValueType = String.Empty;

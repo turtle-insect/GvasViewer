@@ -72,6 +72,15 @@
 						</StackPanel>
 					</DataTemplate>
 
+					<DataTemplate x:Key="GvasMapPropertyTemplateResource">
+						<StackPanel Orientation="Horizontal">
+							<Label Content="{Binding Name}"/>
+							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightCoral">
+								<Label Content="Map" FontSize="10"/>
+							</Border>
+						</StackPanel>
+					</DataTemplate>
+
 					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
 							<Label Content="{Binding Name}"/>
@@ -106,6 +115,7 @@
 												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
 												GvasBytePropertyTemplate="{StaticResource GvasBytePropertyTemplateResource}"
 												GvasArrayPropertyTemplate="{StaticResource GvasArrayPropertyTemplateResource}"
+												GvasMapPropertyTemplate="{StaticResource GvasMapPropertyTemplateResource}"
 												GvasStructPropertyTemplate="{StaticResource GvasStructPropertyTemplateResource}"
 												GvasCheckBoxTemplate="{StaticResource GvasCheckBoxTemplateResource}"
 												GvasTextBoxTemplate="{StaticResource GvasTextBoxTemplateResource}"/>

@@ -11,6 +11,7 @@ namespace GvasViewer
 		public DataTemplate GvasTitleTemplate { get; set; }
 		public DataTemplate GvasBytePropertyTemplate { get; set; }
 		public DataTemplate GvasArrayPropertyTemplate { get; set; }
+		public DataTemplate GvasMapPropertyTemplate { get; set; }
 		public DataTemplate GvasStructPropertyTemplate { get; set; }
 		public DataTemplate GvasCheckBoxTemplate { get; set; }
 		public DataTemplate GvasTextBoxTemplate { get; set; }
@@ -39,6 +40,9 @@ namespace GvasViewer
 
 				case GvasArrayProperty:
 					return GvasArrayPropertyTemplate;
+
+				case GvasMapProperty:
+					return GvasMapPropertyTemplate;
 
 				case GvasStructProperty:
 					return GvasStructPropertyTemplate;
