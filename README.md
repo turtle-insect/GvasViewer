@@ -1,6 +1,6 @@
 ![DL Count](https://img.shields.io/github/downloads/turtle-insect/GvasViewer/total.svg)
 
-![image](https://github.com/user-attachments/assets/e44d359e-540b-48ca-a9e1-0df0f3d1e227)  
+![image](https://github.com/user-attachments/assets/f1555520-549d-4554-9341-84ebc1c36d36)  
 ex) Romancing Saga 2  
 
 # What is ?
