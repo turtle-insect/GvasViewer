@@ -161,7 +161,7 @@ namespace GvasViewer
 
 		private void ExportByteProperty(Object? parameter)
 		{
-			GvasByteProperty? property = parameter as GvasByteProperty;
+			var property = parameter as GvasByteProperty;
 			if (property == null) return;
 			Byte[]? buffer = property.Value as Byte[];
 			if (buffer == null) return;
@@ -174,7 +174,7 @@ namespace GvasViewer
 
 		private void ImportByteProperty(Object? parameter)
 		{
-			GvasByteProperty? property = parameter as GvasByteProperty;
+			var property = parameter as GvasByteProperty;
 			if (property == null) return;
 
 			var dlg = new OpenFileDialog();
@@ -185,7 +185,7 @@ namespace GvasViewer
 
 		private void AppendArrayProperty(Object? parameter)
 		{
-			GvasArrayProperty? property = parameter as GvasArrayProperty;
+			var property = parameter as GvasArrayProperty;
 			if (property == null) return;
 			if (property.PropertyType != "NameProperty") return;
 
