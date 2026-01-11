@@ -27,51 +27,62 @@
 			for (uint index = 0; index < count; index++)
 			{
 				var name = "";
-				if (KeyType == "ByteProperty" ||
-					KeyType == "NameProperty")
+
+				switch(KeyType)
 				{
-					name = Util.ReadString(reader);
-				}
-				else
-				{
-					reader.BaseStream.Position = position;
-					mValue = reader.ReadBytes((int)size);
-					break;
+					case "ByteProperty":
+					case "NameProperty":
+						name = Util.ReadString(reader);
+						break;
+
+					default:
+						reader.BaseStream.Position = position;
+						mValue = reader.ReadBytes((int)size);
+						return;
 				}
 
-				if (ValueType == "BoolProperty")
+				switch(ValueType)
 				{
-					var property = new GvasBoolProperty();
-					property.Name = name;
-					property.Value = reader.ReadBoolean();
-					Childrens.Add(property);
-				}
-				else if (ValueType == "IntProperty")
-				{
-					var property = new GvasIntProperty();
-					property.Name = name;
-					property.Value = reader.ReadInt32();
-					Childrens.Add(property);
-				}
-				else if (ValueType == "NameProperty")
-				{
-					var property = new GvasNameProperty();
-					property.Name = name;
-					property.Value = Util.ReadString(reader);
-					Childrens.Add(property);
-				}
-				else if (ValueType == "StructProperty")
-				{
-					var property = new GvasStructProperty();
-					property.Name = name;
-					property.ReadChild(reader, name);
-					Childrens.Add(property);
-				}
-				else
-				{
-					reader.BaseStream.Position = position;
-					mValue = reader.ReadBytes((int)size);
-					break;
+					case "BoolProperty":
+						{
+							var property = new GvasBoolProperty();
+							property.Name = name;
+							property.Value = reader.ReadBoolean();
+							Childrens.Add(property);
+						}
+						break;
+
+					case "IntProperty":
+						{
+							var property = new GvasIntProperty();
+							property.Name = name;
+							property.Value = reader.ReadInt32();
+							Childrens.Add(property);
+						}
+						break;
+
+					case "NameProperty":
+						{
+							var property = new GvasNameProperty();
+							property.Name = name;
+							property.Value = Util.ReadString(reader);
+							Childrens.Add(property);
+						}
+						break;
+
+					case "StructProperty":
+						{
+							var property = new GvasStructProperty();
+							property.Name = name;
+							property.ReadChild(reader, name);
+							Childrens.Add(property);
+						}
+						break;
+
+					default:
+						reader.BaseStream.Position = position;
+						mValue = reader.ReadBytes((int)size);
+						return;
 				}
 			}
 		}
