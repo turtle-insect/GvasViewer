@@ -137,11 +137,10 @@
 
 					<DataTemplate x:Key="GvasTextBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label>
-								<ContentPresenter
-								Content="{Binding Name}"
-								RecognizesAccessKey="False"/>
-							</Label>
+							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+									 FontWeight="Bold" Foreground="Blue"
+									 BorderThickness="0"/>
+							<Border Width="10"/>
 							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
 									 FontWeight="Bold" Foreground="Blue"
 									 BorderThickness="0"/>
