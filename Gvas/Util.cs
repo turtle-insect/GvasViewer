@@ -1,5 +1,4 @@
 ﻿using Gvas.Property;
-using System.Diagnostics;
 using System.Text;
 
 namespace Gvas
@@ -11,7 +10,6 @@ namespace Gvas
 			int length = reader.ReadInt32();
 			if (length <= 0)
 			{
-				reader.BaseStream.Position -= 4;
 				throw new ArgumentException();
 			}
 

@@ -112,13 +112,23 @@
 
 				case "NameProperty":
 					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
+						var position = reader.BaseStream.Position;
+
+						try
 						{
-							var property = new GvasNameProperty();
-							property.Name = $"[{index}]";
-							property.Value = Util.ReadString(reader);
-							Childrens.Add(property);
+							uint count = reader.ReadUInt32();
+							for (uint index = 0; index < count; index++)
+							{
+								var property = new GvasNameProperty();
+								property.Name = $"[{index}]";
+								property.Value = Util.ReadString(reader);
+								Childrens.Add(property);
+							}
+						}
+						catch
+						{
+							reader.BaseStream.Position = position;
+							mValue = reader.ReadBytes((int)size);
 						}
 					}
 					break;
@@ -197,19 +207,29 @@
 
 				case "NameProperty":
 					{
-						using var ms = new MemoryStream();
-						using var bw = new BinaryWriter(ms);
-						foreach (var children in Childrens)
+						if(mValue.Length > 0)
 						{
-							children.WriteValue(bw);
+							writer.Write(mValue.LongLength);
+							Util.WriteString(writer, PropertyType);
+							writer.Write('\0');
+							writer.Write(mValue);
 						}
-						bw.Flush();
+						else
+						{
+							using var ms = new MemoryStream();
+							using var bw = new BinaryWriter(ms);
+							foreach (var children in Childrens)
+							{
+								children.WriteValue(bw);
+							}
+							bw.Flush();
 
-						writer.Write(ms.Length + 4);
-						Util.WriteString(writer, PropertyType);
-						writer.Write('\0');
-						writer.Write(Childrens.Count);
-						writer.Write(ms.ToArray());
+							writer.Write(ms.Length + 4);
+							Util.WriteString(writer, PropertyType);
+							writer.Write('\0');
+							writer.Write(Childrens.Count);
+							writer.Write(ms.ToArray());
+						}
 					}
 					break;
 
