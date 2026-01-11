@@ -82,23 +82,10 @@
 				// Dragon Quest VII Reimagined
 				case "BP_GameInstance_C#SaveLoadAdventureLogStruct":
 					{
+						var property = new Custom.GvasDQ7MemoryProperty();
+						property.Read(reader);
+						Childrens.Add(property);
 						Childrens.Add(Util.Read(reader));
-						Childrens.Add(Util.Read(reader));
-
-						// Memory
-						//   ArrayProperty -> ByteProperty
-						Util.ReadString(reader);
-						Util.ReadString(reader);
-						reader.ReadUInt64();
-						Util.ReadString(reader);
-						reader.ReadByte();
-						reader.ReadUInt32();
-
-						for (uint index = 0; index < 20; index++)
-						{
-							var property = Util.Read(reader);
-							Childrens.Add(property);
-						}
 					}
 					break;
 

@@ -1,0 +1,62 @@
+﻿namespace Gvas.Property.Custom
+{
+	internal class GvasDQ7MemoryProperty : GvasProperty
+	{
+		public override object Value
+		{
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
+		}
+
+		public override void Read(BinaryReader reader)
+		{
+			Name = "Memory";
+
+			Childrens.Add(Util.Read(reader));
+			Childrens.Add(Util.Read(reader));
+
+			// Memory
+			//   ArrayProperty -> ByteProperty
+			Util.ReadString(reader);
+			Util.ReadString(reader);
+			reader.ReadUInt64();
+			Util.ReadString(reader);
+			reader.ReadByte();
+			reader.ReadUInt32();
+
+			for (uint index = 0; index < 21; index++)
+			{
+				var property = Util.Read(reader);
+				Childrens.Add(property);
+			}
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Childrens[0].Write(writer);
+			Childrens[1].Write(writer);
+
+			Util.WriteString(writer, "Memory");
+			Util.WriteString(writer, "ArrayProperty");
+
+			using var ms = new MemoryStream();
+			using var bw = new BinaryWriter(ms);
+			for (int index = 2; index < Childrens.Count; index++)
+			{
+				Childrens[index].Write(bw);
+			}
+			bw.Flush();
+
+			writer.Write(ms.Length + 4);
+			Util.WriteString(writer, "ByteProperty");
+			writer.Write('\0');
+			writer.Write((UInt32)ms.Length);
+			writer.Write(ms.ToArray());
+		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			throw new NotImplementedException();
+		}
+	}
+}

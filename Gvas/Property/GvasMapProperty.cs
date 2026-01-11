@@ -32,7 +32,12 @@
 				{
 					name = Util.ReadString(reader);
 				}
-				else break;
+				else
+				{
+					reader.BaseStream.Position = position;
+					mValue = reader.ReadBytes((int)size);
+					break;
+				}
 
 				if (mValueType == "BoolProperty")
 				{
@@ -62,22 +67,47 @@
 					property.ReadChild(reader, name);
 					Childrens.Add(property);
 				}
-				else break;
+				else
+				{
+					reader.BaseStream.Position = position;
+					mValue = reader.ReadBytes((int)size);
+					break;
+				}
 			}
-			reader.BaseStream.Position = position;
-
-			mValue = reader.ReadBytes((int)size);
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
 			Util.WriteString(writer, Name);
 			Util.WriteString(writer, "MapProperty");
-			writer.Write(mValue.LongLength);
-			Util.WriteString(writer, mKeyType);
-			Util.WriteString(writer, mValueType);
-			writer.Write('\0');
-			writer.Write(mValue);
+
+			if (mValue.Length > 0)
+			{
+				writer.Write(mValue.LongLength);
+				Util.WriteString(writer, mKeyType);
+				Util.WriteString(writer, mValueType);
+				writer.Write('\0');
+				writer.Write(mValue);
+			}
+			else
+			{
+				using var ms = new MemoryStream();
+				using var bw = new BinaryWriter(ms);
+				foreach (var children in Childrens)
+				{
+					Util.WriteString(bw, children.Name);
+					children.WriteValue(bw);
+				}
+				bw.Flush();
+
+				writer.Write(ms.Length + 8);
+				Util.WriteString(writer, mKeyType);
+				Util.WriteString(writer, mValueType);
+				writer.Write('\0');
+				writer.Write(0);
+				writer.Write(Childrens.Count);
+				writer.Write(ms.ToArray());
+			}
 		}
 
 		public override void WriteValue(BinaryWriter writer)
