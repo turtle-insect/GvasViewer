@@ -28,6 +28,10 @@
 				<MenuItem Header="Import..." InputGestureText="Ctrl+I" Command="{Binding CommandFileImport}"/>
 			</MenuItem>
 		</Menu>
+		<ToolBar DockPanel.Dock="Top">
+			<Label Content="MapKey"/>
+			<TextBox Text="{Binding MapKey, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+		</ToolBar>
 		<DockPanel DockPanel.Dock="Top">
 			<Label DockPanel.Dock="Left" Content="Filter"/>
 			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandFilterProperty}"/>
@@ -48,12 +52,20 @@
 
 					<!-- DataTemplate -->
 					<DataTemplate x:Key="GvasTitleTemplateResource">
-						<Label Content="{Binding Name}"/>
+						<Label>
+							<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+						</Label>
 					</DataTemplate>
 
 					<DataTemplate x:Key="GvasBytePropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+							</Label>
 							<Button Content="Export"
 									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandExportByteProperty}"
 									CommandParameter="{Binding}"/>
@@ -65,7 +77,11 @@
 
 					<DataTemplate x:Key="GvasArrayPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+							</Label>
 							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightBlue">
 								<Label Content="Array" FontSize="10"/>
 							</Border>
@@ -77,16 +93,27 @@
 
 					<DataTemplate x:Key="GvasMapPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+							</Label>
 							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightCoral">
 								<Label Content="Map" FontSize="10"/>
 							</Border>
+							<Button Content="Append"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandAppendMapProperty}"
+									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
 
 					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+									Content="{Binding Name}"
+									RecognizesAccessKey="False"/>
+							</Label>
 							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightGreen">
 								<Label Content="Struct" FontSize="10"/>
 							</Border>
@@ -95,7 +122,11 @@
 
 					<DataTemplate x:Key="GvasCheckBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+							</Label>
 							<CheckBox IsChecked="{Binding Value}" VerticalAlignment="Center">
 								<CheckBox.LayoutTransform>
 									<ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -106,7 +137,11 @@
 
 					<DataTemplate x:Key="GvasTextBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label Content="{Binding Name}"/>
+							<Label>
+								<ContentPresenter
+								Content="{Binding Name}"
+								RecognizesAccessKey="False"/>
+							</Label>
 							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
 									 FontWeight="Bold" Foreground="Blue"
 									 BorderThickness="0"/>

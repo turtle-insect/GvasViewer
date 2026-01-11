@@ -20,6 +20,7 @@ namespace GvasViewer
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
 		public ICommand CommandAppendArrayProperty { get; init; }
+		public ICommand CommandAppendMapProperty { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -28,6 +29,7 @@ namespace GvasViewer
 		private Gvas.Gvas mGvas = new();
 
 		public String Filter { get; set; } = String.Empty;
+		public String MapKey { get; set; } = String.Empty;
 
 		public ViewModel()
 		{
@@ -40,6 +42,7 @@ namespace GvasViewer
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
 			CommandAppendArrayProperty = new ActionCommand(AppendArrayProperty);
+			CommandAppendMapProperty = new ActionCommand(AppendMapProperty);
 		}
 
 		public void LoadFile(String fileName)
@@ -190,6 +193,17 @@ namespace GvasViewer
 			if (property.PropertyType != "NameProperty") return;
 
 			property.Childrens.Add(new GvasNameProperty() { Name = $"{property.Childrens.Count}" });
+		}
+
+		private void AppendMapProperty(Object? parameter)
+		{
+			var property = parameter as GvasMapProperty;
+			if (property == null) return;
+			if(String.IsNullOrEmpty(MapKey)) return;
+			if (property.KeyType != "NameProperty") return;
+			if (property.ValueType != "IntProperty") return;
+
+			property.Childrens.Add(new GvasIntProperty() { Name = MapKey, Value = 1 });
 		}
 
 		private Byte[] ReadGvas()

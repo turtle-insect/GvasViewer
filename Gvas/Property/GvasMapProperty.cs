@@ -2,8 +2,8 @@
 {
 	public class GvasMapProperty : GvasProperty
 	{
-		private String mKeyType = String.Empty;
-		private String mValueType = String.Empty;
+		public String KeyType { get; private set; } = String.Empty;
+		public String ValueType { get; private set; } = String.Empty;
 		private Byte[] mValue = [];
 		public override object Value
 		{
@@ -15,8 +15,8 @@
 		{
 			var size = reader.ReadUInt64();
 
-			mKeyType = Util.ReadString(reader);
-			mValueType = Util.ReadString(reader);
+			KeyType = Util.ReadString(reader);
+			ValueType = Util.ReadString(reader);
 
 			// ???
 			reader.ReadByte();
@@ -27,8 +27,8 @@
 			for (uint index = 0; index < count; index++)
 			{
 				var name = "";
-				if (mKeyType == "ByteProperty" ||
-					mKeyType == "NameProperty")
+				if (KeyType == "ByteProperty" ||
+					KeyType == "NameProperty")
 				{
 					name = Util.ReadString(reader);
 				}
@@ -39,28 +39,28 @@
 					break;
 				}
 
-				if (mValueType == "BoolProperty")
+				if (ValueType == "BoolProperty")
 				{
 					var property = new GvasBoolProperty();
 					property.Name = name;
 					property.Value = reader.ReadBoolean();
 					Childrens.Add(property);
 				}
-				else if (mValueType == "IntProperty")
+				else if (ValueType == "IntProperty")
 				{
 					var property = new GvasIntProperty();
 					property.Name = name;
 					property.Value = reader.ReadInt32();
 					Childrens.Add(property);
 				}
-				else if (mValueType == "NameProperty")
+				else if (ValueType == "NameProperty")
 				{
 					var property = new GvasNameProperty();
 					property.Name = name;
 					property.Value = Util.ReadString(reader);
 					Childrens.Add(property);
 				}
-				else if (mValueType == "StructProperty")
+				else if (ValueType == "StructProperty")
 				{
 					var property = new GvasStructProperty();
 					property.Name = name;
@@ -84,8 +84,8 @@
 			if (mValue.Length > 0)
 			{
 				writer.Write(mValue.LongLength);
-				Util.WriteString(writer, mKeyType);
-				Util.WriteString(writer, mValueType);
+				Util.WriteString(writer, KeyType);
+				Util.WriteString(writer, ValueType);
 				writer.Write('\0');
 				writer.Write(mValue);
 			}
@@ -101,8 +101,8 @@
 				bw.Flush();
 
 				writer.Write(ms.Length + 8);
-				Util.WriteString(writer, mKeyType);
-				Util.WriteString(writer, mValueType);
+				Util.WriteString(writer, KeyType);
+				Util.WriteString(writer, ValueType);
 				writer.Write('\0');
 				writer.Write(0);
 				writer.Write(Childrens.Count);
