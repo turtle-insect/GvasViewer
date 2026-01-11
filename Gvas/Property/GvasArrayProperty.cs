@@ -3,7 +3,7 @@
 	public class GvasArrayProperty : GvasProperty
 	{
 		public String PropertyType { get; private set; } = String.Empty;
-		private GvasProperty? mProperty;
+		private GvasStructProperty? mBaseProperty;
 
 		private Byte[] mValue = [];
 		public override object Value
@@ -26,7 +26,6 @@
 			{
 				case "BoolProperty":
 					{
-						mProperty = new GvasBoolProperty();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -40,15 +39,14 @@
 
 				case "ByteProperty":
 					{
-						mProperty = new GvasByteProperty();
-						mProperty.Value = reader.ReadBytes((int)size);
-						Childrens.Add(mProperty);
+						var property = new GvasByteProperty();
+						property.Value = reader.ReadBytes((int)size);
+						Childrens.Add(property);
 					}
 					break;
 
 				case "IntProperty":
 					{
-						mProperty = new GvasIntProperty();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -62,7 +60,6 @@
 
 				case "UInt32Property":
 					{
-						mProperty = new GvasUInt32Property();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -76,7 +73,6 @@
 
 				case "Int64Property":
 					{
-						mProperty = new GvasInt64Property();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -90,7 +86,6 @@
 
 				case "UInt64Property":
 					{
-						mProperty = new GvasUInt64Property();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -104,7 +99,6 @@
 
 				case "FloatProperty":
 					{
-						mProperty = new GvasFloatProperty();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -118,7 +112,6 @@
 
 				case "NameProperty":
 					{
-						mProperty = new GvasNameProperty();
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
@@ -132,12 +125,11 @@
 
 				case "StructProperty":
 					{
-						var targetProperty = new GvasStructProperty();
-						mProperty = targetProperty;
+						mBaseProperty = new GvasStructProperty();
 						uint count = reader.ReadUInt32();
 
 						// name
-						targetProperty.Name = Util.ReadString(reader);
+						mBaseProperty.Name = Util.ReadString(reader);
 
 						// type
 						// StructProperty
@@ -146,8 +138,8 @@
 						// size
 						reader.ReadUInt64();
 
-						targetProperty.Detail = Util.ReadString(reader);
-						targetProperty.GUID = reader.ReadBytes(16);
+						mBaseProperty.Detail = Util.ReadString(reader);
+						mBaseProperty.GUID = reader.ReadBytes(16);
 
 						// ???
 						reader.ReadByte();
@@ -155,9 +147,9 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasStructProperty();
-							property.Name = targetProperty.Name;
-							property.Detail = targetProperty.Detail;
-							property.ReadChild(reader, targetProperty.Detail);
+							property.Name = mBaseProperty.Name;
+							property.Detail = mBaseProperty.Detail;
+							property.ReadChild(reader, mBaseProperty.Detail);
 							Childrens.Add(property);
 						}
 					}
@@ -174,15 +166,15 @@
 			Util.WriteString(writer, Name);
 			Util.WriteString(writer, "ArrayProperty");
 
-			switch(mProperty)
+			switch(PropertyType)
 			{
-				case GvasBoolProperty:
+				case "BoolProperty":
 					WritePropertyValue(writer, 1);
 					break;
 
-				case GvasByteProperty:
+				case "ByteProperty":
 					{
-						var buffer = mProperty.Value as Byte[];
+						var buffer = Childrens[0].Value as Byte[];
 						if(buffer == null) throw new NotImplementedException();
 
 						writer.Write((Int64)buffer.Length);
@@ -192,18 +184,18 @@
 					}
 					break;
 
-				case GvasIntProperty:
-				case GvasUInt32Property:
-				case GvasFloatProperty:
+				case "IntProperty":
+				case "UInt32Property":
+				case "FloatProperty":
 					WritePropertyValue(writer, 4);
 					break;
 
-				case GvasInt64Property:
-				case GvasUInt64Property:
+				case "Int64Property":
+				case "UInt64Property":
 					WritePropertyValue(writer, 8);
 					break;
 
-				case GvasNameProperty nameProperty:
+				case "NameProperty":
 					{
 						using var ms = new MemoryStream();
 						using var bw = new BinaryWriter(ms);
@@ -221,7 +213,7 @@
 					}
 					break;
 
-				case GvasStructProperty structProperty:
+				case "StructProperty":
 					{
 						using var ms = new MemoryStream();
 						using var bw = new BinaryWriter(ms);
@@ -231,17 +223,20 @@
 						}
 						bw.Flush();
 
+						// Implementation error
+						if (mBaseProperty == null) throw new NullReferenceException();
+
 						// size
 						// (Children.Count ~ ms.ToArray()).size
-						writer.Write((Int64)4 + (structProperty.Name.Length + 5) + 19 + 8 + (structProperty.Detail.Length + 5) + 17 + ms.Length);
+						writer.Write((Int64)4 + (mBaseProperty.Name.Length + 5) + 19 + 8 + (mBaseProperty.Detail.Length + 5) + 17 + ms.Length);
 						Util.WriteString(writer, PropertyType);
 						writer.Write('\0');
 						writer.Write(Childrens.Count);
-						Util.WriteString(writer, structProperty.Name);
+						Util.WriteString(writer, mBaseProperty.Name);
 						Util.WriteString(writer, "StructProperty");
 						writer.Write(ms.Length);
-						Util.WriteString(writer, structProperty.Detail);
-						writer.Write(structProperty.GUID);
+						Util.WriteString(writer, mBaseProperty.Detail);
+						writer.Write(mBaseProperty.GUID);
 						writer.Write('\0');
 						writer.Write(ms.ToArray());
 					}
