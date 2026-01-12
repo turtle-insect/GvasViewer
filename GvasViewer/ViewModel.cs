@@ -19,8 +19,8 @@ namespace GvasViewer
 		public ICommand CommandFilterProperty { get; init; }
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
-		public ICommand CommandCopyArrayProperty { get; init; }
-		public ICommand CommandCopyMapProperty { get; init; }
+		public ICommand CommandCreateArrayProperty { get; init; }
+		public ICommand CommandCreateMapProperty { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -40,8 +40,8 @@ namespace GvasViewer
 			CommandFilterProperty = new ActionCommand(FilterProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
-			CommandCopyArrayProperty = new ActionCommand(CopyArrayProperty);
-			CommandCopyMapProperty = new ActionCommand(CopyMapProperty);
+			CommandCreateArrayProperty = new ActionCommand(CreateArrayProperty);
+			CommandCreateMapProperty = new ActionCommand(CreateMapProperty);
 		}
 
 		public void LoadFile(String fileName)
@@ -185,7 +185,7 @@ namespace GvasViewer
 			property.Value = File.ReadAllBytes(dlg.FileName);
 		}
 
-		private void CopyArrayProperty(Object? parameter)
+		private void CreateArrayProperty(Object? parameter)
 		{
 			var property = parameter as GvasArrayProperty;
 			if (property == null) return;
@@ -197,7 +197,7 @@ namespace GvasViewer
 			property.Childrens.Add(child);
 		}
 
-		private void CopyMapProperty(Object? parameter)
+		private void CreateMapProperty(Object? parameter)
 		{
 			var property = parameter as GvasMapProperty;
 			if (property == null) return;
