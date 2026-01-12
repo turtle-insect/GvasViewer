@@ -19,8 +19,8 @@ namespace GvasViewer
 		public ICommand CommandFilterProperty { get; init; }
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
-		public ICommand CommandAppendArrayProperty { get; init; }
-		public ICommand CommandAppendMapProperty { get; init; }
+		public ICommand CommandCopyArrayProperty { get; init; }
+		public ICommand CommandCopyMapProperty { get; init; }
 
 		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
 
@@ -29,7 +29,6 @@ namespace GvasViewer
 		private Gvas.Gvas mGvas = new();
 
 		public String Filter { get; set; } = String.Empty;
-		public String MapKey { get; set; } = String.Empty;
 
 		public ViewModel()
 		{
@@ -41,8 +40,8 @@ namespace GvasViewer
 			CommandFilterProperty = new ActionCommand(FilterProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
-			CommandAppendArrayProperty = new ActionCommand(AppendArrayProperty);
-			CommandAppendMapProperty = new ActionCommand(AppendMapProperty);
+			CommandCopyArrayProperty = new ActionCommand(CopyArrayProperty);
+			CommandCopyMapProperty = new ActionCommand(CopyMapProperty);
 		}
 
 		public void LoadFile(String fileName)
@@ -186,24 +185,25 @@ namespace GvasViewer
 			property.Value = File.ReadAllBytes(dlg.FileName);
 		}
 
-		private void AppendArrayProperty(Object? parameter)
+		private void CopyArrayProperty(Object? parameter)
 		{
 			var property = parameter as GvasArrayProperty;
 			if (property == null) return;
-			if (property.PropertyType != "NameProperty") return;
+			var count = property.Childrens.Count;
+			if (count == 0) return;
 
-			property.Childrens.Add(new GvasNameProperty() { Name = $"[{property.Childrens.Count}]" });
+			var child = property.Childrens[0].Clone();
+			child.Name = $"[{count}]";
+			property.Childrens.Add(child);
 		}
 
-		private void AppendMapProperty(Object? parameter)
+		private void CopyMapProperty(Object? parameter)
 		{
 			var property = parameter as GvasMapProperty;
 			if (property == null) return;
-			if(String.IsNullOrEmpty(MapKey)) return;
-			if (property.KeyType != "NameProperty") return;
-			if (property.ValueType != "IntProperty") return;
+			if (property.Childrens.Count == 0) return;
 
-			property.Childrens.Add(new GvasIntProperty() { Name = MapKey, Value = 1 });
+			property.Childrens.Add(property.Childrens[0].Clone());
 		}
 
 		private Byte[] ReadGvas()
