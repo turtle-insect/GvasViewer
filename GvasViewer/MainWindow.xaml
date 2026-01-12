@@ -43,7 +43,10 @@
 					</Style>
 					<Style TargetType="TextBox">
 						<Setter Property="FontSize" Value="18"/>
+						<Setter Property="FontWeight" Value="Bold"/>
+						<Setter Property="Foreground" Value="Blue"/>
 						<Setter Property="VerticalAlignment" Value="Center"/>
+						<Setter Property="BorderThickness" Value="0"/>
 					</Style>
 
 					<!-- DataTemplate -->
@@ -78,7 +81,7 @@
 								Content="{Binding Name}"
 								RecognizesAccessKey="False"/>
 							</Label>
-							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightBlue">
+							<Border Margin="2,5" CornerRadius="10" Background="LightBlue">
 								<Label Content="Array" FontSize="10"/>
 							</Border>
 							<Border Width="10"/>
@@ -96,7 +99,7 @@
 								Content="{Binding Name}"
 								RecognizesAccessKey="False"/>
 							</Label>
-							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightCoral">
+							<Border Margin="2,5" CornerRadius="10" Background="LightCoral">
 								<Label Content="Map" FontSize="10"/>
 							</Border>
 							<Border Width="10"/>
@@ -109,10 +112,8 @@
 
 					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-								 FontWeight="Bold" Foreground="Blue"
-								 BorderThickness="0"/>
-							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightGreen">
+							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+							<Border Margin="2,5" CornerRadius="10" Background="LightGreen">
 								<Label Content="Struct" FontSize="10"/>
 							</Border>
 						</StackPanel>
@@ -135,13 +136,9 @@
 
 					<DataTemplate x:Key="GvasTextBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
-									 FontWeight="Bold" Foreground="Blue"
-									 BorderThickness="0"/>
+							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 							<Border Width="10"/>
-							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-									 FontWeight="Bold" Foreground="Blue"
-									 BorderThickness="0"/>
+							<TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
 						</StackPanel>
 					</DataTemplate>
 
