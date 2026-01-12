@@ -109,11 +109,9 @@
 
 					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<Label>
-								<ContentPresenter
-									Content="{Binding Name}"
-									RecognizesAccessKey="False"/>
-							</Label>
+							<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
+								 FontWeight="Bold" Foreground="Blue"
+								 BorderThickness="0"/>
 							<Border Margin="2,5,2,5" CornerRadius="10" Background="LightGreen">
 								<Label Content="Struct" FontSize="10"/>
 							</Border>
