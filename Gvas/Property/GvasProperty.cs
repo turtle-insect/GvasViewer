@@ -4,8 +4,19 @@
 	{
 		public String Name { get; set; } = String.Empty;
 		public System.Collections.ObjectModel.ObservableCollection<GvasProperty> Childrens { get; private set; } = new();
-		public abstract Object Value { get; set; }
 
+		protected GvasProperty() { }
+		protected GvasProperty(GvasProperty property)
+		{
+			Name = property.Name;
+			foreach (var child in property.Childrens)
+			{
+				Childrens.Add(child.Clone());
+			}
+		}
+
+		public abstract Object Value { get; set; }
+		public abstract GvasProperty Clone();
 		public abstract void Read(BinaryReader reader);
 		public abstract void Write(BinaryWriter writer);
 		public abstract void WriteValue(BinaryWriter writer);

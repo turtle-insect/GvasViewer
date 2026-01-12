@@ -11,6 +11,22 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasEnumProperty()
+			: base()
+		{ }
+
+		public GvasEnumProperty(GvasEnumProperty property)
+			: base(property)
+		{
+			mKey = property.mKey;
+			mValue = property.mValue;
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasEnumProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

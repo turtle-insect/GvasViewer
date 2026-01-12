@@ -12,6 +12,23 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasArrayProperty()
+			: base()
+		{}
+
+		public GvasArrayProperty(GvasArrayProperty property)
+			: base(property)
+		{
+			PropertyType = property.PropertyType;
+			mBaseProperty = property.mBaseProperty;
+			mValue = property.mValue.ToArray();
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasArrayProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

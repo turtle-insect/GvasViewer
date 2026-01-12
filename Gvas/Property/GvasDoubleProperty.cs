@@ -14,6 +14,21 @@
 			}
 		}
 
+		public GvasDoubleProperty()
+			: base()
+		{ }
+
+		public GvasDoubleProperty(GvasDoubleProperty property)
+			: base(property)
+		{
+			mValue = property.mValue;
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasDoubleProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

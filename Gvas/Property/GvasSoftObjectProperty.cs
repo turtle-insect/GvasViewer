@@ -9,6 +9,21 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasSoftObjectProperty()
+			: base()
+		{ }
+
+		public GvasSoftObjectProperty(GvasSoftObjectProperty property)
+			: base(property)
+		{
+			mValue = property.mValue.ToArray();
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasSoftObjectProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

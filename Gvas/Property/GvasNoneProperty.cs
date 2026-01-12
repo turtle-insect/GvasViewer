@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property
+﻿using System;
+
+namespace Gvas.Property
 {
 	internal class GvasNoneProperty : GvasProperty
 	{
@@ -6,6 +8,19 @@
 		{
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
+		}
+
+		public GvasNoneProperty()
+			: base()
+		{ }
+
+		public GvasNoneProperty(GvasNoneProperty property)
+			: base(property)
+		{ }
+
+		public override GvasProperty Clone()
+		{
+			return new GvasNoneProperty(this);
 		}
 
 		public override void Read(BinaryReader reader)

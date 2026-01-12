@@ -10,6 +10,22 @@
 			set => mValue = value.ToString() ?? "";
 		}
 
+		public GvasStrProperty()
+			: base()
+		{ }
+
+		public GvasStrProperty(GvasStrProperty property)
+			: base(property)
+		{
+			mBuffer = property.mBuffer.ToArray();
+			mValue = property.mValue;
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasStrProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

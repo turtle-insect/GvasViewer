@@ -10,6 +10,23 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasStructProperty()
+			: base()
+		{ }
+
+		public GvasStructProperty(GvasStructProperty property)
+			: base(property)
+		{
+			Detail = property.Detail;
+			// not GUID = property.GUID.ToArray();
+			GUID = System.Guid.NewGuid().ToByteArray();
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasStructProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

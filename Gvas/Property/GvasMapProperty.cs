@@ -11,6 +11,23 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasMapProperty()
+			: base()
+		{ }
+
+		public GvasMapProperty(GvasMapProperty property)
+			: base(property)
+		{
+			KeyType = property.KeyType;
+			ValueType = property.ValueType;
+			mValue = property.mValue.ToArray();
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasMapProperty(this);
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();

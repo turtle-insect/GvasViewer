@@ -8,6 +8,21 @@
 			set => throw new NotImplementedException();
 		}
 
+		public GvasDQ7MemoryProperty()
+			: base()
+		{ }
+
+		public GvasDQ7MemoryProperty(GvasProperty property)
+			: base(property)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override GvasProperty Clone()
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void Read(BinaryReader reader)
 		{
 			Name = "Memory";
