@@ -49,7 +49,7 @@
 				case "Timespan":
 				case "DateTime":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 8);
 						Childrens.Add(property);
 					}
@@ -58,7 +58,7 @@
 				// Vector
 				case "Vector2D":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 8);
 						Childrens.Add(property);
 					}
@@ -66,7 +66,7 @@
 				case "Vector":
 				case "Rotator":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 12);
 						Childrens.Add(property);
 					}
@@ -74,7 +74,7 @@
 				// Quaternion
 				case "Quat":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 16);
 						Childrens.Add(property);
 					}
@@ -83,14 +83,14 @@
 				// Color
 				case "Color":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 4);
 						Childrens.Add(property);
 					}
 					break;
 				case "LinearColor":
 					{
-						var property = new GvasLiteralProperty();
+						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 16);
 						Childrens.Add(property);
 					}

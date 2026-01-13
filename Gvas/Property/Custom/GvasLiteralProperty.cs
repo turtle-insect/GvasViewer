@@ -1,4 +1,4 @@
-﻿namespace Gvas.Property
+﻿namespace Gvas.Property.Custom
 {
 	internal class GvasLiteralProperty : GvasProperty
 	{
