@@ -1,6 +1,8 @@
-﻿using Gvas.Property;
+﻿using Gvas;
+using Gvas.Property;
 using GvasViewer.FileFormat;
 using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
@@ -55,7 +57,6 @@ namespace GvasViewer
 				new FileFormat.Platform.Steam.DragonQuest7(),
 			];
 			mFileFormat = null;
-
 			Byte[] buffer = [];
 
 			foreach (var fileFormat in fileFormats)
@@ -65,8 +66,8 @@ namespace GvasViewer
 					var tmp = fileFormat.Load(fileName);
 					if (tmp.Length < 4 || Encoding.UTF8.GetString(tmp[..4]) != "GVAS") continue;
 
-					buffer = tmp;
 					mFileFormat = fileFormat;
+					buffer = tmp;
 					break;
 				}
 				catch { }
@@ -80,9 +81,7 @@ namespace GvasViewer
 
 			try
 			{
-				using var ms = new MemoryStream(buffer);
-				using var reader = new BinaryReader(ms);
-				mGvas.Read(reader);
+				mGvas = LoadGvas(buffer);
 				mFileName = fileName;
 				FilterProperty();
 			}
@@ -105,7 +104,7 @@ namespace GvasViewer
 		{
 			if (mFileFormat == null) return;
 
-			mFileFormat.Save(mFileName, ReadGvas());
+			mFileFormat.Save(mFileName, CreateGvas());
 		}
 
 		private void FileSaveAs(Object? parameter)
@@ -126,7 +125,7 @@ namespace GvasViewer
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			File.WriteAllBytes(dlg.FileName, ReadGvas());
+			File.WriteAllBytes(dlg.FileName, CreateGvas());
 		}
 
 		private void FileImport(Object? parameter)
@@ -136,17 +135,12 @@ namespace GvasViewer
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			var buffer = File.ReadAllBytes(dlg.FileName);
-			if (buffer.Length < 4 || Encoding.UTF8.GetString(buffer[..4]) != "GVAS") return;
-
 			try
 			{
-				using var ms = new MemoryStream(buffer);
-				using var reader = new BinaryReader(ms);
-				var gvas = new Gvas.Gvas();
-				gvas.Read(reader);
+				var buffer = System.IO.File.ReadAllBytes(dlg.FileName);
+				if (buffer.Length < 4 || Encoding.UTF8.GetString(buffer[..4]) != "GVAS") return;
 
-				mGvas = gvas;
+				mGvas = LoadGvas(buffer);
 				FilterProperty();
 			}
 			catch
@@ -206,7 +200,7 @@ namespace GvasViewer
 			property.Childrens.Add(property.Childrens[0].Clone());
 		}
 
-		private Byte[] ReadGvas()
+		private Byte[] CreateGvas()
 		{
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
@@ -214,6 +208,16 @@ namespace GvasViewer
 			writer.Flush();
 
 			return ms.ToArray();
+		}
+
+		private Gvas.Gvas LoadGvas(Byte[] buffer)
+		{
+			using var ms = new MemoryStream(buffer);
+			using var reader = new BinaryReader(ms);
+			var gvas = new Gvas.Gvas();
+			gvas.Read(reader);
+
+			return gvas;
 		}
 
 		private void FilterProperty()
