@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GvasViewer.FileFormat.Util
+﻿namespace GvasViewer.FileFormat.Util
 {
 	internal class Crc32
 	{
