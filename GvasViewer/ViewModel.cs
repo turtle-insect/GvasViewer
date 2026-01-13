@@ -1,11 +1,8 @@
-﻿using Gvas;
-using Gvas.Property;
+﻿using Gvas.Property;
 using GvasViewer.FileFormat;
 using Microsoft.Win32;
-using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -64,7 +61,8 @@ namespace GvasViewer
 				try
 				{
 					var tmp = fileFormat.Load(fileName);
-					if (tmp.Length < 4 || Encoding.UTF8.GetString(tmp[..4]) != "GVAS") continue;
+					if (tmp.Length < 4) continue;
+					if (System.Text.Encoding.UTF8.GetString(tmp, 0, 4) != "GVAS") continue;
 
 					mFileFormat = fileFormat;
 					buffer = tmp;
@@ -137,8 +135,9 @@ namespace GvasViewer
 
 			try
 			{
-				var buffer = System.IO.File.ReadAllBytes(dlg.FileName);
-				if (buffer.Length < 4 || Encoding.UTF8.GetString(buffer[..4]) != "GVAS") return;
+				var buffer = File.ReadAllBytes(dlg.FileName);
+				if (buffer.Length < 4) return;
+				if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") return;
 
 				mGvas = LoadGvas(buffer);
 				FilterProperty();
