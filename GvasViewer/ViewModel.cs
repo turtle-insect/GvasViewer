@@ -1,5 +1,6 @@
 ﻿using Gvas.Property;
 using GvasViewer.FileFormat;
+using GvasViewer.FileFormat.Platform;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -51,7 +52,8 @@ namespace GvasViewer
 				new DivisionGvas(),
 				new FileFormat.Platform.Switch.BravelyDefault2(),
 				new FileFormat.Platform.Switch.RomancingSaga2(),
-				new FileFormat.Platform.Steam.DragonQuest7(),
+				new DragonQuest7(Platform.Steam),
+				new DragonQuest7(Platform.Switch),
 			];
 			mFileFormat = null;
 			Byte[] buffer = [];

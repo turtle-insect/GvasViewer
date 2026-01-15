@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace GvasViewer.FileFormat.Platform.Steam
+namespace GvasViewer.FileFormat.Platform
 {
 	internal class DragonQuest7 : IFileFormat
 	{
@@ -17,24 +17,45 @@ namespace GvasViewer.FileFormat.Platform.Steam
 		//   - call "DQ7R_DEMO-Win64-Shipping.exe"+1BAADC0
 		// slicing-by-8 algorithm
 
+		private Platform mPlatform;
 		private UInt32 mVersion;
-		private readonly Dictionary<UInt32, String> mKeys = new()
+		// platform<version, AESKey>
+		private readonly Dictionary<Platform, Dictionary<UInt32, String>> mKeys = new()
 		{
-			// Demo
-			{ 0x0100, "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH" },
+			{
+				Platform.Steam,
+				new()
+				{
+					// Demo
+					{ 0x0100, "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH" },
+				}
+			},
+			{
+				Platform.Switch,
+				new()
+				{
+					// Demo
+					{ 0x0100, "SVKEY_SMu9925aiVxMsSncwbZFw_tY4K" },
+				}
+			}
 		};
+
+		public DragonQuest7(Platform platform)
+		{
+			mPlatform = platform;
+		}
 
 		public Byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
 			mVersion = BitConverter.ToUInt32(buffer);
-			if (!mKeys.ContainsKey(mVersion)) return [];
+			if (!mKeys[mPlatform].ContainsKey(mVersion)) return [];
 
 			buffer = buffer[8..];
 			using var aes = Aes.Create();
 			aes.Mode = CipherMode.ECB;
 			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mVersion]);
+			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
 			using var cryptor = aes.CreateDecryptor();
 			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 
@@ -63,7 +84,7 @@ namespace GvasViewer.FileFormat.Platform.Steam
 			using var aes = Aes.Create();
 			aes.Mode = CipherMode.ECB;
 			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mVersion]);
+			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
 			using var cryptor = aes.CreateEncryptor();
 			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 			tmp = new Byte[buffer.Length + 8];
