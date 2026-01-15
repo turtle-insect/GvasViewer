@@ -1,4 +1,4 @@
-﻿using Gvas.Property;
+﻿using Gvas.Property.Standard;
 using System.Windows;
 using System.Windows.Controls;
 

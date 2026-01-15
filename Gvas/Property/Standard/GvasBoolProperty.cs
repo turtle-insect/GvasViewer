@@ -1,24 +1,25 @@
-﻿namespace Gvas.Property
+﻿namespace Gvas.Property.Standard
 {
-	public class GvasUInt32Property : GvasProperty
+	public class GvasBoolProperty : GvasProperty
 	{
-		private UInt32 mValue;
+		private Boolean mValue;
+
 		public override object Value
 		{
 			get => mValue;
 			set
 			{
-				UInt32 tmp;
-				if (UInt32.TryParse(value.ToString(), out tmp) == false) return;
+				Boolean tmp;
+				Boolean.TryParse(value.ToString(), out tmp);
 				mValue = tmp;
 			}
 		}
 
-		public GvasUInt32Property()
+		public GvasBoolProperty()
 			: base()
 		{ }
 
-		public GvasUInt32Property(GvasUInt32Property property)
+		public GvasBoolProperty(GvasBoolProperty property)
 			: base(property)
 		{
 			mValue = property.mValue;
@@ -26,26 +27,26 @@
 
 		public override GvasProperty Clone()
 		{
-			return new GvasUInt32Property(this);
+			return new GvasBoolProperty(this);
 		}
 
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();
 
+			mValue = reader.ReadBoolean();
+
 			// ???
 			reader.ReadByte();
-
-			mValue = reader.ReadUInt32();
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
 			Util.WriteString(writer, Name);
-			Util.WriteString(writer, "UInt32Property");
-			writer.Write((Int64)4);
-			writer.Write('\0');
+			Util.WriteString(writer, "BoolProperty");
+			writer.Write((Int64)0);
 			writer.Write(mValue);
+			writer.Write('\0');
 		}
 
 		public override void WriteValue(BinaryWriter writer)

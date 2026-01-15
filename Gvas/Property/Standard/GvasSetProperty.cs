@@ -1,4 +1,4 @@
-﻿namespace Gvas.Property
+﻿namespace Gvas.Property.Standard
 {
 	internal class GvasSetProperty : GvasProperty
 	{

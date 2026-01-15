@@ -1,24 +1,24 @@
-﻿namespace Gvas.Property
+﻿namespace Gvas.Property.Standard
 {
-	public class GvasDoubleProperty : GvasProperty
+	public class GvasFloatProperty : GvasProperty
 	{
-		private double mValue;
+		private float mValue;
 		public override object Value
 		{
 			get => mValue;
 			set
 			{
-				double tmp;
-				if (double.TryParse(value.ToString(), out tmp) == false) return;
+				float tmp;
+				if (float.TryParse(value.ToString(), out tmp) == false) return;
 				mValue = tmp;
 			}
 		}
 
-		public GvasDoubleProperty()
+		public GvasFloatProperty()
 			: base()
 		{ }
 
-		public GvasDoubleProperty(GvasDoubleProperty property)
+		public GvasFloatProperty(GvasFloatProperty property)
 			: base(property)
 		{
 			mValue = property.mValue;
@@ -26,7 +26,7 @@
 
 		public override GvasProperty Clone()
 		{
-			return new GvasDoubleProperty(this);
+			return new GvasFloatProperty(this);
 		}
 
 		public override void Read(BinaryReader reader)
@@ -36,14 +36,14 @@
 			// ???
 			reader.ReadByte();
 
-			mValue = reader.ReadDouble();
+			mValue = reader.ReadSingle();
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
 			Util.WriteString(writer, Name);
-			Util.WriteString(writer, "DoubleProperty");
-			writer.Write((Int64)8);
+			Util.WriteString(writer, "FloatProperty");
+			writer.Write((Int64)4);
 			writer.Write('\0');
 			writer.Write(mValue);
 		}

@@ -1,6 +1,6 @@
-﻿namespace Gvas.Property
+﻿namespace Gvas.Property.Standard
 {
-	public class GvasNameProperty : GvasProperty
+	public class GvasStrProperty : GvasProperty
 	{
 		private Byte[] mBuffer = [];
 		private String mValue = String.Empty;
@@ -10,11 +10,11 @@
 			set => mValue = value.ToString() ?? "";
 		}
 
-		public GvasNameProperty()
+		public GvasStrProperty()
 			: base()
 		{ }
 
-		public GvasNameProperty(GvasNameProperty property)
+		public GvasStrProperty(GvasStrProperty property)
 			: base(property)
 		{
 			mBuffer = property.mBuffer.ToArray();
@@ -23,7 +23,7 @@
 
 		public override GvasProperty Clone()
 		{
-			return new GvasNameProperty(this);
+			return new GvasStrProperty(this);
 		}
 
 		public override void Read(BinaryReader reader)
@@ -46,7 +46,7 @@
 		public override void Write(BinaryWriter writer)
 		{
 			Util.WriteString(writer, Name);
-			Util.WriteString(writer, "NameProperty");
+			Util.WriteString(writer, "StrProperty");
 			if (mBuffer.Length == 0)
 			{
 				writer.Write((UInt64)mValue.Length + 5);
@@ -63,7 +63,7 @@
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			Util.WriteString(writer, mValue);
+			throw new NotImplementedException();
 		}
 	}
 }
