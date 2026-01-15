@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace GvasViewer.ViewModel
 {
-	class ViewModel
+	class MainViewModel
     {
 		public ICommand CommandFileOpen { get; init; }
 		public ICommand CommandFileSave { get; init; }
@@ -30,7 +30,7 @@ namespace GvasViewer.ViewModel
 
 		public String Filter { get; set; } = String.Empty;
 
-		public ViewModel()
+		public MainViewModel()
 		{
 			CommandFileOpen = new ActionCommand(FileOpen);
 			CommandFileSave = new ActionCommand(FileSave);

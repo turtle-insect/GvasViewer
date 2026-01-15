@@ -10,7 +10,7 @@
 		AllowDrop="True" Drop="Window_Drop" PreviewDragOver="Window_PreviewDragOver"
         Title="GvasViewer" Height="450" Width="600">
 	<Window.DataContext>
-		<vm:ViewModel/>
+		<vm:MainViewModel/>
 	</Window.DataContext>
 	<Window.InputBindings>
 		<KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding CommandFileOpen}"/>
