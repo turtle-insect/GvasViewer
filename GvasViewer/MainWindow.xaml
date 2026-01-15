@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GvasViewer"
+		xmlns:vm="clr-namespace:GvasViewer.ViewModel"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
 		AllowDrop="True" Drop="Window_Drop" PreviewDragOver="Window_PreviewDragOver"
         Title="GvasViewer" Height="450" Width="600">
 	<Window.DataContext>
-		<local:ViewModel/>
+		<vm:ViewModel/>
 	</Window.DataContext>
 	<Window.InputBindings>
 		<KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding CommandFileOpen}"/>

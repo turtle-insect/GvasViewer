@@ -19,7 +19,7 @@ namespace GvasViewer
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
-			var vm = item as GvasPropertyViewModel;
+			var vm = item as ViewModel.GvasPropertyViewModel;
 			if (vm == null) return GvasTitleTemplate;
 
 			switch (vm.Property)

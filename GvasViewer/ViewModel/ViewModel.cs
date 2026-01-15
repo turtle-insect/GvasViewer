@@ -7,7 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
-namespace GvasViewer
+namespace GvasViewer.ViewModel
 {
 	class ViewModel
     {

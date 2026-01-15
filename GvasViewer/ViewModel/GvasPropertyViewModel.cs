@@ -1,7 +1,7 @@
 ﻿using Gvas.Property;
 using System.Collections.ObjectModel;
 
-namespace GvasViewer
+namespace GvasViewer.ViewModel
 {
 	internal class GvasPropertyViewModel
 	{

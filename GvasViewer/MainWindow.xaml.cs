@@ -22,7 +22,7 @@ namespace GvasViewer
 			String[]? files = e.Data.GetData(DataFormats.FileDrop) as String[];
 			if (files == null) return;
 
-			var vm = DataContext as ViewModel;
+			var vm = DataContext as ViewModel.ViewModel;
 			if (vm == null) return;
 
 			vm.LoadFile(files[0]);
