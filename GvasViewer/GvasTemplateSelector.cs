@@ -19,7 +19,10 @@ namespace GvasViewer
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
-			switch (item)
+			var vm = item as GvasPropertyViewModel;
+			if (vm == null) return GvasTitleTemplate;
+
+			switch (vm.Property)
 			{
 				case GvasBoolProperty:
 					return GvasCheckBoxTemplate;

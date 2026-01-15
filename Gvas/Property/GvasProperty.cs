@@ -3,7 +3,7 @@
 	public abstract class GvasProperty
 	{
 		public String Name { get; set; } = String.Empty;
-		public System.Collections.ObjectModel.ObservableCollection<GvasProperty> Childrens { get; private set; } = new();
+		public List<GvasProperty> Childrens { get; init; } = new();
 
 		protected GvasProperty() { }
 		protected GvasProperty(GvasProperty property)

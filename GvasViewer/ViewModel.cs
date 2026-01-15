@@ -22,7 +22,7 @@ namespace GvasViewer
 		public ICommand CommandCreateArrayProperty { get; init; }
 		public ICommand CommandCreateMapProperty { get; init; }
 
-		public ObservableCollection<Gvas.Property.GvasProperty> GvasProperties { get; set; } = new();
+		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
 		private String mFileName = String.Empty;
 		private IFileFormat? mFileFormat;
@@ -182,23 +182,32 @@ namespace GvasViewer
 
 		private void CreateArrayProperty(Object? parameter)
 		{
-			var property = parameter as GvasArrayProperty;
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			var property = vm.Property as GvasArrayProperty;
 			if (property == null) return;
+
 			var count = property.Childrens.Count;
 			if (count == 0) return;
 
 			var child = property.Childrens[0].Clone();
 			child.Name = $"[{count}]";
-			property.Childrens.Add(child);
+			vm.AppendChildren(child);
 		}
 
 		private void CreateMapProperty(Object? parameter)
 		{
-			var property = parameter as GvasMapProperty;
-			if (property == null) return;
-			if (property.Childrens.Count == 0) return;
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
 
-			property.Childrens.Add(property.Childrens[0].Clone());
+			var property = vm.Property as GvasMapProperty;
+			if (property == null) return;
+
+			var count = property.Childrens.Count;
+			if (count == 0) return;
+
+			vm.AppendChildren(property.Childrens[0].Clone());
 		}
 
 		private Byte[] CreateGvas()
@@ -234,13 +243,13 @@ namespace GvasViewer
 		{
 			if(String.IsNullOrEmpty(Filter))
 			{
-				GvasProperties.Add(property);
+				GvasProperties.Add(new GvasPropertyViewModel(property));
 				return;
 			}
 
 			if(property.Name.IndexOf(Filter) >= 0)
 			{
-				GvasProperties.Add(property);
+				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
 
 			foreach(var children  in property.Childrens)
