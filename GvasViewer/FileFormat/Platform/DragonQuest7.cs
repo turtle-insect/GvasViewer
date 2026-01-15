@@ -17,7 +17,7 @@ namespace GvasViewer.FileFormat.Platform
 		//   - call "DQ7R_DEMO-Win64-Shipping.exe"+1BAADC0
 		// slicing-by-8 algorithm
 
-		private Platform mPlatform;
+		private readonly Platform mPlatform;
 		private UInt32 mVersion;
 		// platform<version, AESKey>
 		// AESKey's appears to be managed as 64 bytes in memory...？
