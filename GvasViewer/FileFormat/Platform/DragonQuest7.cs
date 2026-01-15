@@ -20,6 +20,7 @@ namespace GvasViewer.FileFormat.Platform
 		private Platform mPlatform;
 		private UInt32 mVersion;
 		// platform<version, AESKey>
+		// AESKey's appears to be managed as 64 bytes in memory...？
 		private readonly Dictionary<Platform, Dictionary<UInt32, String>> mKeys = new()
 		{
 			{
