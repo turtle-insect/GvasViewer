@@ -8,7 +8,7 @@ namespace Gvas
 		public String Name { get; private set; } = String.Empty;
 
 		private Byte[] mBuffer = [];
-		private readonly IList<Guid> mGuid = new List<Guid>();
+		private readonly List<Guid> mGuid = new();
 
 		public void Read(BinaryReader reader)
 		{
