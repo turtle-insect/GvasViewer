@@ -197,11 +197,26 @@ namespace GvasViewer.ViewModel
 			if (property == null) return;
 
 			var count = property.Childrens.Count;
-			if (count == 0) return;
+			GvasProperty? children = null;
+			if (count == 0)
+			{
+				switch(property.PropertyType)
+				{
+					case "NameProperty":
+						children = new GvasNameProperty();
+						children.Value = "dummy";
+						break;
+				}
+			}
+			else
+			{
+				children = property.Childrens[0].Clone();
+			}
 
-			var child = property.Childrens[0].Clone();
-			child.Name = $"[{count}]";
-			vm.AppendChildren(child);
+			if (children == null) return;
+
+			children.Name = $"[{count}]";
+			vm.AppendChildren(children);
 		}
 
 		private void CreateMapProperty(Object? parameter)
