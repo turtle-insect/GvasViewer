@@ -13,6 +13,12 @@ namespace GvasViewer.ViewModel
 			set => Property.Name = value;
 		}
 
+		public Object Value
+		{
+			get => Property.Value;
+			set => Property.Value = value;
+		}
+
 		public GvasPropertyViewModel(GvasProperty property)
 		{
 			Property = property;

@@ -159,8 +159,12 @@ namespace GvasViewer.ViewModel
 
 		private void ExportByteProperty(Object? parameter)
 		{
-			var property = parameter as GvasByteProperty;
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			var property = vm.Property as GvasByteProperty;
 			if (property == null) return;
+
 			Byte[]? buffer = property.Value as Byte[];
 			if (buffer == null) return;
 
@@ -172,7 +176,10 @@ namespace GvasViewer.ViewModel
 
 		private void ImportByteProperty(Object? parameter)
 		{
-			var property = parameter as GvasByteProperty;
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			var property = vm.Property as GvasByteProperty;
 			if (property == null) return;
 
 			var dlg = new OpenFileDialog();
