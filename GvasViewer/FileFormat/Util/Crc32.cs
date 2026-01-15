@@ -2,12 +2,12 @@
 {
 	internal class Crc32
 	{
-		private readonly uint[] mTable;
+		private readonly UInt32[] mTable;
 
 		public Crc32(UInt32 seed)
 		{
-			mTable = new uint[256];
-			for (uint i = 0; i < 256; i++)
+			mTable = new UInt32[256];
+			for (UInt32 i = 0; i < mTable.Length; i++)
 			{
 				var x = i;
 				for (var j = 0; j < 8; j++)
@@ -18,15 +18,15 @@
 			}
 		}
 
-		public uint Calc(ref Byte[] buf, int start, int end)
+		public UInt32 Calc(Byte[] buf, Int32 offset, Int32 length)
 		{
-			uint num = uint.MaxValue;
-			for (var i = start; i < end; i++)
+			var num = UInt32.MaxValue;
+			for (var i = 0; i < length; i++)
 			{
-				num = mTable[(num ^ buf[i]) & 255] ^ num >> 8;
+				num = mTable[(num ^ buf[offset + i]) & 255] ^ num >> 8;
 			}
 
-			return num ^ uint.MaxValue;
+			return num ^ UInt32.MaxValue;
 		}
 	}
 }
