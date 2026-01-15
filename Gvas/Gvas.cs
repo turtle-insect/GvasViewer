@@ -4,8 +4,8 @@ namespace Gvas
 {
 	public class Gvas
 	{
-		public GvasEngine Engine { get; private set; } = new GvasEngine();
-		public IList<GvasProperty> Properties { get; private set; } = new List<GvasProperty>();
+		public GvasEngine Engine { get; private set; } = new();
+		public List<GvasProperty> Properties { get; private set; } = new();
 		private Byte[] mFooter = [];
 		public void Read(BinaryReader reader)
 		{
