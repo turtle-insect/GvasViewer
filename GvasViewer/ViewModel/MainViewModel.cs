@@ -205,6 +205,10 @@ namespace GvasViewer.ViewModel
 						children = new GvasNameProperty();
 						children.Value = "dummy";
 						break;
+
+					default:
+						MessageBox.Show("not support property");
+						break;
 				}
 			}
 			else
