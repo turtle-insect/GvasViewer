@@ -104,7 +104,7 @@ namespace GvasViewer.ViewModel
 		{
 			if (mFileFormat == null) return;
 
-			var buffer = CreateGvas();
+			var buffer = CreateGvasBuffer();
 			if (buffer == null) return;
 
 			mFileFormat.Save(mFileName, buffer);
@@ -128,7 +128,7 @@ namespace GvasViewer.ViewModel
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			var buffer = CreateGvas();
+			var buffer = CreateGvasBuffer();
 			if (buffer == null) return;
 
 			File.WriteAllBytes(dlg.FileName, buffer);
@@ -242,7 +242,7 @@ namespace GvasViewer.ViewModel
 			vm.AppendChildren(property.Childrens[0].Clone());
 		}
 
-		private Byte[]? CreateGvas()
+		private Byte[]? CreateGvasBuffer()
 		{
 			if (mGvas == null) return null;
 
