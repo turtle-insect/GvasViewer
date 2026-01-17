@@ -27,7 +27,7 @@ namespace GvasViewer.ViewModel
 
 		private String mFileName = String.Empty;
 		private IFileFormat? mFileFormat;
-		private Gvas.Gvas mGvas = new();
+		private Gvas.Gvas? mGvas;
 
 		public String Filter { get; set; } = String.Empty;
 
@@ -104,7 +104,10 @@ namespace GvasViewer.ViewModel
 		{
 			if (mFileFormat == null) return;
 
-			mFileFormat.Save(mFileName, CreateGvas());
+			var buffer = CreateGvas();
+			if (buffer == null) return;
+
+			mFileFormat.Save(mFileName, buffer);
 		}
 
 		private void FileSaveAs(Object? parameter)
@@ -125,7 +128,10 @@ namespace GvasViewer.ViewModel
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			File.WriteAllBytes(dlg.FileName, CreateGvas());
+			var buffer = CreateGvas();
+			if (buffer == null) return;
+
+			File.WriteAllBytes(dlg.FileName, buffer);
 		}
 
 		private void FileImport(Object? parameter)
@@ -236,8 +242,10 @@ namespace GvasViewer.ViewModel
 			vm.AppendChildren(property.Childrens[0].Clone());
 		}
 
-		private Byte[] CreateGvas()
+		private Byte[]? CreateGvas()
 		{
+			if (mGvas == null) return null;
+
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
 			mGvas.Write(writer);
@@ -258,6 +266,8 @@ namespace GvasViewer.ViewModel
 
 		private void FilterProperty()
 		{
+			if (mGvas == null) return;
+
 			GvasProperties.Clear();
 			foreach (var property in mGvas.Properties)
 			{
