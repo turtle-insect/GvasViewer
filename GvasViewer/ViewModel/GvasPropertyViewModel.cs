@@ -30,7 +30,7 @@ namespace GvasViewer.ViewModel
 
 		public void AppendChildren(GvasProperty children)
 		{
-			Property.Childrens.Add(children);
+			Property.AppendChildren(children);
 			Childrens.Add(new GvasPropertyViewModel(children));
 		}
 	}

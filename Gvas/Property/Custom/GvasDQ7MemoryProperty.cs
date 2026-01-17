@@ -27,8 +27,8 @@
 		{
 			Name = "Memory";
 
-			Childrens.Add(Util.Read(reader));
-			Childrens.Add(Util.Read(reader));
+			mChildrens.Add(Util.Read(reader));
+			mChildrens.Add(Util.Read(reader));
 
 			// Memory
 			//   ArrayProperty -> ByteProperty
@@ -42,23 +42,23 @@
 			for (uint index = 0; index < 21; index++)
 			{
 				var property = Util.Read(reader);
-				Childrens.Add(property);
+				mChildrens.Add(property);
 			}
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
-			Childrens[0].Write(writer);
-			Childrens[1].Write(writer);
+			mChildrens[0].Write(writer);
+			mChildrens[1].Write(writer);
 
 			Util.WriteString(writer, "Memory");
 			Util.WriteString(writer, "ArrayProperty");
 
 			using var ms = new MemoryStream();
 			using var bw = new BinaryWriter(ms);
-			for (int index = 2; index < Childrens.Count; index++)
+			for (int index = 2; index < mChildrens.Count; index++)
 			{
-				Childrens[index].Write(bw);
+				mChildrens[index].Write(bw);
 			}
 			bw.Flush();
 

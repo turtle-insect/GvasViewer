@@ -49,7 +49,7 @@
 							var property = new GvasBoolProperty();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadBoolean();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -58,7 +58,7 @@
 					{
 						var property = new GvasByteProperty();
 						property.Value = reader.ReadBytes((int)size);
-						Childrens.Add(property);
+						mChildrens.Add(property);
 					}
 					break;
 
@@ -70,7 +70,7 @@
 							var property = new GvasIntProperty();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadInt32();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -83,7 +83,7 @@
 							var property = new GvasUInt32Property();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadUInt32();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -96,7 +96,7 @@
 							var property = new GvasInt64Property();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadInt64();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -109,7 +109,7 @@
 							var property = new GvasUInt64Property();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadUInt64();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -122,7 +122,7 @@
 							var property = new GvasFloatProperty();
 							property.Name = $"[{index}]";
 							property.Value = reader.ReadSingle();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -139,7 +139,7 @@
 								var property = new GvasNameProperty();
 								property.Name = $"[{index}]";
 								property.Value = Util.ReadString(reader);
-								Childrens.Add(property);
+								mChildrens.Add(property);
 							}
 						}
 						catch
@@ -177,7 +177,7 @@
 							property.Name = mBaseProperty.Name;
 							property.Detail = mBaseProperty.Detail;
 							property.ReadChild(reader, mBaseProperty.Detail);
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 					}
 					break;
@@ -201,7 +201,7 @@
 
 				case "ByteProperty":
 					{
-						var buffer = Childrens[0].Value as Byte[];
+						var buffer = mChildrens[0].Value as Byte[];
 						if(buffer == null) throw new NotImplementedException();
 
 						writer.Write((Int64)buffer.Length);
@@ -235,7 +235,7 @@
 						{
 							using var ms = new MemoryStream();
 							using var bw = new BinaryWriter(ms);
-							foreach (var children in Childrens)
+							foreach (var children in mChildrens)
 							{
 								children.WriteValue(bw);
 							}
@@ -244,7 +244,7 @@
 							writer.Write(ms.Length + 4);
 							Util.WriteString(writer, PropertyType);
 							writer.Write('\0');
-							writer.Write(Childrens.Count);
+							writer.Write(mChildrens.Count);
 							writer.Write(ms.ToArray());
 						}
 					}
@@ -254,7 +254,7 @@
 					{
 						using var ms = new MemoryStream();
 						using var bw = new BinaryWriter(ms);
-						foreach (var children in Childrens)
+						foreach (var children in mChildrens)
 						{
 							children.WriteValue(bw);
 						}
@@ -268,7 +268,7 @@
 						writer.Write((Int64)4 + (mBaseProperty.Name.Length + 5) + 19 + 8 + (mBaseProperty.Detail.Length + 5) + 17 + ms.Length);
 						Util.WriteString(writer, PropertyType);
 						writer.Write('\0');
-						writer.Write(Childrens.Count);
+						writer.Write(mChildrens.Count);
 						Util.WriteString(writer, mBaseProperty.Name);
 						Util.WriteString(writer, "StructProperty");
 						writer.Write(ms.Length);
@@ -296,11 +296,11 @@
 		private void WritePropertyValue(BinaryWriter writer, uint size)
 		{
 			// Count + Childrens
-			writer.Write((Int64)Childrens.Count * size + 4);
+			writer.Write((Int64)mChildrens.Count * size + 4);
 			Util.WriteString(writer, PropertyType);
 			writer.Write('\0');
-			writer.Write(Childrens.Count);
-			foreach (var children in Childrens)
+			writer.Write(mChildrens.Count);
+			foreach (var children in mChildrens)
 			{
 				children.WriteValue(writer);
 			}

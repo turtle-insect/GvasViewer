@@ -65,7 +65,7 @@
 							var property = new GvasBoolProperty();
 							property.Name = name;
 							property.Value = reader.ReadBoolean();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 						break;
 
@@ -74,7 +74,7 @@
 							var property = new GvasIntProperty();
 							property.Name = name;
 							property.Value = reader.ReadInt32();
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 						break;
 
@@ -83,7 +83,7 @@
 							var property = new GvasNameProperty();
 							property.Name = name;
 							property.Value = Util.ReadString(reader);
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 						break;
 
@@ -92,7 +92,7 @@
 							var property = new GvasStructProperty();
 							property.Name = name;
 							property.ReadChild(reader, name);
-							Childrens.Add(property);
+							mChildrens.Add(property);
 						}
 						break;
 
@@ -121,7 +121,7 @@
 			{
 				using var ms = new MemoryStream();
 				using var bw = new BinaryWriter(ms);
-				foreach (var children in Childrens)
+				foreach (var children in mChildrens)
 				{
 					Util.WriteString(bw, children.Name);
 					children.WriteValue(bw);
@@ -133,7 +133,7 @@
 				Util.WriteString(writer, ValueType);
 				writer.Write('\0');
 				writer.Write(0);
-				writer.Write(Childrens.Count);
+				writer.Write(mChildrens.Count);
 				writer.Write(ms.ToArray());
 			}
 		}
