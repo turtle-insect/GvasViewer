@@ -83,7 +83,7 @@ namespace GvasViewer.ViewModel
 			{
 				mGvas = LoadGvas(buffer);
 				mFileName = fileName;
-				InitializationProperty();
+				LoadProperty();
 			}
 			catch
 			{
@@ -148,7 +148,7 @@ namespace GvasViewer.ViewModel
 				if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") return;
 
 				mGvas = LoadGvas(buffer);
-				InitializationProperty();
+				LoadProperty();
 			}
 			catch
 			{
@@ -159,7 +159,7 @@ namespace GvasViewer.ViewModel
 
 		private void FilterProperty(Object? parameter)
 		{
-			InitializationProperty();
+			LoadProperty();
 		}
 
 		private void ExportByteProperty(Object? parameter)
@@ -264,18 +264,18 @@ namespace GvasViewer.ViewModel
 			return gvas;
 		}
 
-		private void InitializationProperty()
+		private void LoadProperty()
 		{
 			if (mGvas == null) return;
 
 			GvasProperties.Clear();
 			foreach (var property in mGvas.Properties)
 			{
-				InitializationPropertyChildren(property);
+				LoadPropertyChildren(property);
 			}
 		}
 
-		private void InitializationPropertyChildren(GvasProperty property)
+		private void LoadPropertyChildren(GvasProperty property)
 		{
 			if(String.IsNullOrEmpty(Filter))
 			{
@@ -290,7 +290,7 @@ namespace GvasViewer.ViewModel
 
 			foreach(var children  in property.Childrens)
 			{
-				InitializationPropertyChildren(children);
+				LoadPropertyChildren(children);
 			}
 		}
 	}
