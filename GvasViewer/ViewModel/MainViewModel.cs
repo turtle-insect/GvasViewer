@@ -17,7 +17,7 @@ namespace GvasViewer.ViewModel
 		public ICommand CommandFileSaveAs { get; init; }
 		public ICommand CommandFileExport { get; init; }
 		public ICommand CommandFileImport { get; init; }
-		public ICommand CommandFilterProperty { get; init; }
+		public ICommand CommandSearchProperty { get; init; }
 		public ICommand CommandExportByteProperty { get; init; }
 		public ICommand CommandImportByteProperty { get; init; }
 		public ICommand CommandCreateArrayProperty { get; init; }
@@ -29,7 +29,7 @@ namespace GvasViewer.ViewModel
 		private IFileFormat? mFileFormat;
 		private Gvas.Gvas? mGvas;
 
-		public String Filter { get; set; } = String.Empty;
+		public String Search { get; set; } = String.Empty;
 
 		public MainViewModel()
 		{
@@ -38,7 +38,7 @@ namespace GvasViewer.ViewModel
 			CommandFileSaveAs = new ActionCommand(FileSaveAs);
 			CommandFileExport = new ActionCommand(FileExport);
 			CommandFileImport = new ActionCommand(FileImport);
-			CommandFilterProperty = new ActionCommand(FilterProperty);
+			CommandSearchProperty = new ActionCommand(SearchProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
 			CommandCreateArrayProperty = new ActionCommand(CreateArrayProperty);
@@ -157,7 +157,7 @@ namespace GvasViewer.ViewModel
 			}
 		}
 
-		private void FilterProperty(Object? parameter)
+		private void SearchProperty(Object? parameter)
 		{
 			LoadProperty();
 		}
@@ -277,13 +277,13 @@ namespace GvasViewer.ViewModel
 
 		private void LoadPropertyChildren(GvasProperty property)
 		{
-			if(String.IsNullOrEmpty(Filter))
+			if(String.IsNullOrEmpty(Search))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 				return;
 			}
 
-			if(property.Name.Contains(Filter))
+			if(property.Name.Contains(Search))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}

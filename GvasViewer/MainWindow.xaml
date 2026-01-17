@@ -30,9 +30,9 @@
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
-			<Label DockPanel.Dock="Left" Content="Filter"/>
-			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandFilterProperty}"/>
-			<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+			<Label DockPanel.Dock="Left" Content="Word"/>
+			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandSearchProperty}"/>
+			<TextBox Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}"/>
 		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
 			<TreeView.Resources>
