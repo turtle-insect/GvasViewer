@@ -56,9 +56,8 @@ namespace GvasViewer.ViewModel
 				new DragonQuest7(Platform.Steam),
 				new DragonQuest7(Platform.Switch),
 			];
-			mFileFormat = null;
-			Byte[] buffer = [];
 
+			Byte[] buffer = [];
 			foreach (var fileFormat in fileFormats)
 			{
 				try
