@@ -283,7 +283,7 @@ namespace GvasViewer.ViewModel
 				return;
 			}
 
-			if(property.Name.Contains(Search))
+			if(property.Name.ToLower().Contains(Search.ToLower()))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
