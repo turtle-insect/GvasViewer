@@ -32,7 +32,8 @@
 		<DockPanel DockPanel.Dock="Top">
 			<Label DockPanel.Dock="Left" Content="Keyword"/>
 			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandSearchProperty}"/>
-			<TextBox Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}"/>
+			<TextBox Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}"
+					 VerticalContentAlignment="Center"/>
 		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
 			<TreeView.Resources>
