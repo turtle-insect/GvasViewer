@@ -1,12 +1,7 @@
-﻿using Gvas;
-using Gvas.Property;
-using Gvas.Property.Standard;
+﻿using Gvas.Property;
 using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Platform;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace GvasViewer
 {
@@ -28,7 +23,7 @@ namespace GvasViewer
 
 		public void Load()
 		{
-			if (!System.IO.File.Exists(mFileName)) return;
+			if (!File.Exists(mFileName)) return;
 
 			IFileFormat[] fileFormats =
 			[
@@ -77,7 +72,7 @@ namespace GvasViewer
 
 		public void Import(String filename)
 		{
-			if (!System.IO.File.Exists(mFileName)) return;
+			if (File.Exists(mFileName)) return;
 			if (!IsAction()) return;
 
 			var buffer = File.ReadAllBytes(filename);
@@ -94,7 +89,7 @@ namespace GvasViewer
 			var buffer = CreateGvasBuffer();
 			if (buffer == null) return;
 
-			System.IO.File.WriteAllBytes(filename, buffer);
+			File.WriteAllBytes(filename, buffer);
 		}
 
 		public bool IsAction()
