@@ -25,5 +25,5 @@ implementation this Interface
 If you want to add a unique structure, you can do so in this file as well  
 
 # Build
-* [Visual Studio 2022](https://visualstudio.microsoft.com/)
+* [Visual Studio 2026](https://visualstudio.microsoft.com/)
  
