@@ -2,9 +2,7 @@
 using Gvas.Property.Standard;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.IO;
-using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Input;
 
@@ -31,16 +29,16 @@ namespace GvasViewer.ViewModel
 
 		public MainViewModel()
 		{
-			CommandFileOpen = new ActionCommand(FileOpen, (parameter) => true);
-			CommandFileSave = new ActionCommand(FileSave, (parameter) => mSaveData.IsAction());
-			CommandFileSaveAs = new ActionCommand(FileSaveAs, (parameter) => mSaveData.IsAction());
-			CommandFileExport = new ActionCommand(FileExport, (parameter) => mSaveData.IsAction());
-			CommandFileImport = new ActionCommand(FileImport, (parameter) => mSaveData.IsAction());
-			CommandSearchProperty = new ActionCommand(SearchProperty, (parameter) => Keyword.Length > 0 && mSaveData.IsAction());
-			CommandExportByteProperty = new ActionCommand(ExportByteProperty, (parameter) => true);
-			CommandImportByteProperty = new ActionCommand(ImportByteProperty, (parameter) => true);
-			CommandCreateArrayProperty = new ActionCommand(CreateArrayProperty, (parameter) => true);
-			CommandCreateMapProperty = new ActionCommand(CreateMapProperty, (parameter) => true);
+			CommandFileOpen = new ActionCommand(FileOpen);
+			CommandFileSave = new ActionCommand(FileSave);
+			CommandFileSaveAs = new ActionCommand(FileSaveAs);
+			CommandFileExport = new ActionCommand(FileExport);
+			CommandFileImport = new ActionCommand(FileImport);
+			CommandSearchProperty = new ActionCommand(SearchProperty);
+			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
+			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
+			CommandCreateArrayProperty = new ActionCommand(CreateArrayProperty);
+			CommandCreateMapProperty = new ActionCommand(CreateMapProperty);
 
 			CommandManager.InvalidateRequerySuggested();
 		}
