@@ -5,14 +5,14 @@ namespace Gvas
 {
 	public class Gvas
 	{
-		public GvasEngine Engine { get; private set; } = new();
+		private GvasEngine mEngine = new();
 		public List<GvasProperty> Properties { get; private set; } = new();
 		private Byte[] mFooter = [];
 		public void Read(BinaryReader reader)
 		{
 			Properties.Clear();
 
-			Engine.Read(reader);
+			mEngine.Read(reader);
 			for(; ;)
 			{
 				var property = Util.Read(reader);
@@ -27,7 +27,7 @@ namespace Gvas
 
 		public void Write(BinaryWriter writer)
 		{
-			Engine.Write(writer);
+			mEngine.Write(writer);
 			foreach (var property in Properties)
 			{
 				property.Write(writer);
