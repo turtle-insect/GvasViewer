@@ -6,17 +6,23 @@ namespace Gvas
 	public class Gvas
 	{
 		private GvasEngine mEngine = new();
-		public List<GvasProperty> Properties { get; private set; } = new();
+		private List<GvasProperty> mProperties = new();
 		private Byte[] mFooter = [];
+
+		public IReadOnlyList<GvasProperty> Properties
+		{
+			get => mProperties;
+		}
+
 		public void Read(BinaryReader reader)
 		{
-			Properties.Clear();
+			mProperties.Clear();
 
 			mEngine.Read(reader);
 			for(; ;)
 			{
 				var property = Util.Read(reader);
-				Properties.Add(property);
+				mProperties.Add(property);
 				if (property is GvasNoneProperty) break;
 			}
 
@@ -28,7 +34,7 @@ namespace Gvas
 		public void Write(BinaryWriter writer)
 		{
 			mEngine.Write(writer);
-			foreach (var property in Properties)
+			foreach (var property in mProperties)
 			{
 				property.Write(writer);
 			}
