@@ -25,7 +25,7 @@ namespace GvasViewer.ViewModel
 
 		private readonly SaveData mSaveData = new();
 
-		public String Search { get; set; } = String.Empty;
+		public String Keyword { get; set; } = String.Empty;
 
 		public MainViewModel()
 		{
@@ -192,13 +192,13 @@ namespace GvasViewer.ViewModel
 
 		private void LoadProperty(GvasProperty property)
 		{
-			if(String.IsNullOrEmpty(Search))
+			if(String.IsNullOrEmpty(Keyword))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 				return;
 			}
 
-			if(property.Name.ToLower().Contains(Search.ToLower()))
+			if(property.Name.ToLower().Contains(Keyword.ToLower()))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
