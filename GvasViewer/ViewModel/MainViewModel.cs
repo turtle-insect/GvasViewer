@@ -25,9 +25,7 @@ namespace GvasViewer.ViewModel
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
-		private String mFileName = String.Empty;
-		private IFileFormat? mFileFormat;
-		private Gvas.Gvas? mGvas;
+		private SaveData? mSaveData;
 
 		public String Search { get; set; } = String.Empty;
 
@@ -45,51 +43,11 @@ namespace GvasViewer.ViewModel
 			CommandCreateMapProperty = new ActionCommand(CreateMapProperty);
 		}
 
-		public void LoadFile(String fileName)
+		public void LoadFile(String filename)
 		{
-			IFileFormat[] fileFormats =
-			[
-				new PlainGvas(),
-				new DivisionGvas(),
-				new FileFormat.Platform.Switch.BravelyDefault2(),
-				new FileFormat.Platform.Switch.RomancingSaga2(),
-				new DragonQuest7(Platform.Steam),
-				new DragonQuest7(Platform.Switch),
-			];
-
-			Byte[] buffer = [];
-			foreach (var fileFormat in fileFormats)
-			{
-				try
-				{
-					var tmp = fileFormat.Load(fileName);
-					if (tmp.Length < 4) continue;
-					if (System.Text.Encoding.UTF8.GetString(tmp, 0, 4) != "GVAS") continue;
-
-					mFileFormat = fileFormat;
-					buffer = tmp;
-					break;
-				}
-				catch { }
-			}
-
-			if (mFileFormat == null)
-			{
-				MessageBox.Show("not gvas format");
-				return;
-			}
-
-			try
-			{
-				mGvas = LoadGvas(buffer);
-				mFileName = fileName;
-				LoadProperty();
-			}
-			catch
-			{
-				mFileFormat = null;
-				MessageBox.Show("not support game");
-			}
+			mSaveData = new SaveData(filename);
+			mSaveData.Load();
+			LoadProperty();
 		}
 
 		private void FileOpen(Object? parameter)
@@ -102,59 +60,40 @@ namespace GvasViewer.ViewModel
 
 		private void FileSave(Object? parameter)
 		{
-			if (mFileFormat == null) return;
+			if (mSaveData == null) return;
 
-			var buffer = CreateGvasBuffer();
-			if (buffer == null) return;
-
-			mFileFormat.Save(mFileName, buffer);
+			mSaveData.Save();
 		}
 
 		private void FileSaveAs(Object? parameter)
 		{
-			if (mFileFormat == null) return;
+			if (mSaveData == null) return;
 
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			mFileName = dlg.FileName;
-			FileSave(null);
+			mSaveData.SaveAs(dlg.FileName);
 		}
 
 		private void FileExport(Object? parameter)
 		{
-			if (mFileFormat == null) return;
+			if (mSaveData == null) return;
 
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			var buffer = CreateGvasBuffer();
-			if (buffer == null) return;
-
-			File.WriteAllBytes(dlg.FileName, buffer);
+			mSaveData.Export(dlg.FileName);
 		}
 
 		private void FileImport(Object? parameter)
 		{
-			if (mFileFormat == null) return;
+			if (mSaveData == null) return;
 
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			try
-			{
-				var buffer = File.ReadAllBytes(dlg.FileName);
-				if (buffer.Length < 4) return;
-				if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") return;
-
-				mGvas = LoadGvas(buffer);
-				LoadProperty();
-			}
-			catch
-			{
-				MessageBox.Show("not gvas format");
-				return;
-			}
+			mSaveData.Import(dlg.FileName);
+			LoadProperty();
 		}
 
 		private void SearchProperty(Object? parameter)
@@ -242,34 +181,15 @@ namespace GvasViewer.ViewModel
 			vm.AppendChildren(property.Childrens[0].Clone());
 		}
 
-		private Byte[]? CreateGvasBuffer()
-		{
-			if (mGvas == null) return null;
-
-			using var ms = new MemoryStream();
-			using var writer = new BinaryWriter(ms);
-			mGvas.Write(writer);
-			writer.Flush();
-
-			return ms.ToArray();
-		}
-
-		private Gvas.Gvas LoadGvas(Byte[] buffer)
-		{
-			using var ms = new MemoryStream(buffer);
-			using var reader = new BinaryReader(ms);
-			var gvas = new Gvas.Gvas();
-			gvas.Read(reader);
-
-			return gvas;
-		}
-
 		private void LoadProperty()
 		{
-			if (mGvas == null) return;
-
 			GvasProperties.Clear();
-			foreach (var property in mGvas.Properties)
+			if (mSaveData == null) return;
+
+			var properties = mSaveData.Properties;
+			if (properties == null) return;
+
+			foreach (var property in properties)
 			{
 				LoadPropertyChildren(property);
 			}

@@ -16,6 +16,11 @@ namespace GvasViewer
 		private Gvas.Gvas? mGvas;
 		private IFileFormat? mFileFormat;
 
+		public IReadOnlyList<GvasProperty>? Properties
+		{
+			get => mGvas?.Properties;
+		}
+
 		public SaveData(String filename)
 		{
 			mFileName = filename;
@@ -44,7 +49,7 @@ namespace GvasViewer
 					if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") continue;
 
 					mFileFormat = fileFormat;
-					mGvas = ReadGvas(buffer);
+					mGvas = CreateGvas(buffer);
 					return;
 				}
 				catch { }
@@ -56,30 +61,40 @@ namespace GvasViewer
 			if (mFileFormat == null) return;
 			if (mGvas == null) return;
 
-			using var ms = new MemoryStream();
-			using var writer = new BinaryWriter(ms);
-			mGvas.Write(writer);
-			writer.Flush();
+			var buffer = CreateGvasBuffer();
+			if (buffer == null) return;
 
-			File.WriteAllBytes(mFileName, ms.ToArray());
+			mFileFormat.Save(mFileName, buffer);
 		}
 
 		public void SaveAs(String filename)
 		{
+			if (!IsAction()) return;
+
 			mFileName = filename;
 			Save();
 		}
 
 		public void Import(String filename)
 		{
+			if (!System.IO.File.Exists(mFileName)) return;
+			if (!IsAction()) return;
+
 			var buffer = File.ReadAllBytes(filename);
 			if (buffer.Length < 4) return;
 			if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") return;
+
+			mGvas = CreateGvas(buffer);
 		}
 
 		public void Export(String filename)
 		{
+			if (!IsAction()) return;
 
+			var buffer = CreateGvasBuffer();
+			if (buffer == null) return;
+
+			System.IO.File.WriteAllBytes(filename, buffer);
 		}
 
 		public bool IsAction()
@@ -90,13 +105,25 @@ namespace GvasViewer
 			return true;
 		}
 
-		private Gvas.Gvas ReadGvas(Byte[] buffer)
+		private Gvas.Gvas CreateGvas(Byte[] buffer)
 		{
 			using var ms = new MemoryStream(buffer);
 			using var reader = new BinaryReader(ms);
 			var gvas = new Gvas.Gvas();
 			gvas.Read(reader);
 			return gvas;
+		}
+
+		private Byte[]?  CreateGvasBuffer()
+		{
+			if (mGvas == null) return null;
+
+			using var ms = new MemoryStream();
+			using var writer = new BinaryWriter(ms);
+			mGvas.Write(writer);
+			writer.Flush();
+
+			return ms.ToArray();
 		}
 	}
 }
