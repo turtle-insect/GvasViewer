@@ -186,11 +186,11 @@ namespace GvasViewer.ViewModel
 
 			foreach (var property in properties)
 			{
-				LoadPropertyChildren(property);
+				LoadProperty(property);
 			}
 		}
 
-		private void LoadPropertyChildren(GvasProperty property)
+		private void LoadProperty(GvasProperty property)
 		{
 			if(String.IsNullOrEmpty(Search))
 			{
@@ -205,7 +205,7 @@ namespace GvasViewer.ViewModel
 
 			foreach(var child in property.Children)
 			{
-				LoadPropertyChildren(child);
+				LoadProperty(child);
 			}
 		}
 	}
