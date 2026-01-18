@@ -25,9 +25,9 @@
 		public abstract void Write(BinaryWriter writer);
 		public abstract void WriteValue(BinaryWriter writer);
 
-		public void AppendChildren(GvasProperty children)
+		public void AppendChildren(GvasProperty property)
 		{
-			mChildren.Add(children);
+			mChildren.Add(property);
 		}
 	}
 }
