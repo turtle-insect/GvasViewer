@@ -29,11 +29,11 @@ namespace GvasViewer.ViewModel
 
 		public MainViewModel()
 		{
-			CommandFileOpen = new ActionCommand(FileOpen);
-			CommandFileSave = new ActionCommand(FileSave);
-			CommandFileSaveAs = new ActionCommand(FileSaveAs);
-			CommandFileExport = new ActionCommand(FileExport);
-			CommandFileImport = new ActionCommand(FileImport);
+			CommandFileOpen = new ActionCommand(OpenFile);
+			CommandFileSave = new ActionCommand(SaveFile);
+			CommandFileSaveAs = new ActionCommand(SaveAsFile);
+			CommandFileExport = new ActionCommand(ExportFile);
+			CommandFileImport = new ActionCommand(ImportFile);
 			CommandSearchProperty = new ActionCommand(SearchProperty);
 			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
 			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
@@ -49,7 +49,7 @@ namespace GvasViewer.ViewModel
 			LoadProperty();
 		}
 
-		private void FileOpen(Object? parameter)
+		private void OpenFile(Object? parameter)
 		{
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -57,12 +57,12 @@ namespace GvasViewer.ViewModel
 			LoadFile(dlg.FileName);
 		}
 
-		private void FileSave(Object? parameter)
+		private void SaveFile(Object? parameter)
 		{
 			mSaveData.Save();
 		}
 
-		private void FileSaveAs(Object? parameter)
+		private void SaveAsFile(Object? parameter)
 		{
 			if (!mSaveData.IsAction()) return;
 
@@ -72,7 +72,7 @@ namespace GvasViewer.ViewModel
 			mSaveData.SaveAs(dlg.FileName);
 		}
 
-		private void FileExport(Object? parameter)
+		private void ExportFile(Object? parameter)
 		{
 			if (!mSaveData.IsAction()) return;
 
@@ -82,7 +82,7 @@ namespace GvasViewer.ViewModel
 			mSaveData.Export(dlg.FileName);
 		}
 
-		private void FileImport(Object? parameter)
+		private void ImportFile(Object? parameter)
 		{
 			if (!mSaveData.IsAction()) return;
 
