@@ -51,7 +51,7 @@
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 8);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 
@@ -60,7 +60,7 @@
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 8);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 				case "Vector":
@@ -68,7 +68,7 @@
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 12);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 				// Quaternion
@@ -76,7 +76,7 @@
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 16);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 
@@ -85,14 +85,14 @@
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 4);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 				case "LinearColor":
 					{
 						var property = new Custom.GvasLiteralProperty();
 						property.Read(reader, 16);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 					}
 					break;
 
@@ -101,8 +101,8 @@
 					{
 						var property = new Custom.GvasDQ7MemoryProperty();
 						property.Read(reader);
-						mChildrens.Add(property);
-						mChildrens.Add(Util.Read(reader));
+						mChildren.Add(property);
+						mChildren.Add(Util.Read(reader));
 					}
 					break;
 
@@ -110,7 +110,7 @@
 					for (; ; )
 					{
 						var property = Util.Read(reader);
-						mChildrens.Add(property);
+						mChildren.Add(property);
 						if (property is GvasNoneProperty) break;
 					}
 					break;
@@ -136,9 +136,9 @@
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			foreach (var children in mChildrens)
+			foreach (var child in mChildren)
 			{
-				children.Write(writer);
+				child.Write(writer);
 			}
 		}
 	}

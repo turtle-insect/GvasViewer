@@ -140,7 +140,7 @@ namespace GvasViewer.ViewModel
 			var property = vm.Property as GvasArrayProperty;
 			if (property == null) return;
 
-			var count = property.Childrens.Count;
+			var count = property.Children.Count;
 			GvasProperty? children = null;
 			if (count == 0)
 			{
@@ -158,7 +158,7 @@ namespace GvasViewer.ViewModel
 			}
 			else
 			{
-				children = property.Childrens[0].Clone();
+				children = property.Children[0].Clone();
 			}
 
 			if (children == null) return;
@@ -175,10 +175,10 @@ namespace GvasViewer.ViewModel
 			var property = vm.Property as GvasMapProperty;
 			if (property == null) return;
 
-			var count = property.Childrens.Count;
+			var count = property.Children.Count;
 			if (count == 0) return;
 
-			vm.AppendChildren(property.Childrens[0].Clone());
+			vm.AppendChildren(property.Children[0].Clone());
 		}
 
 		private void LoadProperty()
@@ -208,7 +208,7 @@ namespace GvasViewer.ViewModel
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
 
-			foreach(var children  in property.Childrens)
+			foreach(var children  in property.Children)
 			{
 				LoadPropertyChildren(children);
 			}

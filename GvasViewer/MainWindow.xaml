@@ -155,7 +155,7 @@
 				</ResourceDictionary>
 			</TreeView.Resources>
 			<TreeView.ItemTemplate>
-				<HierarchicalDataTemplate ItemsSource="{Binding Childrens}">
+				<HierarchicalDataTemplate ItemsSource="{Binding Children}">
 					<ContentPresenter Content="{Binding}"
 									  ContentTemplateSelector="{StaticResource GvasDataTemplateSelector}"/>
 				</HierarchicalDataTemplate>

@@ -5,7 +5,7 @@ namespace GvasViewer.ViewModel
 {
 	internal class GvasPropertyViewModel
 	{
-		public ObservableCollection<GvasPropertyViewModel> Childrens { get; init; } = new();
+		public ObservableCollection<GvasPropertyViewModel> Children { get; init; } = new();
 		public GvasProperty Property { get; init; }
 		public String Name
 		{
@@ -22,16 +22,16 @@ namespace GvasViewer.ViewModel
 		public GvasPropertyViewModel(GvasProperty property)
 		{
 			Property = property;
-			foreach (var children in property.Childrens)
+			foreach (var child in property.Children)
 			{
-				Childrens.Add(new GvasPropertyViewModel(children));
+				Children.Add(new GvasPropertyViewModel(child));
 			}
 		}
 
-		public void AppendChildren(GvasProperty children)
+		public void AppendChildren(GvasProperty child)
 		{
-			Property.AppendChildren(children);
-			Childrens.Add(new GvasPropertyViewModel(children));
+			Property.AppendChildren(child);
+			Children.Add(new GvasPropertyViewModel(child));
 		}
 	}
 }
