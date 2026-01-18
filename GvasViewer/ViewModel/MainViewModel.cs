@@ -136,14 +136,14 @@ namespace GvasViewer.ViewModel
 			if (property == null) return;
 
 			var count = property.Children.Count;
-			GvasProperty? children = null;
+			GvasProperty? child = null;
 			if (count == 0)
 			{
 				switch(property.PropertyType)
 				{
 					case "NameProperty":
-						children = new GvasNameProperty();
-						children.Value = "dummy";
+						child = new GvasNameProperty();
+						child.Value = "dummy";
 						break;
 
 					default:
@@ -153,13 +153,13 @@ namespace GvasViewer.ViewModel
 			}
 			else
 			{
-				children = property.Children[0].Clone();
+				child = property.Children[0].Clone();
 			}
 
-			if (children == null) return;
+			if (child == null) return;
 
-			children.Name = $"[{count}]";
-			vm.AppendChildren(children);
+			child.Name = $"[{count}]";
+			vm.AppendChildren(child);
 		}
 
 		private void CreateMapProperty(Object? parameter)
@@ -203,9 +203,9 @@ namespace GvasViewer.ViewModel
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
 
-			foreach(var children  in property.Children)
+			foreach(var child in property.Children)
 			{
-				LoadPropertyChildren(children);
+				LoadPropertyChildren(child);
 			}
 		}
 	}
