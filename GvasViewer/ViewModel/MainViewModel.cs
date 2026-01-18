@@ -1,7 +1,5 @@
 ﻿using Gvas.Property;
 using Gvas.Property.Standard;
-using GvasViewer.FileFormat;
-using GvasViewer.FileFormat.Platform;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
