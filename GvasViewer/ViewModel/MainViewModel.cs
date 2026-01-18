@@ -10,16 +10,16 @@ namespace GvasViewer.ViewModel
 {
 	class MainViewModel
     {
-		public ICommand CommandFileOpen { get; init; }
-		public ICommand CommandFileSave { get; init; }
-		public ICommand CommandFileSaveAs { get; init; }
-		public ICommand CommandFileExport { get; init; }
-		public ICommand CommandFileImport { get; init; }
-		public ICommand CommandSearchProperty { get; init; }
-		public ICommand CommandExportByteProperty { get; init; }
-		public ICommand CommandImportByteProperty { get; init; }
-		public ICommand CommandCreateArrayProperty { get; init; }
-		public ICommand CommandCreateMapProperty { get; init; }
+		public ICommand OpenFileCommand { get; init; }
+		public ICommand SaveFileCommand { get; init; }
+		public ICommand SaveAsFileCommand { get; init; }
+		public ICommand ExportFileCommand { get; init; }
+		public ICommand ImportFileCommand { get; init; }
+		public ICommand SearchPropertyCommand { get; init; }
+		public ICommand ExportBytePropertyCommand { get; init; }
+		public ICommand ImportBytePropertyCommand { get; init; }
+		public ICommand CreateArrayPropertyCommand { get; init; }
+		public ICommand CreateMapPropertyCommand { get; init; }
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
@@ -29,16 +29,16 @@ namespace GvasViewer.ViewModel
 
 		public MainViewModel()
 		{
-			CommandFileOpen = new ActionCommand(OpenFile);
-			CommandFileSave = new ActionCommand(SaveFile);
-			CommandFileSaveAs = new ActionCommand(SaveAsFile);
-			CommandFileExport = new ActionCommand(ExportFile);
-			CommandFileImport = new ActionCommand(ImportFile);
-			CommandSearchProperty = new ActionCommand(SearchProperty);
-			CommandExportByteProperty = new ActionCommand(ExportByteProperty);
-			CommandImportByteProperty = new ActionCommand(ImportByteProperty);
-			CommandCreateArrayProperty = new ActionCommand(CreateArrayProperty);
-			CommandCreateMapProperty = new ActionCommand(CreateMapProperty);
+			OpenFileCommand = new ActionCommand(OpenFile);
+			SaveFileCommand = new ActionCommand(SaveFile);
+			SaveAsFileCommand = new ActionCommand(SaveAsFile);
+			ExportFileCommand = new ActionCommand(ExportFile);
+			ImportFileCommand = new ActionCommand(ImportFile);
+			SearchPropertyCommand = new ActionCommand(SearchProperty);
+			ExportBytePropertyCommand = new ActionCommand(ExportByteProperty);
+			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
+			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
+			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
 
 			CommandManager.InvalidateRequerySuggested();
 		}

@@ -13,25 +13,26 @@
 		<vm:MainViewModel/>
 	</Window.DataContext>
 	<Window.InputBindings>
-		<KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding CommandFileOpen}"/>
-		<KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding CommandFileSave}"/>
-		<KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="{Binding CommandFileSaveAs}"/>
-		<KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding CommandFileExport}"/>
+		<KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding OpenFileCommand}"/>
+		<KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveFileCommand}"/>
+		<KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="{Binding SaveAsFileCommand}"/>
+		<KeyBinding Key="E" Modifiers="Ctrl" Command="{Binding ExportFileCommand}"/>
+		<KeyBinding Key="I" Modifiers="Ctrl" Command="{Binding ImportFileCommand}"/>
 	</Window.InputBindings>
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
-				<MenuItem Header="Open..." InputGestureText="Ctrl+O" Command="{Binding CommandFileOpen}"/>
-				<MenuItem Header="Save" InputGestureText="Ctrl+S" Command="{Binding CommandFileSave}"/>
-				<MenuItem Header="SaveAs..." InputGestureText="Ctrl+Shift+S" Command="{Binding CommandFileSaveAs}"/>
+				<MenuItem Header="Open..." InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"/>
+				<MenuItem Header="Save" InputGestureText="Ctrl+S" Command="{Binding SaveFileCommand}"/>
+				<MenuItem Header="SaveAs..." InputGestureText="Ctrl+Shift+S" Command="{Binding SaveAsFileCommand}"/>
 				<Separator/>
-				<MenuItem Header="Export..." InputGestureText="Ctrl+E" Command="{Binding CommandFileExport}"/>
-				<MenuItem Header="Import..." InputGestureText="Ctrl+I" Command="{Binding CommandFileImport}"/>
+				<MenuItem Header="Export..." InputGestureText="Ctrl+E" Command="{Binding ExportFileCommand}"/>
+				<MenuItem Header="Import..." InputGestureText="Ctrl+I" Command="{Binding ImportFileCommand}"/>
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
 			<Label DockPanel.Dock="Left" Content="Keyword"/>
-			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding CommandSearchProperty}"/>
+			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding SearchPropertyCommand}"/>
 			<TextBox Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}"
 					 VerticalContentAlignment="Center"/>
 		</DockPanel>
@@ -68,10 +69,10 @@
 								RecognizesAccessKey="False"/>
 							</Label>
 							<Button Content="Export"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandExportByteProperty}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ExportBytePropertyCommand}"
 									CommandParameter="{Binding}"/>
 							<Button Content="Import"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandImportByteProperty}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ImportBytePropertyCommand}"
 									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
@@ -89,7 +90,7 @@
 							<Border Width="10"/>
 							<Label Content="Element"/>
 							<Button Content="Create"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandCreateArrayProperty}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CreateArrayPropertyCommand}"
 									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
@@ -107,7 +108,7 @@
 							<Border Width="10"/>
 							<Label Content="Element"/>
 							<Button Content="Create"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CommandCreateMapProperty}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CreateMapPropertyCommand}"
 									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
