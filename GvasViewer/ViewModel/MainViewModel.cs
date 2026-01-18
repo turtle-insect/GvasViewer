@@ -25,7 +25,7 @@ namespace GvasViewer.ViewModel
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
-		private SaveData? mSaveData;
+		private readonly SaveData mSaveData = new();
 
 		public String Search { get; set; } = String.Empty;
 
@@ -45,8 +45,7 @@ namespace GvasViewer.ViewModel
 
 		public void LoadFile(String filename)
 		{
-			mSaveData = new SaveData(filename);
-			mSaveData.Load();
+			mSaveData.Load(filename);
 			LoadProperty();
 		}
 
@@ -60,14 +59,12 @@ namespace GvasViewer.ViewModel
 
 		private void FileSave(Object? parameter)
 		{
-			if (mSaveData == null) return;
-
 			mSaveData.Save();
 		}
 
 		private void FileSaveAs(Object? parameter)
 		{
-			if (mSaveData == null) return;
+			if (!mSaveData.IsAction()) return;
 
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -77,7 +74,7 @@ namespace GvasViewer.ViewModel
 
 		private void FileExport(Object? parameter)
 		{
-			if (mSaveData == null) return;
+			if (!mSaveData.IsAction()) return;
 
 			var dlg = new SaveFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -87,7 +84,7 @@ namespace GvasViewer.ViewModel
 
 		private void FileImport(Object? parameter)
 		{
-			if (mSaveData == null) return;
+			if (!mSaveData.IsAction()) return;
 
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;

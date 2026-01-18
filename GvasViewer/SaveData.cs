@@ -7,7 +7,7 @@ namespace GvasViewer
 {
 	internal class SaveData
 	{
-		private String mFileName;
+		private String mFileName = String.Empty;
 		private Gvas.Gvas? mGvas;
 		private IFileFormat? mFileFormat;
 
@@ -16,14 +16,9 @@ namespace GvasViewer
 			get => mGvas?.Properties;
 		}
 
-		public SaveData(String filename)
+		public void Load(String filename)
 		{
-			mFileName = filename;
-		}
-
-		public void Load()
-		{
-			if (!File.Exists(mFileName)) return;
+			if (!File.Exists(filename)) return;
 
 			IFileFormat[] fileFormats =
 			[
@@ -39,12 +34,13 @@ namespace GvasViewer
 			{
 				try
 				{
-					var buffer = fileFormat.Load(mFileName);
+					var buffer = fileFormat.Load(filename);
 					if (buffer.Length < 4) continue;
 					if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") continue;
 
-					mFileFormat = fileFormat;
 					mGvas = CreateGvas(buffer);
+					mFileName = filename;
+					mFileFormat = fileFormat;
 					return;
 				}
 				catch { }
