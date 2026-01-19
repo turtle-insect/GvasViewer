@@ -39,8 +39,6 @@ namespace GvasViewer.ViewModel
 			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
 			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
 			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
-
-			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public void LoadFile(String filename)
