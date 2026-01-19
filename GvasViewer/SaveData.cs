@@ -41,6 +41,7 @@ namespace GvasViewer
 					mGvas = CreateGvas(buffer);
 					mFileName = filename;
 					mFileFormat = fileFormat;
+					Backup();
 					return;
 				}
 				catch { }
@@ -115,6 +116,18 @@ namespace GvasViewer
 			writer.Flush();
 
 			return ms.ToArray();
+		}
+
+		private void Backup()
+		{
+			String path = Directory.GetCurrentDirectory();
+			path = Path.Combine(path, "backup");
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+			path = Path.Combine(path, $"{DateTime.Now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(mFileName)}");
+			File.Copy(mFileName, path, true);
 		}
 	}
 }
