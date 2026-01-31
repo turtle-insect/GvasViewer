@@ -17,18 +17,29 @@ GvasViewer
 * Using the Tree View
 
 ## ArrayProperty's Read
-If it's a NameProperty, you can read from a text file and insert one line at a time.  
 Character encoding is UTF-8.  
-Treat tabs as delimiters.  
-If there are two or more elements when splitting by delimiters, skip insertion.  
 If the first character is a #, skip insertion.  
 Skip insertion for empty lines.  
 ```
 # skip sample
-abc def
 
 # insert sample
 abc
+```
+
+## MapProperty's Read
+Character encoding is UTF-8.  
+If the first character is a #, skip insertion.  
+Skip insertion for empty lines.  
+Treat tabs as delimiters.  
+Skip insertion when the split by the delimiter does not result in exactly two elements.  
+```
+# skip sample
+abc
+abc def ghi
+
+# insert sample
+abc def
 ```
 
 # Developer
