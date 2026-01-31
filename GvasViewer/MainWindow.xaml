@@ -92,6 +92,9 @@
 							<Button Content="Create"
 									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.CreateArrayPropertyCommand}"
 									CommandParameter="{Binding}"/>
+							<Button Content="Read"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ReadArrayPropertyCommand}"
+									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
 

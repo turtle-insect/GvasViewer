@@ -19,6 +19,7 @@ namespace GvasViewer.ViewModel
 		public ICommand ExportBytePropertyCommand { get; init; }
 		public ICommand ImportBytePropertyCommand { get; init; }
 		public ICommand CreateArrayPropertyCommand { get; init; }
+		public ICommand ReadArrayPropertyCommand { get; init; }
 		public ICommand CreateMapPropertyCommand { get; init; }
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
@@ -38,6 +39,7 @@ namespace GvasViewer.ViewModel
 			ExportBytePropertyCommand = new ActionCommand(ExportByteProperty);
 			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
 			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
+			ReadArrayPropertyCommand = new ActionCommand(ReadArrayProperty);
 			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
 		}
 
@@ -160,6 +162,43 @@ namespace GvasViewer.ViewModel
 
 			child.Name = $"[{count}]";
 			vm.AppendChildren(child);
+		}
+
+		private void ReadArrayProperty(Object? parameter)
+		{
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			var property = vm.Property as GvasArrayProperty;
+			if (property == null) return;
+
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			var lines = File.ReadAllLines(dlg.FileName);
+			foreach (var line in lines)
+			{
+				var elements = line.Split('\t');
+				if (elements.Length != 1) continue;
+				
+				var element = elements[0];
+				if (element.Length == 0) continue;
+
+				if (element[0] == '#') continue;
+
+				switch(property.PropertyType)
+				{
+					case "NameProperty":
+						var child = new GvasNameProperty();
+						child.Name = $"[{property.Children.Count}]";
+						child.Value = element;
+						vm.AppendChildren(child);
+						break;
+
+					default:
+						continue;
+				}
+			}
 		}
 
 		private void CreateMapProperty(Object? parameter)
