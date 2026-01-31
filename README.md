@@ -16,6 +16,20 @@ GvasViewer
 * File -> Open
 * Using the Tree View
 
+## ArrayProperty's Read
+If it's a NameProperty, you can read from a text file and insert one line at a time.  
+Treat tabs as delimiters.  
+If there are two or more elements when splitting by delimiters, skip insertion.  
+If the first character is a #, skip insertion.  
+Skip insertion for empty lines.  
+```
+# skip sample
+abc def
+
+# insert sample
+abc
+```
+
 # Developer
 unique File's Format
 [IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
