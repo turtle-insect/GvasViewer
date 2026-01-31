@@ -18,6 +18,7 @@ GvasViewer
 
 ## ArrayProperty's Read
 If it's a NameProperty, you can read from a text file and insert one line at a time.  
+Character encoding is UTF-8.  
 Treat tabs as delimiters.  
 If there are two or more elements when splitting by delimiters, skip insertion.  
 If the first character is a #, skip insertion.  
