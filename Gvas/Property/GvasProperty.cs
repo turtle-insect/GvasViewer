@@ -3,7 +3,7 @@
 	public abstract class GvasProperty
 	{
 		public String Name { get; set; } = String.Empty;
-		protected List<GvasProperty> mChildren { get; init; } = new();
+		private List<GvasProperty> mChildren { get; init; } = new();
 		public IReadOnlyList<GvasProperty> Children
 		{
 			get => mChildren;
