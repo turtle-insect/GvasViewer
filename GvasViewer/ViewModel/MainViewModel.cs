@@ -19,9 +19,9 @@ namespace GvasViewer.ViewModel
 		public ICommand ExportBytePropertyCommand { get; init; }
 		public ICommand ImportBytePropertyCommand { get; init; }
 		public ICommand CreateArrayPropertyCommand { get; init; }
-		public ICommand ReadArrayPropertyCommand { get; init; }
+		public ICommand ImportArrayPropertyCommand { get; init; }
 		public ICommand CreateMapPropertyCommand { get; init; }
-		public ICommand ReadMapPropertyCommand { get; init; }
+		public ICommand ImportMapPropertyCommand { get; init; }
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
@@ -40,9 +40,9 @@ namespace GvasViewer.ViewModel
 			ExportBytePropertyCommand = new ActionCommand(ExportByteProperty);
 			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
 			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
-			ReadArrayPropertyCommand = new ActionCommand(ReadArrayProperty);
+			ImportArrayPropertyCommand = new ActionCommand(ImportArrayProperty);
 			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
-			ReadMapPropertyCommand = new ActionCommand(ReadMapProperty);
+			ImportMapPropertyCommand = new ActionCommand(ImportMapProperty);
 		}
 
 		public void LoadFile(String filename)
@@ -166,7 +166,7 @@ namespace GvasViewer.ViewModel
 			vm.AppendChildren(child);
 		}
 
-		private void ReadArrayProperty(Object? parameter)
+		private void ImportArrayProperty(Object? parameter)
 		{
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
@@ -206,7 +206,7 @@ namespace GvasViewer.ViewModel
 			vm.AppendChildren(property.Children[0].Clone());
 		}
 
-		private void ReadMapProperty(Object? parameter)
+		private void ImportMapProperty(Object? parameter)
 		{
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
