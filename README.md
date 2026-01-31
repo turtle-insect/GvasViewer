@@ -38,10 +38,10 @@ Skip insertion when the split by the delimiter does not result in exactly two el
 ```
 # skip sample
 abc
-abc def ghi
+abc	def	ghi
 
 # insert sample
-abc def
+abc	def
 ```
 
 # Developer
