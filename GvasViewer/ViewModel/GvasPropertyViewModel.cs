@@ -33,5 +33,11 @@ namespace GvasViewer.ViewModel
 			Property.AppendChildren(child);
 			Children.Add(new GvasPropertyViewModel(child));
 		}
+
+		public void ClearChildren()
+		{
+			Property.ClearChildren();
+			Children.Clear();
+		}
 	}
 }

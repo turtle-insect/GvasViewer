@@ -29,5 +29,10 @@
 		{
 			mChildren.Add(property);
 		}
+
+		public void ClearChildren()
+		{
+			mChildren.Clear();
+		}
 	}
 }

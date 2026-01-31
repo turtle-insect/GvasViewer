@@ -180,12 +180,15 @@ namespace GvasViewer.ViewModel
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
+			var clone = property.Children[0].Clone();
+			vm.ClearChildren();
+
 			foreach (var line in File.ReadLines(dlg.FileName))
 			{
 				if (String.IsNullOrEmpty(line)) continue;
 				if (line.StartsWith('#')) continue;
 
-				var child = property.Children[0].Clone();
+				var child = clone.Clone();
 				child.Name = $"[{property.Children.Count}]";
 				child.Value = line;
 				vm.AppendChildren(child);
@@ -220,6 +223,9 @@ namespace GvasViewer.ViewModel
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
+			var clone = property.Children[0].Clone();
+			vm.ClearChildren();
+
 			foreach (var line in File.ReadLines(dlg.FileName))
 			{
 				if (String.IsNullOrEmpty(line)) continue;
@@ -232,7 +238,7 @@ namespace GvasViewer.ViewModel
 				var value = elements[1];
 				if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(value)) continue;
 
-				var child = property.Children[0].Clone();
+				var child = clone.Clone();
 				child.Name = key;
 				child.Value = value;
 				vm.AppendChildren(child);
