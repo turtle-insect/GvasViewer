@@ -15,7 +15,7 @@
 			Name = property.Name;
 			foreach (var child in property.mChildren)
 			{
-				mChildren.Add(child.Clone());
+				AppendChildren(child.Clone());
 			}
 		}
 
