@@ -17,6 +17,7 @@ GvasViewer
 * Using the Tree View
 
 ## ArrayProperty's Read
+You must have at least one property.  
 Character encoding is UTF-8.  
 If the first character is a #, skip insertion.  
 Skip insertion for empty lines.  
@@ -28,6 +29,7 @@ abc
 ```
 
 ## MapProperty's Read
+You must have at least one property.  
 Character encoding is UTF-8.  
 If the first character is a #, skip insertion.  
 Skip insertion for empty lines.  
