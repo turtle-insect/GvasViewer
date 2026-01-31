@@ -182,9 +182,8 @@ namespace GvasViewer.ViewModel
 				if (elements.Length != 1) continue;
 
 				var element = elements[0];
-				if (element.Length == 0) continue;
-
-				if (element[0] == '#') continue;
+				if (String.IsNullOrEmpty(element)) continue;
+				if (element.StartsWith('#')) continue;
 
 				switch(property.PropertyType)
 				{
