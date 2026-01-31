@@ -21,6 +21,7 @@ namespace GvasViewer.ViewModel
 		public ICommand CreateArrayPropertyCommand { get; init; }
 		public ICommand ReadArrayPropertyCommand { get; init; }
 		public ICommand CreateMapPropertyCommand { get; init; }
+		public ICommand ReadMapPropertyCommand { get; init; }
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
@@ -41,6 +42,7 @@ namespace GvasViewer.ViewModel
 			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
 			ReadArrayPropertyCommand = new ActionCommand(ReadArrayProperty);
 			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
+			ReadMapPropertyCommand = new ActionCommand(ReadMapProperty);
 		}
 
 		public void LoadFile(String filename)
@@ -172,31 +174,21 @@ namespace GvasViewer.ViewModel
 			var property = vm.Property as GvasArrayProperty;
 			if (property == null) return;
 
+			var count = property.Children.Count;
+			if (count == 0) return;
+
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
 
-			var lines = File.ReadAllLines(dlg.FileName);
-			foreach (var line in lines)
+			foreach (var line in File.ReadLines(dlg.FileName))
 			{
-				var elements = line.Split('\t');
-				if (elements.Length != 1) continue;
+				if (String.IsNullOrEmpty(line)) continue;
+				if (line.StartsWith('#')) continue;
 
-				var element = elements[0];
-				if (String.IsNullOrEmpty(element)) continue;
-				if (element.StartsWith('#')) continue;
-
-				switch(property.PropertyType)
-				{
-					case "NameProperty":
-						var child = new GvasNameProperty();
-						child.Name = $"[{property.Children.Count}]";
-						child.Value = element;
-						vm.AppendChildren(child);
-						break;
-
-					default:
-						continue;
-				}
+				var child = property.Children[0].Clone();
+				child.Name = $"[{property.Children.Count}]";
+				child.Value = line;
+				vm.AppendChildren(child);
 			}
 		}
 
@@ -212,6 +204,39 @@ namespace GvasViewer.ViewModel
 			if (count == 0) return;
 
 			vm.AppendChildren(property.Children[0].Clone());
+		}
+
+		private void ReadMapProperty(Object? parameter)
+		{
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			var property = vm.Property as GvasMapProperty;
+			if (property == null) return;
+
+			var count = property.Children.Count;
+			if (count == 0) return;
+
+			var dlg = new OpenFileDialog();
+			if (dlg.ShowDialog() == false) return;
+
+			foreach (var line in File.ReadLines(dlg.FileName))
+			{
+				if (String.IsNullOrEmpty(line)) continue;
+				if (line.StartsWith('#')) continue;
+
+				var elements = line.Split('\t');
+				if (elements.Length != 2) continue;
+
+				var key = elements[0];
+				var value = elements[1];
+				if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(value)) continue;
+
+				var child = property.Children[0].Clone();
+				child.Name = key;
+				child.Value = value;
+				vm.AppendChildren(child);
+			}
 		}
 
 		private void LoadProperty()
