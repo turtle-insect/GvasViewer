@@ -35,6 +35,7 @@ namespace GvasViewer.FileFormat.Platform
 				Platform.Switch,
 				new()
 				{
+					{ 0x0001, "SVKEY_jXRJ79k-mFGiycZiEg3XRCwhdL" },
 					// Demo
 					{ 0x0100, "SVKEY_SMu9925aiVxMsSncwbZFw_tY4K" },
 				}
