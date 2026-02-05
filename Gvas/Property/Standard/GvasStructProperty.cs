@@ -2,6 +2,9 @@
 {
 	public class GvasStructProperty : GvasProperty
 	{
+		public String Detail { get; set; } = String.Empty;
+		public Byte[] GUID { get; set; } = [];
+
 		public GvasStructProperty()
 			: base()
 		{ }
@@ -24,9 +27,6 @@
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
-
-		public String Detail { get; set; } = String.Empty;
-		public Byte[] GUID { get; set; } = [];
 
 		public override void Read(BinaryReader reader)
 		{
