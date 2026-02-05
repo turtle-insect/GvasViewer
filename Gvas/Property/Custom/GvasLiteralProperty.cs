@@ -3,11 +3,6 @@
 	internal class GvasLiteralProperty : GvasProperty
 	{
 		private Byte[] mValue = [];
-		public override object Value
-		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
-		}
 
 		public GvasLiteralProperty()
 			: base()
@@ -22,6 +17,12 @@
 		public override GvasProperty Clone()
 		{
 			return new GvasLiteralProperty(this);
+		}
+
+		public override object Value
+		{
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
 		}
 
 		public override void Read(BinaryReader reader)
