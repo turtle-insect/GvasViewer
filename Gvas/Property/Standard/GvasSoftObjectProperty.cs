@@ -2,6 +2,8 @@
 {
 	internal class GvasSoftObjectProperty : GvasProperty
 	{
+		private Byte[] mValue = [];
+
 		public GvasSoftObjectProperty()
 			: base()
 		{ }
@@ -17,7 +19,6 @@
 			return new GvasSoftObjectProperty(this);
 		}
 
-		private Byte[] mValue = [];
 		public override object Value
 		{
 			get => throw new NotImplementedException();
