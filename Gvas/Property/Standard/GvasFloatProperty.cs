@@ -2,6 +2,8 @@
 {
 	public class GvasFloatProperty : GvasProperty
 	{
+		private float mValue;
+
 		public GvasFloatProperty()
 			: base()
 		{ }
@@ -17,7 +19,6 @@
 			return new GvasFloatProperty(this);
 		}
 
-		private float mValue;
 		public override object Value
 		{
 			get => mValue;
