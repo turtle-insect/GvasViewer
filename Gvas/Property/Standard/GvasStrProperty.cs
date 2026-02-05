@@ -2,14 +2,6 @@
 {
 	public class GvasStrProperty : GvasProperty
 	{
-		private Byte[] mBuffer = [];
-		private String mValue = String.Empty;
-		public override object Value
-		{
-			get => mValue;
-			set => mValue = value.ToString() ?? "";
-		}
-
 		public GvasStrProperty()
 			: base()
 		{ }
@@ -25,6 +17,14 @@
 		{
 			return new GvasStrProperty(this);
 		}
+
+		private String mValue = String.Empty;
+		public override object Value
+		{
+			get => mValue;
+			set => mValue = value.ToString() ?? "";
+		}
+		private Byte[] mBuffer = [];
 
 		public override void Read(BinaryReader reader)
 		{
