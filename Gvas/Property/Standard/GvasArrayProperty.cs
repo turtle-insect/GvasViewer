@@ -2,6 +2,10 @@
 {
 	public class GvasArrayProperty : GvasProperty
 	{
+		public String PropertyType { get; private set; } = String.Empty;
+		private GvasStructProperty? mBaseProperty;
+		private Byte[] mValue = [];
+
 		public GvasArrayProperty()
 			: base()
 		{ }
@@ -19,15 +23,11 @@
 			return new GvasArrayProperty(this);
 		}
 
-		private Byte[] mValue = [];
 		public override object Value
 		{
 			get => throw new NotImplementedException();
 			set => throw new NotImplementedException();
 		}
-
-		public String PropertyType { get; private set; } = String.Empty;
-		private GvasStructProperty? mBaseProperty;
 
 		public override void Read(BinaryReader reader)
 		{
