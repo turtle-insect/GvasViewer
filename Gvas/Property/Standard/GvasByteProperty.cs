@@ -2,20 +2,6 @@
 {
 	public class GvasByteProperty : GvasProperty
 	{
-		private String mPropertyName = String.Empty;
-		private Byte[] mValue = [];
-		public override object Value
-		{
-			get => mValue;
-			set
-			{
-				Byte[]? tmp = value as Byte[];
-				if (tmp == null) return;
-
-				mValue = tmp;
-			}
-		}
-
 		public GvasByteProperty()
 			: base()
 		{ }
@@ -31,6 +17,22 @@
 		{
 			return new GvasByteProperty(this);
 		}
+
+		private Byte[] mValue = [];
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				Byte[]? tmp = value as Byte[];
+				if (tmp == null) return;
+
+				mValue = tmp;
+			}
+		}
+
+		private String mPropertyName = String.Empty;
+
 
 		public override void Read(BinaryReader reader)
 		{
