@@ -2,6 +2,8 @@
 {
 	public class GvasBoolProperty : GvasProperty
 	{
+		private Boolean mValue;
+
 		public GvasBoolProperty()
 			: base()
 		{ }
@@ -16,8 +18,6 @@
 		{
 			return new GvasBoolProperty(this);
 		}
-
-		private Boolean mValue;
 
 		public override object Value
 		{
