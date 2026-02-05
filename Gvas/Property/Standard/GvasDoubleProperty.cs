@@ -3,16 +3,6 @@
 	public class GvasDoubleProperty : GvasProperty
 	{
 		private double mValue;
-		public override object Value
-		{
-			get => mValue;
-			set
-			{
-				double tmp;
-				if (double.TryParse(value.ToString(), out tmp) == false) return;
-				mValue = tmp;
-			}
-		}
 
 		public GvasDoubleProperty()
 			: base()
@@ -27,6 +17,17 @@
 		public override GvasProperty Clone()
 		{
 			return new GvasDoubleProperty(this);
+		}
+
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				double tmp;
+				if (double.TryParse(value.ToString(), out tmp) == false) return;
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
