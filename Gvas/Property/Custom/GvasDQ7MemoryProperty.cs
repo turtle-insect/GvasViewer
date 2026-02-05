@@ -2,12 +2,6 @@
 {
 	internal class GvasDQ7MemoryProperty : GvasProperty
 	{
-		public override object Value
-		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
-		}
-
 		public GvasDQ7MemoryProperty()
 			: base()
 		{ }
@@ -21,6 +15,12 @@
 		public override GvasProperty Clone()
 		{
 			throw new NotImplementedException();
+		}
+
+		public override object Value
+		{
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
 		}
 
 		public override void Read(BinaryReader reader)
