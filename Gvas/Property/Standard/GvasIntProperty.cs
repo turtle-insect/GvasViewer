@@ -2,18 +2,6 @@
 {
 	public class GvasIntProperty : GvasProperty
 	{
-		private Int32 mValue;
-		public override object Value
-		{
-			get => mValue;
-			set
-			{
-				Int32 tmp;
-				if (Int32.TryParse(value.ToString(), out tmp) == false) return;
-				mValue = tmp;
-			}
-		}
-
 		public GvasIntProperty()
 			: base()
 		{ }
@@ -27,6 +15,18 @@
 		public override GvasProperty Clone()
 		{
 			return new GvasIntProperty(this);
+		}
+
+		private Int32 mValue;
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				Int32 tmp;
+				if (Int32.TryParse(value.ToString(), out tmp) == false) return;
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
