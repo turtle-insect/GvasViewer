@@ -2,6 +2,8 @@
 {
 	public class GvasInt64Property : GvasProperty
 	{
+		private Int64 mValue;
+
 		public GvasInt64Property()
 			: base()
 		{ }
@@ -17,7 +19,6 @@
 			return new GvasInt64Property(this);
 		}
 
-		private Int64 mValue;
 		public override object Value
 		{
 			get => mValue;
