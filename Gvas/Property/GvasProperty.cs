@@ -2,6 +2,10 @@
 {
 	public abstract class GvasProperty
 	{
+		public String Name { get; set; } = String.Empty;
+		public GvasProperty? Parent { get; private set; }
+		private List<GvasProperty> mChildren { get; init; } = new();
+
 		protected GvasProperty() { }
 		protected GvasProperty(GvasProperty property)
 		{
@@ -13,8 +17,6 @@
 		}
 		public abstract GvasProperty Clone();
 
-		public GvasProperty? Parent { get; private set; }
-		private List<GvasProperty> mChildren { get; init; } = new();
 		public IReadOnlyList<GvasProperty> Children
 		{
 			get => mChildren;
@@ -30,7 +32,6 @@
 			mChildren.Clear();
 		}
 
-		public String Name { get; set; } = String.Empty;
 		public abstract Object Value { get; set; }
 		public abstract void Read(BinaryReader reader);
 		public abstract void Write(BinaryWriter writer);
