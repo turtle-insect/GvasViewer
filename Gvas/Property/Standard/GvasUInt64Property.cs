@@ -3,16 +3,6 @@
 	public class GvasUInt64Property : GvasProperty
 	{
 		private UInt64 mValue;
-		public override object Value
-		{
-			get => mValue;
-			set
-			{
-				UInt64 tmp;
-				if (UInt64.TryParse(value.ToString(), out tmp) == false) return;
-				mValue = tmp;
-			}
-		}
 
 		public GvasUInt64Property()
 			: base()
@@ -27,6 +17,17 @@
 		public override GvasProperty Clone()
 		{
 			return new GvasUInt64Property(this);
+		}
+
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				UInt64 tmp;
+				if (UInt64.TryParse(value.ToString(), out tmp) == false) return;
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
