@@ -2,19 +2,6 @@
 {
 	public class GvasBoolProperty : GvasProperty
 	{
-		private Boolean mValue;
-
-		public override object Value
-		{
-			get => mValue;
-			set
-			{
-				Boolean tmp;
-				Boolean.TryParse(value.ToString(), out tmp);
-				mValue = tmp;
-			}
-		}
-
 		public GvasBoolProperty()
 			: base()
 		{ }
@@ -28,6 +15,19 @@
 		public override GvasProperty Clone()
 		{
 			return new GvasBoolProperty(this);
+		}
+
+		private Boolean mValue;
+
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				Boolean tmp;
+				Boolean.TryParse(value.ToString(), out tmp);
+				mValue = tmp;
+			}
 		}
 
 		public override void Read(BinaryReader reader)
