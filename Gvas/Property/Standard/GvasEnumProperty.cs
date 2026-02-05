@@ -2,6 +2,9 @@
 {
 	public class GvasEnumProperty : GvasProperty
 	{
+		private String mKey = String.Empty;
+		private String mValue = String.Empty;
+
 		public GvasEnumProperty()
 			: base()
 		{ }
@@ -18,15 +21,11 @@
 			return new GvasEnumProperty(this);
 		}
 
-		private String mValue = String.Empty;
-
 		public override object Value
 		{
 			get => mValue;
 			set => throw new NotImplementedException();
 		}
-
-		private String mKey = String.Empty;
 
 		public override void Read(BinaryReader reader)
 		{
