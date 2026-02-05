@@ -2,6 +2,8 @@
 {
 	public class GvasByteProperty : GvasProperty
 	{
+		private Byte[] mValue = [];
+
 		public GvasByteProperty()
 			: base()
 		{ }
@@ -18,7 +20,6 @@
 			return new GvasByteProperty(this);
 		}
 
-		private Byte[] mValue = [];
 		public override object Value
 		{
 			get => mValue;
