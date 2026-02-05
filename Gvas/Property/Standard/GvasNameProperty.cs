@@ -2,6 +2,9 @@
 {
 	public class GvasNameProperty : GvasProperty
 	{
+		private String mValue = String.Empty;
+		private Byte[] mBuffer = [];
+
 		public GvasNameProperty()
 			: base()
 		{ }
@@ -9,8 +12,8 @@
 		public GvasNameProperty(GvasNameProperty property)
 			: base(property)
 		{
-			mBuffer = property.mBuffer.ToArray();
 			mValue = property.mValue;
+			mBuffer = property.mBuffer.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -18,13 +21,11 @@
 			return new GvasNameProperty(this);
 		}
 
-		private String mValue = String.Empty;
 		public override object Value
 		{
 			get => mValue;
 			set => mValue = value.ToString() ?? "";
 		}
-		private Byte[] mBuffer = [];
 
 		public override void Read(BinaryReader reader)
 		{
