@@ -9,20 +9,6 @@
 		private int mPattern;
 		private Byte[] mBuffer = [];
 
-		public override object Value
-		{
-			get
-			{
-				if (mValue.Count < 2) return "";
-				return mValue[1];
-			}
-			set
-			{
-				if (mValue.Count < 2) return;
-				mValue[1] = value.ToString() ?? "";
-			}
-		}
-
 		public GvasTextProperty()
 			: base()
 		{ }
@@ -35,11 +21,28 @@
 			{
 				mValue.Add(value);
 			}
+			mFlag = property.mFlag;
+			mPattern = property.mPattern;
+			mBuffer = property.mBuffer.ToArray();
 		}
 
 		public override GvasProperty Clone()
 		{
 			return new GvasTextProperty(this);
+		}
+
+		public override object Value
+		{
+			get
+			{
+				if (mValue.Count < 2) return "";
+				return mValue[1];
+			}
+			set
+			{
+				if (mValue.Count < 2) return;
+				mValue[1] = value.ToString() ?? "";
+			}
 		}
 
 		public override void Read(BinaryReader reader)
