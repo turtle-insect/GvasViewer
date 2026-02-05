@@ -2,15 +2,6 @@
 {
 	public class GvasMapProperty : GvasProperty
 	{
-		public String KeyType { get; private set; } = String.Empty;
-		public String ValueType { get; private set; } = String.Empty;
-		private Byte[] mValue = [];
-		public override object Value
-		{
-			get => throw new NotImplementedException();
-			set => throw new NotImplementedException();
-		}
-
 		public GvasMapProperty()
 			: base()
 		{ }
@@ -27,6 +18,16 @@
 		{
 			return new GvasMapProperty(this);
 		}
+
+		private Byte[] mValue = [];
+		public override object Value
+		{
+			get => throw new NotImplementedException();
+			set => throw new NotImplementedException();
+		}
+
+		public String KeyType { get; private set; } = String.Empty;
+		public String ValueType { get; private set; } = String.Empty;
 
 		public override void Read(BinaryReader reader)
 		{
