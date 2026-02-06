@@ -15,6 +15,7 @@ namespace GvasViewer.ViewModel
 		public ICommand SaveAsFileCommand { get; init; }
 		public ICommand ExportFileCommand { get; init; }
 		public ICommand ImportFileCommand { get; init; }
+		public ICommand CopyPropertyPathCommand { get; init; }
 		public ICommand SearchPropertyCommand { get; init; }
 		public ICommand ExportBytePropertyCommand { get; init; }
 		public ICommand ImportBytePropertyCommand { get; init; }
@@ -36,6 +37,7 @@ namespace GvasViewer.ViewModel
 			SaveAsFileCommand = new ActionCommand(SaveAsFile);
 			ExportFileCommand = new ActionCommand(ExportFile);
 			ImportFileCommand = new ActionCommand(ImportFile);
+			CopyPropertyPathCommand = new ActionCommand(CopyPropertyPath);
 			SearchPropertyCommand = new ActionCommand(SearchProperty);
 			ExportBytePropertyCommand = new ActionCommand(ExportByteProperty);
 			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
@@ -93,6 +95,14 @@ namespace GvasViewer.ViewModel
 
 			mSaveData.Import(dlg.FileName);
 			LoadProperty();
+		}
+
+		private void CopyPropertyPath(Object? parameter)
+		{
+			var vm = parameter as GvasPropertyViewModel;
+			if (vm == null) return;
+
+			System.Windows.Clipboard.SetText(vm.Property.Path());
 		}
 
 		private void SearchProperty(Object? parameter)

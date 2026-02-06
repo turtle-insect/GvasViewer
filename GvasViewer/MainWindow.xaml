@@ -37,6 +37,15 @@
 					 VerticalContentAlignment="Center"/>
 		</DockPanel>
 		<TreeView ItemsSource="{Binding GvasProperties}">
+			<TreeView.ContextMenu>
+				<ContextMenu>
+					<MenuItem
+						Header="Path"
+						Command="{Binding PlacementTarget.DataContext.CopyPropertyPathCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
+						CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
+				</ContextMenu>
+			</TreeView.ContextMenu>
+
 			<TreeView.Resources>
 				<ResourceDictionary>
 					<!-- Style -->
