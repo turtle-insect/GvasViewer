@@ -7,17 +7,6 @@ namespace GvasViewer.ViewModel
 	{
 		public ObservableCollection<GvasPropertyViewModel> Children { get; init; } = new();
 		public GvasProperty Property { get; init; }
-		public String Name
-		{
-			get => Property.Name;
-			set => Property.Name = value;
-		}
-
-		public Object Value
-		{
-			get => Property.Value;
-			set => Property.Value = value;
-		}
 
 		public GvasPropertyViewModel(GvasProperty property)
 		{
