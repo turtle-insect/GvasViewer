@@ -8,7 +8,7 @@ GvasViewer
 [Unreal Engine](https://www.unrealengine.com/) Gvas Savedata Format File Viewer
 
 # Advance
-* Windows 10(or 11)
+* Windows 11(or 10)
 * [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
 # Usage
