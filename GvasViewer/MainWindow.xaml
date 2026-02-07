@@ -40,7 +40,11 @@
 			<TreeView.ContextMenu>
 				<ContextMenu>
 					<MenuItem
-						Header="Path"
+						Header="Copy Name"
+						Command="{Binding PlacementTarget.DataContext.CopyPropertyNameCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
+						CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
+					<MenuItem
+						Header="Copy Path"
 						Command="{Binding PlacementTarget.DataContext.CopyPropertyPathCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"
 						CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}"/>
 				</ContextMenu>
