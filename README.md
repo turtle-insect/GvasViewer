@@ -1,7 +1,7 @@
 ![DL Count](https://img.shields.io/github/downloads/turtle-insect/GvasViewer/total.svg)
 
-![image](https://github.com/user-attachments/assets/bb3ec407-16cb-4e7b-a75c-b9aa9c36e8ab)  
-ex) Romancing Saga 2  
+![image](https://github.com/user-attachments/assets/683e4e6c-5d36-40f2-ad24-7d81ce00fdef)  
+ex) Dragon Quest VII Reimagined  
 
 # What is ?
 GvasViewer  
