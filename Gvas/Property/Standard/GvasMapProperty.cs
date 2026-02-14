@@ -49,6 +49,10 @@
 
 				switch(KeyType)
 				{
+					case "IntProperty":
+						name = reader.ReadInt32().ToString();
+						break;
+
 					case "ByteProperty":
 					case "NameProperty":
 						name = Util.ReadString(reader);
@@ -125,8 +129,18 @@
 				using var bw = new BinaryWriter(ms);
 				foreach (var child in Children)
 				{
-					Util.WriteString(bw, child.Name);
-					child.WriteValue(bw);
+					switch(KeyType)
+					{
+						case "IntProperty":
+							bw.Write(Int32.Parse(child.Name));
+							child.WriteValue(bw);
+							break;
+
+						default:
+							Util.WriteString(bw, child.Name);
+							child.WriteValue(bw);
+							break;
+					}
 				}
 				bw.Flush();
 
