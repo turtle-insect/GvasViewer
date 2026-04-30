@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Text;
 
 namespace Gvas.Property
 {
@@ -63,7 +60,7 @@ namespace Gvas.Property
 
 		public uint Size()
 		{
-			return (uint)_encoding.GetBytes(Value).Length + (uint)(_encoding == System.Text.Encoding.Unicode ? 2 : 1);
+			return (uint)_encoding.GetBytes(Value).Length + (uint)(_encoding == Encoding.Unicode ? 2 : 1);
 		}
 	}
 }
