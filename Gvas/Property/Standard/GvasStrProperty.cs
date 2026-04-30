@@ -1,8 +1,10 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasStrProperty : GvasProperty
 	{
-		private String mValue = String.Empty;
+		private GvasString mValue = new();
 		private Byte[] mBuffer = [];
 
 		public GvasStrProperty()
@@ -12,7 +14,7 @@
 		public GvasStrProperty(GvasStrProperty property)
 			: base(property)
 		{
-			mValue = property.mValue;
+			mValue = new(property.mValue);
 			mBuffer = property.mBuffer.ToArray();
 		}
 
@@ -23,8 +25,8 @@
 
 		public override object Value
 		{
-			get => mValue;
-			set => mValue = value.ToString() ?? "";
+			get => mValue.Value;
+			set => mValue.Value = value.ToString() ?? "";
 		}
 
 		public override void Read(BinaryReader reader)
@@ -36,7 +38,7 @@
 
 			try
 			{
-				mValue = Util.ReadString(reader);
+				mValue.Read(reader);
 			}
 			catch
 			{
@@ -46,13 +48,19 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "StrProperty");
+
+			if (mValue.Value == "ひで")
+			{
+				mValue.Value = mValue.Value;
+			}
+
 			if (mBuffer.Length == 0)
 			{
-				writer.Write((UInt64)mValue.Length + 5);
+				writer.Write((UInt64)mValue.Size() + 4);
 				writer.Write('\0');
-				Util.WriteString(writer, mValue);
+				mValue.Write(writer);
 			}
 			else
 			{

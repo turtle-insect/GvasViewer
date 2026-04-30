@@ -29,7 +29,7 @@ namespace Gvas.Property.Standard
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 		}
 
 		public override void WriteValue(BinaryWriter writer)

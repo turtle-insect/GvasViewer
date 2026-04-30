@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using Gvas.Property;
+using System.Text;
 
 namespace Gvas
 {
 	public class GvasEngine
 	{
 		public String Header { get; private set; } = String.Empty;
-		public String Name { get; private set; } = String.Empty;
+		public GvasString Name { get; private set; } = new();
 
 		private Byte[] mBuffer = [];
 		private readonly List<Guid> mGuid = new();
@@ -21,7 +22,7 @@ namespace Gvas
 			reader.BaseStream.Position += 14;
 			if (version == 3) reader.BaseStream.Position += 4;
 
-			Name = Util.ReadString(reader);
+			Name.Read(reader);
 
 			// ???
 			reader.BaseStream.Position += 4;

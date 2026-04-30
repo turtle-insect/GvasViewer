@@ -1,8 +1,10 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasStructProperty : GvasProperty
 	{
-		public String Detail { get; set; } = String.Empty;
+		public GvasString Detail { get; set; } = new();
 		public Byte[] GUID { get; set; } = [];
 
 		public GvasStructProperty()
@@ -12,7 +14,7 @@
 		public GvasStructProperty(GvasStructProperty property)
 			: base(property)
 		{
-			Detail = property.Detail;
+			Detail = new(property.Detail);
 			// not GUID = property.GUID.ToArray();
 			GUID = System.Guid.NewGuid().ToByteArray();
 		}
@@ -42,9 +44,9 @@
 			ReadChild(reader, Detail);
 		}
 
-		public void ReadChild(BinaryReader reader, String propertyName)
+		public void ReadChild(BinaryReader reader, GvasString propertyName)
 		{
-			switch (propertyName)
+			switch (propertyName.Value)
 			{
 				// Date & Time
 				case "Timespan":
@@ -120,7 +122,7 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "StructProperty");
 
 			using var ms = new MemoryStream();
@@ -129,7 +131,7 @@
 			bw.Flush();
 
 			writer.Write(ms.Length);
-			Util.WriteString(writer, Detail);
+			Detail.Write(writer);
 			writer.Write(GUID);
 			writer.Write('\0');
 			writer.Write(ms.ToArray());

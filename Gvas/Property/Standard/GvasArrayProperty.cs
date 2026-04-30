@@ -1,8 +1,10 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasArrayProperty : GvasProperty
 	{
-		public String PropertyType { get; private set; } = String.Empty;
+		public GvasString PropertyType { get; private set; } = new();
 		private GvasStructProperty? mBaseProperty;
 		private Byte[] mValue = [];
 
@@ -13,7 +15,7 @@
 		public GvasArrayProperty(GvasArrayProperty property)
 			: base(property)
 		{
-			PropertyType = property.PropertyType;
+			PropertyType = new(property.PropertyType);
 			mBaseProperty = property.mBaseProperty;
 			mValue = property.mValue.ToArray();
 		}
@@ -34,12 +36,12 @@
 			var size = reader.ReadUInt64();
 
 			// type
-			PropertyType = Util.ReadString(reader);
+			PropertyType.Read(reader);
 
 			// ???
 			reader.ReadByte();
 
-			switch (PropertyType)
+			switch (PropertyType.Value)
 			{
 				case "BoolProperty":
 					{
@@ -47,7 +49,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasBoolProperty();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadBoolean();
 							AppendChildren(property);
 						}
@@ -68,7 +70,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasIntProperty();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadInt32();
 							AppendChildren(property);
 						}
@@ -81,7 +83,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasUInt32Property();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadUInt32();
 							AppendChildren(property);
 						}
@@ -94,7 +96,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasInt64Property();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadInt64();
 							AppendChildren(property);
 						}
@@ -107,7 +109,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasUInt64Property();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadUInt64();
 							AppendChildren(property);
 						}
@@ -120,7 +122,7 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasFloatProperty();
-							property.Name = $"[{index}]";
+							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.Value = reader.ReadSingle();
 							AppendChildren(property);
 						}
@@ -137,8 +139,8 @@
 							for (uint index = 0; index < count; index++)
 							{
 								var property = new GvasNameProperty();
-								property.Name = $"[{index}]";
-								property.Value = Util.ReadString(reader);
+								property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
+								property.ReadValue(reader);
 								AppendChildren(property);
 							}
 						}
@@ -156,7 +158,7 @@
 						uint count = reader.ReadUInt32();
 
 						// name
-						mBaseProperty.Name = Util.ReadString(reader);
+						mBaseProperty.Name.Read(reader);
 
 						// type
 						// StructProperty
@@ -165,7 +167,7 @@
 						// size
 						reader.ReadUInt64();
 
-						mBaseProperty.Detail = Util.ReadString(reader);
+						mBaseProperty.Detail.Read(reader);
 						mBaseProperty.GUID = reader.ReadBytes(16);
 
 						// ???
@@ -190,10 +192,10 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "ArrayProperty");
 
-			switch(PropertyType)
+			switch(PropertyType.Value)
 			{
 				case "BoolProperty":
 					WritePropertyValue(writer, 1);
@@ -205,7 +207,7 @@
 						if(buffer == null) throw new NotImplementedException();
 
 						writer.Write((Int64)buffer.Length);
-						Util.WriteString(writer, PropertyType);
+						PropertyType.Write(writer);
 						writer.Write('\0');
 						writer.Write(buffer);
 					}
@@ -227,7 +229,7 @@
 						if(mValue.Length > 0)
 						{
 							writer.Write(mValue.LongLength);
-							Util.WriteString(writer, PropertyType);
+							PropertyType.Write(writer);
 							writer.Write('\0');
 							writer.Write(mValue);
 						}
@@ -242,7 +244,7 @@
 							bw.Flush();
 
 							writer.Write(ms.Length + 4);
-							Util.WriteString(writer, PropertyType);
+							PropertyType.Write(writer);
 							writer.Write('\0');
 							writer.Write(Children.Count);
 							writer.Write(ms.ToArray());
@@ -265,14 +267,14 @@
 
 						// size
 						// (Children.Count ~ ms.ToArray()).size
-						writer.Write((Int64)4 + (mBaseProperty.Name.Length + 5) + 19 + 8 + (mBaseProperty.Detail.Length + 5) + 17 + ms.Length);
-						Util.WriteString(writer, PropertyType);
+						writer.Write((Int64)4 + mBaseProperty.Name.Size() + 4 + 19 + 8 + mBaseProperty.Detail.Size() + 4 + 17 + ms.Length);
+						PropertyType.Write(writer);
 						writer.Write('\0');
 						writer.Write(Children.Count);
-						Util.WriteString(writer, mBaseProperty.Name);
+						mBaseProperty.Name.Write(writer);
 						Util.WriteString(writer, "StructProperty");
 						writer.Write(ms.Length);
-						Util.WriteString(writer, mBaseProperty.Detail);
+						mBaseProperty.Detail.Write(writer);
 						writer.Write(mBaseProperty.GUID);
 						writer.Write('\0');
 						writer.Write(ms.ToArray());
@@ -281,7 +283,7 @@
 
 				default:
 					writer.Write(mValue.LongLength);
-					Util.WriteString(writer, PropertyType);
+					PropertyType.Write(writer);
 					writer.Write('\0');
 					writer.Write(mValue);
 					break;
@@ -297,7 +299,7 @@
 		{
 			// Count + Children
 			writer.Write((Int64)Children.Count * size + 4);
-			Util.WriteString(writer, PropertyType);
+			PropertyType.Write(writer);
 			writer.Write('\0');
 			writer.Write(Children.Count);
 			foreach (var child in Children)

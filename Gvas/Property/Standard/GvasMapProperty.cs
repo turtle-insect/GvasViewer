@@ -1,10 +1,12 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasMapProperty : GvasProperty
 	{
 		private Byte[] mValue = [];
-		public String KeyType { get; private set; } = String.Empty;
-		public String ValueType { get; private set; } = String.Empty;
+		public GvasString KeyType { get; private set; } = new();
+		public GvasString ValueType { get; private set; } = new();
 
 
 		public GvasMapProperty()
@@ -14,8 +16,8 @@
 		public GvasMapProperty(GvasMapProperty property)
 			: base(property)
 		{
-			KeyType = property.KeyType;
-			ValueType = property.ValueType;
+			KeyType = new(property.KeyType);
+			ValueType = new(property.ValueType);
 			mValue = property.mValue.ToArray();
 		}
 
@@ -34,8 +36,8 @@
 		{
 			var size = reader.ReadUInt64();
 
-			KeyType = Util.ReadString(reader);
-			ValueType = Util.ReadString(reader);
+			KeyType.Read(reader);
+			ValueType.Read(reader);
 
 			// ???
 			reader.ReadByte();
@@ -45,17 +47,17 @@
 			var count = reader.ReadUInt32();
 			for (uint index = 0; index < count; index++)
 			{
-				var name = "";
+				GvasString name = new();
 
-				switch(KeyType)
+				switch(KeyType.Value)
 				{
 					case "IntProperty":
-						name = reader.ReadInt32().ToString();
+						name = new(reader.ReadInt32().ToString(), System.Text.Encoding.UTF8);
 						break;
 
 					case "ByteProperty":
 					case "NameProperty":
-						name = Util.ReadString(reader);
+						name.Read(reader);
 						break;
 
 					default:
@@ -64,7 +66,7 @@
 						return;
 				}
 
-				switch(ValueType)
+				switch(ValueType.Value)
 				{
 					case "BoolProperty":
 						{
@@ -88,7 +90,7 @@
 						{
 							var property = new GvasNameProperty();
 							property.Name = name;
-							property.Value = Util.ReadString(reader);
+							property.ReadValue(reader);
 							AppendChildren(property);
 						}
 						break;
@@ -112,14 +114,14 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "MapProperty");
 
 			if (mValue.Length > 0)
 			{
 				writer.Write(mValue.LongLength);
-				Util.WriteString(writer, KeyType);
-				Util.WriteString(writer, ValueType);
+				KeyType.Write(writer);
+				ValueType.Write(writer);
 				writer.Write('\0');
 				writer.Write(mValue);
 			}
@@ -129,15 +131,15 @@
 				using var bw = new BinaryWriter(ms);
 				foreach (var child in Children)
 				{
-					switch(KeyType)
+					switch(KeyType.Value)
 					{
 						case "IntProperty":
-							bw.Write(Int32.Parse(child.Name));
+							bw.Write(Int32.Parse(child.Name.Value));
 							child.WriteValue(bw);
 							break;
 
 						default:
-							Util.WriteString(bw, child.Name);
+							child.Name.Write(bw);
 							child.WriteValue(bw);
 							break;
 					}
@@ -145,8 +147,8 @@
 				bw.Flush();
 
 				writer.Write(ms.Length + 8);
-				Util.WriteString(writer, KeyType);
-				Util.WriteString(writer, ValueType);
+				KeyType.Write(writer);
+				ValueType.Write(writer);
 				writer.Write('\0');
 				writer.Write(0);
 				writer.Write(Children.Count);

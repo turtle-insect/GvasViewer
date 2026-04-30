@@ -72,7 +72,7 @@
 					<DataTemplate x:Key="GvasTitleTemplateResource">
 						<Label>
 							<ContentPresenter
-								Content="{Binding Property.Name}"
+								Content="{Binding Property.Name.Value}"
 								RecognizesAccessKey="False"/>
 						</Label>
 					</DataTemplate>
@@ -81,7 +81,7 @@
 						<StackPanel Orientation="Horizontal">
 							<Label>
 								<ContentPresenter
-								Content="{Binding Property.Name}"
+								Content="{Binding Property.Name.Value}"
 								RecognizesAccessKey="False"/>
 							</Label>
 							<Button Content="Export"
@@ -97,7 +97,7 @@
 						<StackPanel Orientation="Horizontal">
 							<Label>
 								<ContentPresenter
-								Content="{Binding Property.Name}"
+								Content="{Binding Property.Name.Value}"
 								RecognizesAccessKey="False"/>
 							</Label>
 							<Border Margin="2,5" CornerRadius="10" Background="LightBlue">
@@ -118,7 +118,7 @@
 						<StackPanel Orientation="Horizontal">
 							<Label>
 								<ContentPresenter
-								Content="{Binding Property.Name}"
+								Content="{Binding Property.Name.Value}"
 								RecognizesAccessKey="False"/>
 							</Label>
 							<Border Margin="2,5" CornerRadius="10" Background="LightCoral">
@@ -137,7 +137,7 @@
 
 					<DataTemplate x:Key="GvasStructPropertyTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<TextBox Text="{Binding Property.Name, UpdateSourceTrigger=PropertyChanged}"/>
+							<TextBox Text="{Binding Property.Name.Value, UpdateSourceTrigger=PropertyChanged}"/>
 							<Border Margin="2,5" CornerRadius="10" Background="LightGreen">
 								<Label Content="Struct" FontSize="10"/>
 							</Border>
@@ -148,7 +148,7 @@
 						<StackPanel Orientation="Horizontal">
 							<Label>
 								<ContentPresenter
-								Content="{Binding Property.Name}"
+								Content="{Binding Property.Name.Value}"
 								RecognizesAccessKey="False"/>
 							</Label>
 							<CheckBox IsChecked="{Binding Property.Value}" VerticalAlignment="Center">
@@ -161,7 +161,7 @@
 
 					<DataTemplate x:Key="GvasTextBoxTemplateResource">
 						<StackPanel Orientation="Horizontal">
-							<TextBox Text="{Binding Property.Name, UpdateSourceTrigger=PropertyChanged}"/>
+							<TextBox Text="{Binding Property.Name.Value, UpdateSourceTrigger=PropertyChanged}"/>
 							<Border Width="20"/>
 							<TextBox Text="{Binding Property.Value, UpdateSourceTrigger=PropertyChanged}"/>
 						</StackPanel>

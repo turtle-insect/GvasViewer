@@ -42,7 +42,7 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "IntProperty");
 			writer.Write((Int64)4);
 			writer.Write('\0');

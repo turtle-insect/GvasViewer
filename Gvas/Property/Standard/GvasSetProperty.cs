@@ -2,7 +2,7 @@
 {
 	internal class GvasSetProperty : GvasProperty
 	{
-		private String mPropertyType = String.Empty;
+		private GvasString mPropertyType = new();
 		private Byte[] mValue = [];
 
 		public GvasSetProperty()
@@ -12,7 +12,7 @@
 		public GvasSetProperty(GvasSetProperty property)
 			: base(property)
 		{
-			mPropertyType = property.mPropertyType;
+			mPropertyType = new(property.mPropertyType);
 			mValue = property.mValue.ToArray();
 		}
 
@@ -31,7 +31,7 @@
 		{
 			var size = reader.ReadUInt64();
 
-			mPropertyType = Util.ReadString(reader);
+			mPropertyType.Read(reader);
 
 			// ???
 			reader.ReadByte();
@@ -41,10 +41,10 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "SetProperty");
 			writer.Write(mValue.LongLength);
-			Util.WriteString(writer, mPropertyType);
+			mPropertyType.Write(writer);
 			writer.Write('\0');
 			writer.Write(mValue);
 		}
