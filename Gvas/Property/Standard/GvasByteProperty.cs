@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasByteProperty : GvasProperty
 	{
@@ -32,14 +34,14 @@
 			}
 		}
 
-		private String mPropertyName = String.Empty;
+		private GvasString mPropertyName = new();
 
 
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();
 
-			mPropertyName = Util.ReadString(reader);
+			mPropertyName.Read(reader);
 
 			// ???
 			reader.ReadByte();
@@ -49,10 +51,10 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "ByteProperty");
 			writer.Write(mValue.LongLength);
-			Util.WriteString(writer, mPropertyName);
+			mPropertyName.Write(writer);
 			writer.Write('\0');
 			writer.Write(mValue);
 		}

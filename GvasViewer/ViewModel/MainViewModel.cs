@@ -104,7 +104,7 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			System.Windows.Clipboard.SetText(vm.Property.Name);
+			System.Windows.Clipboard.SetText(vm.Property.Name.Value);
 		}
 
 		private void CopyPropertyPath(Object? parameter)
@@ -163,7 +163,7 @@ namespace GvasViewer.ViewModel
 			GvasProperty? child = null;
 			if (count == 0)
 			{
-				switch(property.PropertyType)
+				switch(property.PropertyType.Value)
 				{
 					case "NameProperty":
 						child = new GvasNameProperty();
@@ -182,7 +182,7 @@ namespace GvasViewer.ViewModel
 
 			if (child == null) return;
 
-			child.Name = $"[{count}]";
+			child.Name = new($"[{count}]", System.Text.Encoding.UTF8);
 			vm.AppendChildren(child);
 		}
 
@@ -209,7 +209,7 @@ namespace GvasViewer.ViewModel
 				if (line.StartsWith('#')) continue;
 
 				var child = clone.Clone();
-				child.Name = $"[{property.Children.Count}]";
+				child.Name = new($"[{property.Children.Count}]", System.Text.Encoding.UTF8);
 				child.Value = line;
 				vm.AppendChildren(child);
 			}
@@ -259,7 +259,7 @@ namespace GvasViewer.ViewModel
 				if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(value)) continue;
 
 				var child = clone.Clone();
-				child.Name = key;
+				child.Name = new(key, System.Text.Encoding.UTF8);
 				child.Value = value;
 				vm.AppendChildren(child);
 			}
@@ -287,7 +287,7 @@ namespace GvasViewer.ViewModel
 				return;
 			}
 
-			if(property.Name.ToLower().Contains(Keyword.ToLower()))
+			if(property.Name.Value.ToLower().Contains(Keyword.ToLower()))
 			{
 				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}

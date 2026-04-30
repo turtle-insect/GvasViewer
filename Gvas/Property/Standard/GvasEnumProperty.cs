@@ -1,9 +1,11 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasEnumProperty : GvasProperty
 	{
-		private String mKey = String.Empty;
-		private String mValue = String.Empty;
+		private GvasString mKey = new();
+		private GvasString mValue = new();
 
 		public GvasEnumProperty()
 			: base()
@@ -12,8 +14,8 @@
 		public GvasEnumProperty(GvasEnumProperty property)
 			: base(property)
 		{
-			mKey = property.mKey;
-			mValue = property.mValue;
+			mKey = new(property.mKey);
+			mValue = new(property.mValue);
 		}
 
 		public override GvasProperty Clone()
@@ -31,21 +33,21 @@
 		{
 			var size = reader.ReadUInt64();
 
-			mKey = Util.ReadString(reader);
+			mKey.Read(reader);
 			// ???
 			reader.ReadByte();
 
-			mValue = Util.ReadString(reader);
+			mValue.Read(reader);
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "EnumProperty");
-			writer.Write((UInt64)mValue.Length + 5);
-			Util.WriteString(writer, mKey);
+			writer.Write((UInt64)mValue.Size() + 4);
+			mKey.Write(writer);
 			writer.Write('\0');
-			Util.WriteString(writer, mValue);
+			mValue.Write(writer);
 		}
 
 		public override void WriteValue(BinaryWriter writer)

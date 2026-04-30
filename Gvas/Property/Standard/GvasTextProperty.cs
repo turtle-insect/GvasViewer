@@ -2,7 +2,6 @@
 {
 	public class GvasTextProperty : GvasProperty
 	{
-		private String mKey = String.Empty;
 		private List<String> mValue = new();
 
 		private Byte mFlag;
@@ -16,7 +15,6 @@
 		public GvasTextProperty(GvasTextProperty property)
 			: base(property)
 		{
-			mKey = property.mKey;
 			foreach (var value in property.mValue)
 			{
 				mValue.Add(value);
@@ -68,9 +66,9 @@
 					for (; length < size - 5;)
 					{
 						var str = Util.ReadString(reader);
-						mValue.Add(str);
+						mValue.Add(str.Value);
 						length += 4;
-						length += (uint)str.Length + 1;
+						length += (uint)str.Value.Length + 1;
 					}
 				}
 				catch
@@ -84,7 +82,7 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "TextProperty");
 			if (mBuffer.Length > 0)
 			{

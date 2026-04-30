@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property.Standard
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Standard
 {
 	public class GvasFloatProperty : GvasProperty
 	{
@@ -42,7 +44,7 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "FloatProperty");
 			writer.Write((Int64)4);
 			writer.Write('\0');

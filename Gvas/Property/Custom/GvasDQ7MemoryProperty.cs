@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property.Custom
+﻿using System.Xml.Linq;
+
+namespace Gvas.Property.Custom
 {
 	internal class GvasDQ7MemoryProperty : GvasProperty
 	{
@@ -25,7 +27,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			Name = "Memory";
+			Name = new("Memory", System.Text.Encoding.UTF8);
 
 			AppendChildren(Util.Read(reader));
 			AppendChildren(Util.Read(reader));
@@ -51,7 +53,7 @@
 			Children[0].Write(writer);
 			Children[1].Write(writer);
 
-			Util.WriteString(writer, "Memory");
+			Name.Write(writer);
 			Util.WriteString(writer, "ArrayProperty");
 
 			using var ms = new MemoryStream();

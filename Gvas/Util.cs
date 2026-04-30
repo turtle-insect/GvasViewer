@@ -6,18 +6,11 @@ namespace Gvas
 {
 	internal class Util
 	{
-		public static String ReadString(BinaryReader reader)
+		public static GvasString ReadString(BinaryReader reader)
 		{
-			int length = reader.ReadInt32();
-			if (length <= 0)
-			{
-				reader.BaseStream.Position -= 4;
-				throw new ArgumentException();
-			}
-
-			var buffer = reader.ReadBytes(length - 1);
-			reader.ReadByte();
-			return Encoding.UTF8.GetString(buffer);
+			GvasString str = new();
+			str.Read(reader);
+			return str;
 		}
 
 		public static void WriteString(BinaryWriter writer, String value)
@@ -34,14 +27,14 @@ namespace Gvas
 
 			GvasProperty property = new GvasNoneProperty();
 
-			if (propertyName == "None")
+			if (propertyName.Value == "None")
 			{
 				property.Name = propertyName;
 				return property;
 			}
 
 			var propertyType = ReadString(reader);
-			property = propertyType switch
+			property = propertyType.Value switch
 			{
 				"BoolProperty" => new GvasBoolProperty(),
 				"ByteProperty" => new GvasByteProperty(),

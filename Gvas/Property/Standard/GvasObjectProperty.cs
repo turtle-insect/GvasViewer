@@ -37,7 +37,7 @@
 
 		public override void Write(BinaryWriter writer)
 		{
-			Util.WriteString(writer, Name);
+			Name.Write(writer);
 			Util.WriteString(writer, "ObjectProperty");
 			writer.Write(mValue.LongLength);
 			writer.Write('\0');
