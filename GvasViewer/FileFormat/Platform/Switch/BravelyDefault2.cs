@@ -12,13 +12,17 @@
 
 		public void Save(String filename, Byte[] buffer)
 		{
-			Byte[] header = System.Text.Encoding.UTF8.GetBytes("SAVE");
-			header = header.Concat(BitConverter.GetBytes(1)).ToArray();
-			header = header.Concat(BitConverter.GetBytes(buffer.Length)).ToArray();
+			var length = buffer.Length;
 
 			buffer = Util.Zlib.Compression(buffer);
 
-			buffer = header.Concat(buffer).ToArray();
+			buffer = [
+				.. System.Text.Encoding.UTF8.GetBytes("SAVE"),
+				.. BitConverter.GetBytes(1),
+				.. BitConverter.GetBytes(length),
+				.. buffer
+			];
+
 			System.IO.File.WriteAllBytes(filename, buffer);
 		}
 	}
