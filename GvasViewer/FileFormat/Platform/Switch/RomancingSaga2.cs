@@ -13,9 +13,9 @@
 
 		public void Save(String filename, Byte[] buffer)
 		{
-			int fileSize = buffer.Length;
+			int length = buffer.Length;
 			buffer = Util.Zlib.Compression(buffer);
-			buffer = BitConverter.GetBytes(fileSize).Concat(buffer).ToArray();
+			buffer = [.. BitConverter.GetBytes(length), .. buffer];
 			System.IO.File.WriteAllBytes(filename, buffer);
 		}
 	}
