@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Gvas.Property.Standard
+﻿namespace Gvas.Property.Standard
 {
 	public class GvasByteProperty : GvasProperty
 	{
