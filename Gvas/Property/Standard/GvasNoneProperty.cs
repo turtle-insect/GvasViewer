@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gvas.Property.Standard
+﻿namespace Gvas.Property.Standard
 {
 	internal class GvasNoneProperty : GvasProperty
 	{
