@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Gvas.Property.Custom
+﻿namespace Gvas.Property.Custom
 {
 	internal class GvasDQ7MemoryProperty : GvasProperty
 	{
