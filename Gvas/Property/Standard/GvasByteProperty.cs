@@ -57,6 +57,11 @@
 			writer.Write(mValue);
 		}
 
+		public override void ReadValue(BinaryReader reader)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override void WriteValue(BinaryWriter writer)
 		{
 			writer.Write(mValue);

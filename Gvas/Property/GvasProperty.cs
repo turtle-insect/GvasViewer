@@ -48,6 +48,7 @@
 		public abstract Object Value { get; set; }
 		public abstract void Read(BinaryReader reader);
 		public abstract void Write(BinaryWriter writer);
+		public abstract void ReadValue(BinaryReader reader);
 		public abstract void WriteValue(BinaryWriter writer);
 	}
 }

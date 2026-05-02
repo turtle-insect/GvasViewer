@@ -34,7 +34,7 @@
 		{
 			var size = reader.ReadUInt64();
 
-			mValue = reader.ReadBoolean();
+			ReadValue(reader);
 
 			// ???
 			reader.ReadByte();
@@ -47,6 +47,11 @@
 			writer.Write((Int64)0);
 			writer.Write(mValue);
 			writer.Write('\0');
+		}
+
+		public override void ReadValue(BinaryReader reader)
+		{
+			mValue = reader.ReadBoolean();
 		}
 
 		public override void WriteValue(BinaryWriter writer)
