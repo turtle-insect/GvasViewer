@@ -36,7 +36,7 @@
 
 			try
 			{
-				mValue.Read(reader);
+				ReadValue(reader);
 			}
 			catch
 			{
@@ -62,14 +62,14 @@
 			}
 		}
 
+		public override void ReadValue(BinaryReader reader)
+		{
+			mValue.Read(reader);
+		}
+
 		public override void WriteValue(BinaryWriter writer)
 		{
 			mValue.Write(writer);
-		}
-
-		public void ReadValue(BinaryReader reader)
-		{
-			mValue.Read(reader);
 		}
 	}
 }

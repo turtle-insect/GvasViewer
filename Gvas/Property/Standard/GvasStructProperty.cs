@@ -108,12 +108,7 @@
 					break;
 
 				default:
-					for (; ; )
-					{
-						var property = Util.Read(reader);
-						AppendChildren(property);
-						if (property is GvasNoneProperty) break;
-					}
+					ReadValue(reader);
 					break;
 			}
 		}
@@ -133,6 +128,16 @@
 			writer.Write(GUID);
 			writer.Write('\0');
 			writer.Write(ms.ToArray());
+		}
+
+		public override void ReadValue(BinaryReader reader)
+		{
+			for (; ; )
+			{
+				var property = Util.Read(reader);
+				AppendChildren(property);
+				if (property is GvasNoneProperty) break;
+			}
 		}
 
 		public override void WriteValue(BinaryWriter writer)
