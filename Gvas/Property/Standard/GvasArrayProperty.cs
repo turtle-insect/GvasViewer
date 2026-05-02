@@ -41,19 +41,6 @@
 
 			switch (PropertyType.Value)
 			{
-				case "BoolProperty":
-					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
-						{
-							var property = new GvasBoolProperty();
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadBoolean();
-							AppendChildren(property);
-						}
-					}
-					break;
-
 				case "ByteProperty":
 					{
 						var property = new GvasByteProperty();
@@ -62,66 +49,19 @@
 					}
 					break;
 
+				case "BoolProperty":
 				case "IntProperty":
-					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
-						{
-							var property = new GvasIntProperty();
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadInt32();
-							AppendChildren(property);
-						}
-					}
-					break;
-
 				case "UInt32Property":
-					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
-						{
-							var property = new GvasUInt32Property();
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadUInt32();
-							AppendChildren(property);
-						}
-					}
-					break;
-
 				case "Int64Property":
-					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
-						{
-							var property = new GvasInt64Property();
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadInt64();
-							AppendChildren(property);
-						}
-					}
-					break;
-
 				case "UInt64Property":
-					{
-						uint count = reader.ReadUInt32();
-						for (uint index = 0; index < count; index++)
-						{
-							var property = new GvasUInt64Property();
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadUInt64();
-							AppendChildren(property);
-						}
-					}
-					break;
-
 				case "FloatProperty":
 					{
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
-							var property = new GvasFloatProperty();
+							var property = Util.Create(PropertyType);
 							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-							property.Value = reader.ReadSingle();
+							property.ReadValue(reader);
 							AppendChildren(property);
 						}
 					}
