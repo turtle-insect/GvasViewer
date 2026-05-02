@@ -10,6 +10,8 @@ namespace Gvas
 
 		private Byte[] mBuffer = [];
 		private readonly List<Guid> mGuid = new();
+		private uint MajorVersion = 0;
+		private uint MinorVersion = 0;
 
 		public void Read(BinaryReader reader)
 		{
@@ -19,7 +21,12 @@ namespace Gvas
 			if (Header != "GVAS") throw new Exception();
 
 			var version = reader.ReadUInt32();
-			reader.BaseStream.Position += 14;
+
+			reader.BaseStream.Position += 8;
+			MajorVersion = reader.ReadUInt16();
+			MinorVersion = reader.ReadUInt16();
+			reader.BaseStream.Position += 2;
+
 			if (version == 3) reader.BaseStream.Position += 4;
 
 			Name.Read(reader);
@@ -40,6 +47,8 @@ namespace Gvas
 			// data
 			Util.ReadString(reader);
 
+			if (PropertyTag()) reader.ReadByte();
+
 			// TODO
 			long length = reader.BaseStream.Position;
 			reader.BaseStream.Position = 0;
@@ -49,6 +58,13 @@ namespace Gvas
 		public void Write(BinaryWriter writer)
 		{
 			writer.Write(mBuffer);
+		}
+
+		public bool PropertyTag()
+		{
+			if (MajorVersion < 5) return false;
+			if (MinorVersion < 4) return false;
+			return true;
 		}
 	}
 }
