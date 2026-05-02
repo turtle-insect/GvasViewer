@@ -34,7 +34,16 @@ namespace Gvas
 			}
 
 			var propertyType = ReadString(reader);
-			property = propertyType.Value switch
+			property = Create(propertyType);
+
+			property.Name = propertyName;
+			property.Read(reader);
+			return property;
+		}
+
+		public static GvasProperty Create(GvasString propertyType)
+		{
+			return propertyType.Value switch
 			{
 				"BoolProperty" => new GvasBoolProperty(),
 				"ByteProperty" => new GvasByteProperty(),
@@ -56,10 +65,6 @@ namespace Gvas
 				"SoftObjectProperty" => new GvasSoftObjectProperty(),
 				_ => throw new NotImplementedException(),
 			};
-
-			property.Name = propertyName;
-			property.Read(reader);
-			return property;
 		}
 	}
 }
