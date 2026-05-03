@@ -31,7 +31,7 @@
 			</MenuItem>
 		</Menu>
 		<DockPanel DockPanel.Dock="Top">
-			<Label DockPanel.Dock="Left" Content="Keyword"/>
+			<ComboBox ItemsSource="{Binding SearchTypes}" SelectedItem="{Binding SearchType}" Width="80"/>
 			<Button DockPanel.Dock="Right" Content="Search" Width="50" Command="{Binding SearchPropertyCommand}"/>
 			<TextBox Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}"
 					 VerticalContentAlignment="Center"/>
