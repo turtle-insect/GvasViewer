@@ -312,17 +312,39 @@ namespace GvasViewer.ViewModel
 				return;
 			}
 
-			var value = property.Name.Value.ToLower();
-			if (SearchType == eSearchType.eValue)
+			var value = String.Empty;
+			switch(SearchType)
 			{
-				try
-				{
-					value = property.Value.ToString()?.ToLower();
-				}
-				catch
-				{
-					value = String.Empty;
-				}
+				case eSearchType.eKey:
+					value = property.Name.Value.ToLower();
+					break;
+
+				case eSearchType.eValue:
+					// Since using try-catch slows things down, limit the search objects
+					switch (property)
+					{
+						case Gvas.Property.v1.Standard.GvasIntProperty:
+						case Gvas.Property.v1.Standard.GvasUInt32Property:
+						case Gvas.Property.v1.Standard.GvasInt64Property:
+						case Gvas.Property.v1.Standard.GvasUInt64Property:
+						case Gvas.Property.v1.Standard.GvasFloatProperty:
+						case Gvas.Property.v1.Standard.GvasDoubleProperty:
+						case Gvas.Property.v1.Standard.GvasTextProperty:
+						case Gvas.Property.v1.Standard.GvasStrProperty:
+						case Gvas.Property.v1.Standard.GvasNameProperty:
+						case Gvas.Property.v2.Standard.GvasIntProperty:
+						case Gvas.Property.v2.Standard.GvasUInt32Property:
+						case Gvas.Property.v2.Standard.GvasInt64Property:
+						case Gvas.Property.v2.Standard.GvasUInt64Property:
+						case Gvas.Property.v2.Standard.GvasFloatProperty:
+						case Gvas.Property.v2.Standard.GvasDoubleProperty:
+						case Gvas.Property.v2.Standard.GvasTextProperty:
+						case Gvas.Property.v2.Standard.GvasStrProperty:
+						case Gvas.Property.v2.Standard.GvasNameProperty:
+							value = property.Value.ToString()?.ToLower();
+							break;
+					}
+					break;
 			}
 
 			if(String.IsNullOrEmpty(value) == false)
