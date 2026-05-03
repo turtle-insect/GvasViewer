@@ -10,6 +10,7 @@ GvasViewer
 # Advance
 * Windows 11(or 10)
 * [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+* ※ oo2core_9_win64.dll
 
 # Usage
 * Prepare GVAS files
@@ -55,3 +56,9 @@ If you want to add a unique structure, you can do so in this file as well
 # Build
 * [Visual Studio 2026](https://visualstudio.microsoft.com/)
  
+# oo2core_9_win64.dll
+* [Epic Games Store](https://www.epicgames.com/)から `EpicInstaller` をダウンロード
+* Epic Games Launcherをインストール
+* Unreal Engine 5.7.4をインストール
+* Unreal Engineインストールフォルダで `oo2core_9_win64.dll` で検索
+* `oo2core_9_win64.dll` を実行ファイルと同じフォルダにコピー
