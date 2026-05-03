@@ -45,14 +45,6 @@ abc	def	ghi
 abc	def
 ```
 
-# Developer
-unique File's Format
-[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
-implementation this Interface
-
-[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/SaveData.cs) `Load` method  
-If you want to add a unique structure, you can do so in this file as well  
-
 # Build
 * [Visual Studio 2026](https://visualstudio.microsoft.com/)
  
@@ -62,3 +54,11 @@ If you want to add a unique structure, you can do so in this file as well
 * Unreal Engine 5.7.4をインストール
 * Unreal Engineインストールフォルダで `oo2core_9_win64.dll` で検索
 * `oo2core_9_win64.dll` を実行ファイルと同じフォルダにコピー
+
+# Developer
+unique File's Format
+[IFileFormat](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/FileFormat/IFileFormat.cs)  
+implementation this Interface
+
+[SaveData](https://github.com/turtle-insect/GvasViewer/blob/main/GvasViewer/SaveData.cs) `Load` method  
+If you want to add a unique structure, you can do so in this file as well  
