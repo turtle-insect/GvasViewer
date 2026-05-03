@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Gvas.Property.v2.Standard
+﻿namespace Gvas.Property.v2.Standard
 {
 	public class GvasEnumProperty : GvasProperty
 	{
