@@ -20,28 +20,23 @@ namespace Gvas
 			writer.Write('\0');
 		}
 
-		public static GvasProperty Read(BinaryReader reader)
+		public static GvasProperty ReadProperty(BinaryReader reader)
 		{
 			// name
 			var propertyName = ReadString(reader);
-
-			GvasProperty property = new GvasNoneProperty();
-
 			if (propertyName.Value == "None")
 			{
-				property.Name = propertyName;
-				return property;
+				return new GvasNoneProperty();
 			}
 
 			var propertyType = ReadString(reader);
-			property = Create(propertyType);
+			var property = CreateProperty(propertyType);
 
 			property.Name = propertyName;
-			property.Read(reader);
 			return property;
 		}
 
-		public static GvasProperty Create(GvasString propertyType)
+		public static GvasProperty CreateProperty(GvasString propertyType)
 		{
 			return propertyType.Value switch
 			{

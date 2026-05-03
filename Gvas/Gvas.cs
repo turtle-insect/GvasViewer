@@ -21,7 +21,8 @@ namespace Gvas
 			mEngine.Read(reader);
 			for(; ;)
 			{
-				var property = Util.Read(reader);
+				var property = Util.ReadProperty(reader);
+				property.Read(reader);
 				mProperties.Add(property);
 				if (property is GvasNoneProperty) break;
 			}

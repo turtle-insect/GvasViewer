@@ -103,7 +103,9 @@
 						var property = new Custom.GvasDQ7MemoryProperty();
 						property.Read(reader);
 						AppendChildren(property);
-						AppendChildren(Util.Read(reader));
+						var child = Util.ReadProperty(reader);
+						child.Read(reader);
+						AppendChildren(child);
 					}
 					break;
 
@@ -134,7 +136,8 @@
 		{
 			for (; ; )
 			{
-				var property = Util.Read(reader);
+				var property = Util.ReadProperty(reader);
+				property.Read(reader);
 				AppendChildren(property);
 				if (property is GvasNoneProperty) break;
 			}

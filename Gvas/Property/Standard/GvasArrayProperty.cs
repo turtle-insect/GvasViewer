@@ -59,7 +59,7 @@
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
-							var property = Util.Create(PropertyType);
+							var property = Util.CreateProperty(PropertyType);
 							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.ReadValue(reader);
 							AppendChildren(property);

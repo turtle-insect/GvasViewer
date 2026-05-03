@@ -49,11 +49,6 @@
 			Name.Write(writer);
 			Util.WriteString(writer, "StrProperty");
 
-			if (mValue.Value == "ひで")
-			{
-				mValue.Value = mValue.Value;
-			}
-
 			if (mBuffer.Length == 0)
 			{
 				writer.Write((UInt64)mValue.Size() + 4);

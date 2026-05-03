@@ -27,8 +27,12 @@
 		{
 			Name = new("Memory", System.Text.Encoding.UTF8);
 
-			AppendChildren(Util.Read(reader));
-			AppendChildren(Util.Read(reader));
+			for (uint index = 0; index < 2; index++)
+			{
+				var property = Util.ReadProperty(reader);
+				property.Read(reader);
+				AppendChildren(property);
+			}
 
 			// Memory
 			//   ArrayProperty -> ByteProperty
@@ -41,7 +45,8 @@
 
 			for (uint index = 0; index < 21; index++)
 			{
-				var property = Util.Read(reader);
+				var property = Util.ReadProperty(reader);
+				property.Read(reader);
 				AppendChildren(property);
 			}
 		}

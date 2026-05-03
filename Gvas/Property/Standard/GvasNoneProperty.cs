@@ -4,7 +4,9 @@
 	{
 		public GvasNoneProperty()
 			: base()
-		{ }
+		{
+			Name = new GvasString("None", System.Text.Encoding.UTF8);
+		}
 
 		public GvasNoneProperty(GvasNoneProperty property)
 			: base(property)
