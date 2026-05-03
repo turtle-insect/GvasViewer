@@ -1,5 +1,4 @@
 ﻿using Gvas.Property;
-using Gvas.Property.Standard;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -51,8 +50,21 @@ namespace GvasViewer.ViewModel
 
 		public void LoadFile(String filename)
 		{
-			mSaveData.Load(filename);
-			LoadProperty();
+			try
+			{
+				if(mSaveData.Load(filename))
+				{
+					LoadProperty();
+				}
+				else
+				{
+					MessageBox.Show("not support");
+				}
+			}
+			catch(DllNotFoundException ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 
 		private void OpenFile(Object? parameter)
@@ -125,7 +137,7 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasByteProperty;
+			var property = vm.Property as Gvas.Property.v1.Standard.GvasByteProperty;
 			if (property == null) return;
 
 			Byte[]? buffer = property.Value as Byte[];
@@ -142,8 +154,8 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasByteProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (IsGvasByteProperty(property) == false) return;
 
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -156,17 +168,22 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasArrayProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (IsGvasArrayProperty(property) == false) return;
 
 			var count = property.Children.Count;
 			GvasProperty? child = null;
 			if (count == 0)
 			{
-				switch(property.PropertyType.Value)
+				switch(property.Children[0])
 				{
-					case "NameProperty":
-						child = new GvasNameProperty();
+					case Gvas.Property.v1.Standard.GvasNameProperty:
+						child = new Gvas.Property.v1.Standard.GvasNameProperty();
+						child.Value = "dummy";
+						break;
+
+					case Gvas.Property.v2.Standard.GvasNameProperty:
+						child = new Gvas.Property.v2.Standard.GvasNameProperty();
 						child.Value = "dummy";
 						break;
 
@@ -191,8 +208,8 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasArrayProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (IsGvasArrayProperty(property) == false) return;
 
 			var count = property.Children.Count;
 			if (count == 0) return;
@@ -220,8 +237,8 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasMapProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (IsGvasMapProperty(property) == false) return;
 
 			var count = property.Children.Count;
 			if (count == 0) return;
@@ -234,8 +251,8 @@ namespace GvasViewer.ViewModel
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as GvasMapProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (IsGvasMapProperty(property) == false) return;
 
 			var count = property.Children.Count;
 			if (count == 0) return;
@@ -296,6 +313,27 @@ namespace GvasViewer.ViewModel
 			{
 				LoadProperty(child);
 			}
+		}
+
+		private bool IsGvasByteProperty(GvasProperty property)
+		{
+			if (property is Gvas.Property.v1.Standard.GvasByteProperty) return true;
+			if (property is Gvas.Property.v2.Standard.GvasByteProperty) return true;
+			return false;
+		}
+
+		private bool IsGvasArrayProperty(GvasProperty property)
+		{
+			if (property is Gvas.Property.v1.Standard.GvasArrayProperty) return true;
+			if (property is Gvas.Property.v2.Standard.GvasArrayProperty) return true;
+			return false;
+		}
+
+		private bool IsGvasMapProperty(GvasProperty property)
+		{
+			if (property is Gvas.Property.v1.Standard.GvasMapProperty) return true;
+			if (property is Gvas.Property.v2.Standard.GvasMapProperty) return true;
+			return false;
 		}
 	}
 }

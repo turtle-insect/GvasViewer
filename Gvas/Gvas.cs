@@ -1,5 +1,4 @@
 ﻿using Gvas.Property;
-using Gvas.Property.Standard;
 
 namespace Gvas
 {
@@ -19,9 +18,11 @@ namespace Gvas
 			mProperties.Clear();
 
 			mEngine.Read(reader);
-			for(; ;)
+			Util.useV2 = mEngine.PropertyTag();
+			for (; ; )
 			{
-				var property = Util.Read(reader);
+				var property = Util.ReadProperty(reader);
+				property.Read(reader);
 				mProperties.Add(property);
 				if (property is GvasNoneProperty) break;
 			}
