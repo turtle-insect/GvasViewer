@@ -45,15 +45,15 @@ abc	def	ghi
 abc	def
 ```
 
-# Build
-* [Visual Studio 2026](https://visualstudio.microsoft.com/)
- 
-# oo2core_9_win64.dll
+## oo2core_9_win64.dll
 * [Epic Games Store](https://www.epicgames.com/)から `EpicInstaller` をダウンロード
 * Epic Games Launcherをインストール
 * Unreal Engine 5.7.4をインストール
 * Unreal Engineインストールフォルダで `oo2core_9_win64.dll` で検索
 * `oo2core_9_win64.dll` を実行ファイルと同じフォルダにコピー
+
+# Build
+* [Visual Studio 2026](https://visualstudio.microsoft.com/)
 
 # Developer
 unique File's Format
