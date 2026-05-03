@@ -9,6 +9,8 @@ namespace GvasViewer.ViewModel
 {
 	class MainViewModel
     {
+		private readonly SaveData mSaveData = new();
+
 		public ICommand OpenFileCommand { get; init; }
 		public ICommand SaveFileCommand { get; init; }
 		public ICommand SaveAsFileCommand { get; init; }
@@ -26,9 +28,15 @@ namespace GvasViewer.ViewModel
 
 		public ObservableCollection<GvasPropertyViewModel> GvasProperties { get; init; } = new();
 
-		private readonly SaveData mSaveData = new();
-
 		public String Keyword { get; set; } = String.Empty;
+
+		public enum eSearchType
+		{
+			eKey,
+			eValue,
+		}
+		public Array SearchTypes => Enum.GetValues(typeof(eSearchType));
+		public eSearchType SearchType { get; set; } = eSearchType.eKey;
 
 		public MainViewModel()
 		{
@@ -304,12 +312,28 @@ namespace GvasViewer.ViewModel
 				return;
 			}
 
-			if(property.Name.Value.ToLower().Contains(Keyword.ToLower()))
+			var value = property.Name.Value.ToLower();
+			if (SearchType == eSearchType.eValue)
 			{
-				GvasProperties.Add(new GvasPropertyViewModel(property));
+				try
+				{
+					value = property.Value.ToString()?.ToLower();
+				}
+				catch
+				{
+					value = String.Empty;
+				}
 			}
 
-			foreach(var child in property.Children)
+			if(String.IsNullOrEmpty(value) == false)
+			{
+				if (value.Contains(Keyword.ToLower()))
+				{
+					GvasProperties.Add(new GvasPropertyViewModel(property));
+				}
+			}
+
+			foreach (var child in property.Children)
 			{
 				LoadProperty(child);
 			}
