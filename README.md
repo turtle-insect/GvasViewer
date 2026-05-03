@@ -46,11 +46,11 @@ abc	def
 ```
 
 ## oo2core_9_win64.dll
-* [Epic Games Store](https://www.epicgames.com/)から `EpicInstaller` をダウンロード
-* Epic Games Launcherをインストール
-* Unreal Engine 5.7.4をインストール
-* Unreal Engineインストールフォルダで `oo2core_9_win64.dll` で検索
-* `oo2core_9_win64.dll` を実行ファイルと同じフォルダにコピー
+* Download `EpicInstaller` from the [Epic Games Store](https://www.epicgames.com/)
+* Install the Epic Games Launcher
+* Install Unreal Engine 5.7.4
+* Search for `oo2core_9_win64.dll` in the Unreal Engine installation folder
+* Copy `oo2core_9_win64.dll` to the same folder as the executable file
 
 # Build
 * [Visual Studio 2026](https://visualstudio.microsoft.com/)
