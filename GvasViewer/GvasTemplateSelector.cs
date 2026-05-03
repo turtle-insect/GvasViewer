@@ -1,5 +1,4 @@
-﻿using Gvas.Property.Standard;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace GvasViewer
@@ -24,30 +23,44 @@ namespace GvasViewer
 
 			switch (vm.Property)
 			{
-				case GvasBoolProperty:
+				case Gvas.Property.v1.Standard.GvasBoolProperty:
+				case Gvas.Property.v2.Standard.GvasBoolProperty:
 					return GvasCheckBoxTemplate;
 
-				case GvasByteProperty:
+				case Gvas.Property.v1.Standard.GvasByteProperty:
+				case Gvas.Property.v2.Standard.GvasByteProperty:
 					return GvasBytePropertyTemplate;
 
-				case GvasIntProperty:
-				case GvasUInt32Property:
-				case GvasInt64Property:
-				case GvasUInt64Property:
-				case GvasFloatProperty:
-				case GvasDoubleProperty:
-				case GvasTextProperty:
-				case GvasStrProperty:
-				case GvasNameProperty:
+				case Gvas.Property.v1.Standard.GvasIntProperty:
+				case Gvas.Property.v1.Standard.GvasUInt32Property:
+				case Gvas.Property.v1.Standard.GvasInt64Property:
+				case Gvas.Property.v1.Standard.GvasUInt64Property:
+				case Gvas.Property.v1.Standard.GvasFloatProperty:
+				case Gvas.Property.v1.Standard.GvasDoubleProperty:
+				case Gvas.Property.v1.Standard.GvasTextProperty:
+				case Gvas.Property.v1.Standard.GvasStrProperty:
+				case Gvas.Property.v1.Standard.GvasNameProperty:
+				case Gvas.Property.v2.Standard.GvasIntProperty:
+				case Gvas.Property.v2.Standard.GvasUInt32Property:
+				case Gvas.Property.v2.Standard.GvasInt64Property:
+				case Gvas.Property.v2.Standard.GvasUInt64Property:
+				case Gvas.Property.v2.Standard.GvasFloatProperty:
+				case Gvas.Property.v2.Standard.GvasDoubleProperty:
+				case Gvas.Property.v2.Standard.GvasTextProperty:
+				case Gvas.Property.v2.Standard.GvasStrProperty:
+				case Gvas.Property.v2.Standard.GvasNameProperty:
 					return GvasTextBoxTemplate;
 
-				case GvasArrayProperty:
+				case Gvas.Property.v1.Standard.GvasArrayProperty:
+				case Gvas.Property.v2.Standard.GvasArrayProperty:
 					return GvasArrayPropertyTemplate;
 
-				case GvasMapProperty:
+				case Gvas.Property.v1.Standard.GvasMapProperty:
+				case Gvas.Property.v2.Standard.GvasMapProperty:
 					return GvasMapPropertyTemplate;
 
-				case GvasStructProperty:
+				case Gvas.Property.v1.Standard.GvasStructProperty:
+				case Gvas.Property.v2.Standard.GvasStructProperty:
 					return GvasStructPropertyTemplate;
 
 				default:

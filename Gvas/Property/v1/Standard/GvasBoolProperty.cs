@@ -1,0 +1,62 @@
+﻿namespace Gvas.Property.v1.Standard
+{
+	public class GvasBoolProperty : GvasProperty
+	{
+		private Boolean mValue;
+
+		public GvasBoolProperty()
+			: base()
+		{ }
+
+		public GvasBoolProperty(GvasBoolProperty property)
+			: base(property)
+		{
+			mValue = property.mValue;
+		}
+
+		public override GvasProperty Clone()
+		{
+			return new GvasBoolProperty(this);
+		}
+
+		public override object Value
+		{
+			get => mValue;
+			set
+			{
+				Boolean tmp;
+				Boolean.TryParse(value.ToString(), out tmp);
+				mValue = tmp;
+			}
+		}
+
+		public override void Read(BinaryReader reader)
+		{
+			var size = reader.ReadUInt64();
+
+			ReadValue(reader);
+
+			// ???
+			reader.ReadByte();
+		}
+
+		public override void Write(BinaryWriter writer)
+		{
+			Name.Write(writer);
+			Util.WriteString(writer, "BoolProperty");
+			writer.Write((Int64)0);
+			writer.Write(mValue);
+			writer.Write('\0');
+		}
+
+		public override void ReadValue(BinaryReader reader)
+		{
+			mValue = reader.ReadBoolean();
+		}
+
+		public override void WriteValue(BinaryWriter writer)
+		{
+			writer.Write(mValue);
+		}
+	}
+}

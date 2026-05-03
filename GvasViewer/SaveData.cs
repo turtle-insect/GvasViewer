@@ -1,6 +1,7 @@
 ﻿using Gvas.Property;
 using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Platform;
+using System.Diagnostics;
 using System.IO;
 
 namespace GvasViewer
@@ -16,9 +17,9 @@ namespace GvasViewer
 			get => mGvas?.Properties;
 		}
 
-		public void Load(String filename)
+		public bool Load(String filename)
 		{
-			if (!File.Exists(filename)) return;
+			if (!File.Exists(filename)) return false;
 
 			IFileFormat[] fileFormats =
 			[
@@ -28,6 +29,7 @@ namespace GvasViewer
 				new FileFormat.Platform.Switch.RomancingSaga2(),
 				new DragonQuest7(Platform.Steam),
 				new DragonQuest7(Platform.Switch),
+				new OctopathTraveler0(),
 			];
 
 			foreach (var fileFormat in fileFormats)
@@ -42,10 +44,16 @@ namespace GvasViewer
 					mFileName = filename;
 					mFileFormat = fileFormat;
 					Backup();
-					return;
+					return true;
+				}
+				catch (DllNotFoundException)
+				{
+					throw;
 				}
 				catch { }
 			}
+
+			return false;
 		}
 
 		public void Save()
