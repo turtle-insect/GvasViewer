@@ -5,7 +5,7 @@ namespace Gvas
 {
 	internal class Util
 	{
-		public static bool useV2 { get; set; } = true;
+		public static uint GvasVersion { get; set; } = 1;
 
 		public static GvasString ReadString(BinaryReader reader)
 		{
@@ -39,60 +39,63 @@ namespace Gvas
 
 		public static GvasProperty CreateProperty(GvasString propertyType)
 		{
-			return CreateProperty(propertyType, useV2);
+			return CreateProperty(propertyType, GvasVersion);
 		}
 
-		private static GvasProperty CreateProperty(GvasString propertyType, bool v2)
+		private static GvasProperty CreateProperty(GvasString propertyType, uint version)
 		{
-			if (v2)
+			switch(version)
 			{
-				return propertyType.Value switch
-				{
-					"BoolProperty" => new Property.v2.Standard.GvasBoolProperty(),
-					"ByteProperty" => new Property.v2.Standard.GvasByteProperty(),
-					"IntProperty" => new Property.v2.Standard.GvasIntProperty(),
-					"UInt32Property" => new Property.v2.Standard.GvasUInt32Property(),
-					"Int64Property" => new Property.v2.Standard.GvasInt64Property(),
-					"UInt64Property" => new Property.v2.Standard.GvasUInt64Property(),
-					"FloatProperty" => new Property.v2.Standard.GvasFloatProperty(),
-					"DoubleProperty" => new Property.v2.Standard.GvasDoubleProperty(),
-					"TextProperty" => new Property.v2.Standard.GvasTextProperty(),
-					"StrProperty" => new Property.v2.Standard.GvasStrProperty(),
-					"NameProperty" => new Property.v2.Standard.GvasNameProperty(),
-					"EnumProperty" => new Property.v2.Standard.GvasEnumProperty(),
-					"ArrayProperty" => new Property.v2.Standard.GvasArrayProperty(),
-					"SetProperty" => new Property.v2.Standard.GvasSetProperty(),
-					"MapProperty" => new Property.v2.Standard.GvasMapProperty(),
-					"StructProperty" => new Property.v2.Standard.GvasStructProperty(),
-					"ObjectProperty" => new Property.v2.Standard.GvasObjectProperty(),
-					"SoftObjectProperty" => new Property.v2.Standard.GvasSoftObjectProperty(),
-					_ => throw new NotImplementedException(),
-				};
-			}
-			else
-			{
-				return propertyType.Value switch
-				{
-					"BoolProperty" => new Property.v1.Standard.GvasBoolProperty(),
-					"ByteProperty" => new Property.v1.Standard.GvasByteProperty(),
-					"IntProperty" => new Property.v1.Standard.GvasIntProperty(),
-					"UInt32Property" => new Property.v1.Standard.GvasUInt32Property(),
-					"Int64Property" => new Property.v1.Standard.GvasInt64Property(),
-					"UInt64Property" => new Property.v1.Standard.GvasUInt64Property(),
-					"FloatProperty" => new Property.v1.Standard.GvasFloatProperty(),
-					"DoubleProperty" => new Property.v1.Standard.GvasDoubleProperty(),
-					"TextProperty" => new Property.v1.Standard.GvasTextProperty(),
-					"StrProperty" => new Property.v1.Standard.GvasStrProperty(),
-					"NameProperty" => new Property.v1.Standard.GvasNameProperty(),
-					"EnumProperty" => new Property.v1.Standard.GvasEnumProperty(),
-					"ArrayProperty" => new Property.v1.Standard.GvasArrayProperty(),
-					"SetProperty" => new Property.v1.Standard.GvasSetProperty(),
-					"MapProperty" => new Property.v1.Standard.GvasMapProperty(),
-					"StructProperty" => new Property.v1.Standard.GvasStructProperty(),
-					"ObjectProperty" => new Property.v1.Standard.GvasObjectProperty(),
-					"SoftObjectProperty" => new Property.v1.Standard.GvasSoftObjectProperty(),
-					_ => throw new NotImplementedException(),
-				};
+				case 1:
+					return propertyType.Value switch
+					{
+						"BoolProperty" => new Property.v1.Standard.GvasBoolProperty(),
+						"ByteProperty" => new Property.v1.Standard.GvasByteProperty(),
+						"IntProperty" => new Property.v1.Standard.GvasIntProperty(),
+						"UInt32Property" => new Property.v1.Standard.GvasUInt32Property(),
+						"Int64Property" => new Property.v1.Standard.GvasInt64Property(),
+						"UInt64Property" => new Property.v1.Standard.GvasUInt64Property(),
+						"FloatProperty" => new Property.v1.Standard.GvasFloatProperty(),
+						"DoubleProperty" => new Property.v1.Standard.GvasDoubleProperty(),
+						"TextProperty" => new Property.v1.Standard.GvasTextProperty(),
+						"StrProperty" => new Property.v1.Standard.GvasStrProperty(),
+						"NameProperty" => new Property.v1.Standard.GvasNameProperty(),
+						"EnumProperty" => new Property.v1.Standard.GvasEnumProperty(),
+						"ArrayProperty" => new Property.v1.Standard.GvasArrayProperty(),
+						"SetProperty" => new Property.v1.Standard.GvasSetProperty(),
+						"MapProperty" => new Property.v1.Standard.GvasMapProperty(),
+						"StructProperty" => new Property.v1.Standard.GvasStructProperty(),
+						"ObjectProperty" => new Property.v1.Standard.GvasObjectProperty(),
+						"SoftObjectProperty" => new Property.v1.Standard.GvasSoftObjectProperty(),
+						_ => throw new NotImplementedException(),
+					};
+
+				case 2:
+					return propertyType.Value switch
+					{
+						"BoolProperty" => new Property.v2.Standard.GvasBoolProperty(),
+						"ByteProperty" => new Property.v2.Standard.GvasByteProperty(),
+						"IntProperty" => new Property.v2.Standard.GvasIntProperty(),
+						"UInt32Property" => new Property.v2.Standard.GvasUInt32Property(),
+						"Int64Property" => new Property.v2.Standard.GvasInt64Property(),
+						"UInt64Property" => new Property.v2.Standard.GvasUInt64Property(),
+						"FloatProperty" => new Property.v2.Standard.GvasFloatProperty(),
+						"DoubleProperty" => new Property.v2.Standard.GvasDoubleProperty(),
+						"TextProperty" => new Property.v2.Standard.GvasTextProperty(),
+						"StrProperty" => new Property.v2.Standard.GvasStrProperty(),
+						"NameProperty" => new Property.v2.Standard.GvasNameProperty(),
+						"EnumProperty" => new Property.v2.Standard.GvasEnumProperty(),
+						"ArrayProperty" => new Property.v2.Standard.GvasArrayProperty(),
+						"SetProperty" => new Property.v2.Standard.GvasSetProperty(),
+						"MapProperty" => new Property.v2.Standard.GvasMapProperty(),
+						"StructProperty" => new Property.v2.Standard.GvasStructProperty(),
+						"ObjectProperty" => new Property.v2.Standard.GvasObjectProperty(),
+						"SoftObjectProperty" => new Property.v2.Standard.GvasSoftObjectProperty(),
+						_ => throw new NotImplementedException(),
+					};
+
+				default:
+					throw new NotImplementedException();
 			}
 		}
 	}

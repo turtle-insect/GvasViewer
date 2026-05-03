@@ -18,7 +18,10 @@ namespace Gvas
 			mProperties.Clear();
 
 			mEngine.Read(reader);
-			Util.useV2 = mEngine.PropertyTag();
+			if(mEngine.PropertyTag())
+			{
+				Util.GvasVersion = 2;
+			}
 			for (; ; )
 			{
 				var property = Util.ReadProperty(reader);
