@@ -4,10 +4,10 @@
 	{
 		public GvasString PropertyType
 		{
-			get => _node.Names[0];
+			get => _tree.Children[0].Name;
 		}
 		private Byte[] mValue = [];
-		private GvasNode _node = new();
+		private GvasTree _tree = new();
 
 		public GvasArrayProperty()
 			: base()
@@ -17,7 +17,7 @@
 			: base(property)
 		{
 			mValue = property.mValue.ToArray();
-			_node = new(property._node);
+			_tree = new(property._tree);
 		}
 
 		public override GvasProperty Clone()
@@ -33,12 +33,13 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			_node.Read(reader);
+			_tree.Read(reader);
 
 			var size = reader.ReadUInt32();
 			reader.ReadByte();
 
-			switch (_node.Names[0].Value)
+			var name = _tree.Children[0].Name;
+			switch (name.Value)
 			{
 				case "ByteProperty":
 					{
@@ -59,7 +60,7 @@
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
 						{
-							var property = Util.CreateProperty(_node.Names[0]);
+							var property = Util.CreateProperty(name);
 							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.ReadValue(reader);
 							AppendChildren(property);
@@ -100,9 +101,10 @@
 		{
 			Name.Write(writer);
 			Util.WriteString(writer, "ArrayProperty");
-			_node.Write(writer);
+			_tree.Write(writer);
 
-			switch (_node.Names[0].Value)
+			var name = _tree.Children[0].Name;
+			switch (name.Value)
 			{
 				case "BoolProperty":
 					WritePropertyValue(writer, 1);

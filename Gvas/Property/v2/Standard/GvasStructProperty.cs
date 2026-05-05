@@ -3,7 +3,7 @@
 	public class GvasStructProperty : GvasProperty
 	{
 		public GvasString Detail { get; set; } = new();
-		private GvasNode _node = new();
+		private GvasTree _tree = new();
 		private Byte _flag = 0;
 
 		public GvasStructProperty()
@@ -14,7 +14,7 @@
 			: base(property)
 		{
 			Detail = new(property.Detail);
-			_node = new(property._node);
+			_tree = new(property._tree);
 		}
 
 		public override GvasProperty Clone()
@@ -33,7 +33,7 @@
 			reader.ReadUInt32();
 			Detail.Read(reader);
 
-			_node.Read(reader);
+			_tree.Read(reader);
 
 			// size
 			var size = reader.ReadInt32();
@@ -64,7 +64,7 @@
 
 			writer.Write(1);
 			Detail.Write(writer);
-			_node.Write(writer);
+			_tree.Write(writer);
 			writer.Write((int)ms.Length);
 			writer.Write(_flag);
 			writer.Write(ms.ToArray());
