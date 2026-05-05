@@ -3,7 +3,7 @@
 	public class GvasEnumProperty : GvasProperty
 	{
 		private GvasString mValue = new();
-		private GvasNode _node = new();
+		private GvasTree _tree = new();
 
 		public GvasEnumProperty()
 			: base()
@@ -13,7 +13,7 @@
 			: base(property)
 		{
 			mValue = new(property.mValue);
-			_node = new(property._node);
+			_tree = new(property._tree);
 		}
 
 		public override GvasProperty Clone()
@@ -29,7 +29,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			_node.Read(reader);
+			_tree.Read(reader);
 
 			// size
 			reader.ReadUInt32();
@@ -43,7 +43,7 @@
 		{
 			Name.Write(writer);
 			Util.WriteString(writer, "EnumProperty");
-			_node.Write(writer);
+			_tree.Write(writer);
 			writer.Write(mValue.Size() + 4);
 			writer.Write('\0');
 			mValue.Write(writer);

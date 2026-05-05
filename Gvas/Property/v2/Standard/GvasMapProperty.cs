@@ -3,8 +3,7 @@
 	public class GvasMapProperty : GvasProperty
 	{
 		private Byte[] mValue = [];
-		private GvasNode _node = new();
-
+		private GvasTree _tree = new();
 
 		public GvasMapProperty()
 			: base()
@@ -13,7 +12,7 @@
 		public GvasMapProperty(GvasMapProperty property)
 			: base(property)
 		{
-			_node = new(property._node);
+			_tree = new(property._tree);
 			mValue = property.mValue.ToArray();
 		}
 
@@ -30,7 +29,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			_node.Read(reader);
+			_tree.Read(reader);
 
 			var size = reader.ReadUInt32();
 
@@ -42,7 +41,8 @@
 			{
 				GvasString name = new();
 
-				switch(_node.Names[0].Value)
+				var keyProperty = _tree.Children[0].Name;
+				switch (keyProperty.Value)
 				{
 					case "IntProperty":
 						name = new(reader.ReadInt32().ToString(), System.Text.Encoding.UTF8);
@@ -59,14 +59,15 @@
 						return;
 				}
 
-				switch(_node.Names[1].Value)
+				var nameProperty = _tree.Children[1].Name;
+				switch (nameProperty.Value)
 				{
 					case "BoolProperty":
 					case "IntProperty":
 					case "NameProperty":
 					case "StructProperty":
 						{
-							var property = Util.CreateProperty(_node.Names[1]);
+							var property = Util.CreateProperty(nameProperty);
 							property.Name = name;
 							property.ReadValue(reader);
 							AppendChildren(property);
@@ -86,7 +87,7 @@
 			Name.Write(writer);
 			Util.WriteString(writer, "MapProperty");
 
-			_node.Write(writer);
+			_tree.Write(writer);
 			if (mValue.Length > 0)
 			{
 				writer.Write(mValue.Length);
@@ -99,7 +100,8 @@
 				using var bw = new BinaryWriter(ms);
 				foreach (var child in Children)
 				{
-					switch(_node.Names[0].Value)
+					var keyProperty = _tree.Children[0].Name;
+					switch (keyProperty.Value)
 					{
 						case "IntProperty":
 							bw.Write(Int32.Parse(child.Name.Value));
