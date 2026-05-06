@@ -1,6 +1,6 @@
 ![DL Count](https://img.shields.io/github/downloads/turtle-insect/GvasViewer/total.svg)
 
-![image](https://github.com/user-attachments/assets/90acd851-0169-40c6-b01d-c2636832bfa3)  
+![image](https://github.com/user-attachments/assets/c3a04c40-d767-44a7-93a4-b7699708dee0)  
 ex) Dragon Quest VII Reimagined  
 
 # What is ?
