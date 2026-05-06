@@ -1,4 +1,5 @@
 ﻿using Gvas.Property;
+using System.Reflection.PortableExecutable;
 
 namespace Gvas
 {
@@ -6,7 +7,6 @@ namespace Gvas
 	{
 		private GvasEngine mEngine = new();
 		private List<GvasProperty> mProperties = new();
-		private Byte[] mFooter = [];
 
 		public IReadOnlyList<GvasProperty> Properties
 		{
@@ -18,21 +18,23 @@ namespace Gvas
 			mProperties.Clear();
 
 			mEngine.Read(reader);
-			if(mEngine.PropertyTag())
+			if (mEngine.PropertyTag())
 			{
 				Util.GvasVersion = 2;
 			}
-			for (; ; )
+
+			for (; reader.BaseStream.Position < reader.BaseStream.Length;)
 			{
-				var property = Util.ReadProperty(reader);
+				if (mEngine.PropertyTag())
+				{
+					reader.ReadByte();
+				}
+
+				GvasRootProperty property = new();
+				property.Name = mEngine.Name;
 				property.Read(reader);
 				mProperties.Add(property);
-				if (property is GvasNoneProperty) break;
 			}
-
-			// rest
-			var length = reader.BaseStream.Length - reader.BaseStream.Position;
-			mFooter = reader.ReadBytes((int)length);
 		}
 
 		public void Write(BinaryWriter writer)
@@ -40,9 +42,13 @@ namespace Gvas
 			mEngine.Write(writer);
 			foreach (var property in mProperties)
 			{
+				if (mEngine.PropertyTag())
+				{
+					writer.Write('\0');
+				}
+
 				property.Write(writer);
 			}
-			writer.Write(mFooter);
 		}
 	}
 }
