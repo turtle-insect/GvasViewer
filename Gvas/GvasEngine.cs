@@ -5,10 +5,11 @@ namespace Gvas
 {
 	public class GvasEngine
 	{
-		public String Header { get; private set; } = String.Empty;
 		public GvasString Name { get; private set; } = new();
 
 		private Byte[] mBuffer = [];
+		private String _header { get; set; } = String.Empty;
+		private GvasString _detail { get; set; } = new();
 		private readonly List<Guid> mGuid = new();
 		private uint MajorVersion = 0;
 		private uint MinorVersion = 0;
@@ -16,9 +17,9 @@ namespace Gvas
 		public void Read(BinaryReader reader)
 		{
 			Byte[] buffer = reader.ReadBytes(4);
-			Header = Encoding.UTF8.GetString(buffer);
+			_header = Encoding.UTF8.GetString(buffer);
 
-			if (Header != "GVAS") throw new Exception();
+			if (_header != "GVAS") throw new Exception();
 
 			var version = reader.ReadUInt32();
 
@@ -29,7 +30,7 @@ namespace Gvas
 
 			if (version == 3) reader.BaseStream.Position += 4;
 
-			Name.Read(reader);
+			_detail.Read(reader);
 
 			// ???
 			reader.BaseStream.Position += 4;
@@ -45,9 +46,7 @@ namespace Gvas
 			}
 
 			// data
-			Util.ReadString(reader);
-
-			if (PropertyTag()) reader.ReadByte();
+			Name.Read(reader);
 
 			// TODO
 			long length = reader.BaseStream.Position;
