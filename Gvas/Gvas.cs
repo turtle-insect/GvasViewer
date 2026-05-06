@@ -1,5 +1,4 @@
 ﻿using Gvas.Property;
-using System.Reflection.PortableExecutable;
 
 namespace Gvas
 {
