@@ -10,7 +10,7 @@ namespace Gvas
 		private Byte[] mBuffer = [];
 		private String _header { get; set; } = String.Empty;
 		private GvasString _detail { get; set; } = new();
-		private readonly List<Guid> mGuid = new();
+		private readonly List<Guid> _guid = new();
 		private uint MajorVersion = 0;
 		private uint MinorVersion = 0;
 
@@ -41,8 +41,7 @@ namespace Gvas
 			{
 				buffer = reader.ReadBytes(16);
 				reader.ReadInt32();
-				Guid guid = new Guid(buffer);
-				mGuid.Add(guid);
+				_guid.Add(new Guid(buffer));
 			}
 
 			// data
