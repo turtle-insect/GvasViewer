@@ -5,16 +5,16 @@ namespace Gvas
 	public class Gvas
 	{
 		private GvasEngine _engine = new();
-		private List<GvasProperty> mProperties = new();
+		private List<GvasProperty> _properties = new();
 
 		public IReadOnlyList<GvasProperty> Properties
 		{
-			get => mProperties;
+			get => _properties;
 		}
 
 		public void Read(BinaryReader reader)
 		{
-			mProperties.Clear();
+			_properties.Clear();
 
 			_engine.Read(reader);
 			if (_engine.PropertyTag())
@@ -32,14 +32,14 @@ namespace Gvas
 				GvasRootProperty property = new();
 				property.Name = _engine.Name;
 				property.Read(reader);
-				mProperties.Add(property);
+				_properties.Add(property);
 			}
 		}
 
 		public void Write(BinaryWriter writer)
 		{
 			_engine.Write(writer);
-			foreach (var property in mProperties)
+			foreach (var property in _properties)
 			{
 				if (_engine.PropertyTag())
 				{
