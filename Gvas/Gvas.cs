@@ -14,6 +14,7 @@ namespace Gvas
 
 		public void Read(BinaryReader reader)
 		{
+			_engine = new();
 			_properties.Clear();
 
 			_engine.Read(reader);
