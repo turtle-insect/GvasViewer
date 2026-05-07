@@ -58,6 +58,7 @@ namespace GvasViewer
 
 		public void Save()
 		{
+			if (!IsAction()) return;
 			if (_fileFormat == null) return;
 
 			var buffer = WriteGvasBuffer();
@@ -97,6 +98,7 @@ namespace GvasViewer
 
 		public bool IsAction()
 		{
+			if (String.IsNullOrEmpty(_fileName)) return false;
 			if (_fileFormat == null) return false;
 
 			return true;
