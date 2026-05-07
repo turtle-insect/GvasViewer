@@ -4,7 +4,7 @@ namespace Gvas
 {
 	public class Gvas
 	{
-		private GvasEngine mEngine = new();
+		private GvasEngine _engine = new();
 		private List<GvasProperty> mProperties = new();
 
 		public IReadOnlyList<GvasProperty> Properties
@@ -16,21 +16,21 @@ namespace Gvas
 		{
 			mProperties.Clear();
 
-			mEngine.Read(reader);
-			if (mEngine.PropertyTag())
+			_engine.Read(reader);
+			if (_engine.PropertyTag())
 			{
 				Util.GvasVersion = 2;
 			}
 
 			for (; reader.BaseStream.Position < reader.BaseStream.Length;)
 			{
-				if (mEngine.PropertyTag())
+				if (_engine.PropertyTag())
 				{
 					reader.ReadByte();
 				}
 
 				GvasRootProperty property = new();
-				property.Name = mEngine.Name;
+				property.Name = _engine.Name;
 				property.Read(reader);
 				mProperties.Add(property);
 			}
@@ -38,10 +38,10 @@ namespace Gvas
 
 		public void Write(BinaryWriter writer)
 		{
-			mEngine.Write(writer);
+			_engine.Write(writer);
 			foreach (var property in mProperties)
 			{
-				if (mEngine.PropertyTag())
+				if (_engine.PropertyTag())
 				{
 					writer.Write('\0');
 				}
