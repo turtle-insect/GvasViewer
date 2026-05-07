@@ -10,7 +10,7 @@ namespace GvasViewer
 	{
 		private String mFileName = String.Empty;
 		private Gvas.Gvas _gvas = new();
-		private IFileFormat? mFileFormat;
+		private IFileFormat? _fileFormat;
 
 		public IReadOnlyList<GvasProperty>? Properties
 		{
@@ -42,7 +42,7 @@ namespace GvasViewer
 
 					ReadGvas(buffer);
 					mFileName = filename;
-					mFileFormat = fileFormat;
+					_fileFormat = fileFormat;
 					Backup();
 					return true;
 				}
@@ -58,12 +58,12 @@ namespace GvasViewer
 
 		public void Save()
 		{
-			if (mFileFormat == null) return;
+			if (_fileFormat == null) return;
 
 			var buffer = WriteGvasBuffer();
 			if (buffer == null) return;
 
-			mFileFormat.Save(mFileName, buffer);
+			_fileFormat.Save(mFileName, buffer);
 		}
 
 		public void SaveAs(String filename)
@@ -97,7 +97,7 @@ namespace GvasViewer
 
 		public bool IsAction()
 		{
-			if (mFileFormat == null) return false;
+			if (_fileFormat == null) return false;
 
 			return true;
 		}
