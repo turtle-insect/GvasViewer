@@ -54,7 +54,9 @@
 						break;
 
 					case "ByteProperty":
+					case "StrProperty":
 					case "NameProperty":
+					case "EnumProperty":
 						name.Read(reader);
 						break;
 
