@@ -8,7 +8,7 @@ namespace GvasViewer
 {
 	internal class SaveData
 	{
-		private String mFileName = String.Empty;
+		private String _fileName = String.Empty;
 		private Gvas.Gvas _gvas = new();
 		private IFileFormat? _fileFormat;
 
@@ -41,7 +41,7 @@ namespace GvasViewer
 					if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") continue;
 
 					ReadGvas(buffer);
-					mFileName = filename;
+					_fileName = filename;
 					_fileFormat = fileFormat;
 					Backup();
 					return true;
@@ -63,14 +63,14 @@ namespace GvasViewer
 			var buffer = WriteGvasBuffer();
 			if (buffer == null) return;
 
-			_fileFormat.Save(mFileName, buffer);
+			_fileFormat.Save(_fileName, buffer);
 		}
 
 		public void SaveAs(String filename)
 		{
 			if (!IsAction()) return;
 
-			mFileName = filename;
+			_fileName = filename;
 			Save();
 		}
 
@@ -129,8 +129,8 @@ namespace GvasViewer
 			{
 				Directory.CreateDirectory(path);
 			}
-			path = Path.Combine(path, $"{DateTime.Now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(mFileName)}");
-			File.Copy(mFileName, path, true);
+			path = Path.Combine(path, $"{DateTime.Now:yyyy-MM-dd HH-mm-ss} {Path.GetFileName(_fileName)}");
+			File.Copy(_fileName, path, true);
 		}
 	}
 }
