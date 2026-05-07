@@ -2,7 +2,7 @@
 {
 	internal class GvasLiteralProperty : GvasProperty
 	{
-		private Byte[] mValue = [];
+		private Byte[] _value = [];
 
 		public GvasLiteralProperty()
 			: base()
@@ -11,7 +11,7 @@
 		public GvasLiteralProperty(GvasLiteralProperty property)
 			: base(property)
 		{
-			mValue = property.mValue.ToArray();
+			_value = property._value.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -32,12 +32,12 @@
 
 		public void Read(BinaryReader reader, int size)
 		{
-			mValue = reader.ReadBytes(size);
+			_value = reader.ReadBytes(size);
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 
 		public override void ReadValue(BinaryReader reader)
