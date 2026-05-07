@@ -18,10 +18,7 @@ namespace Gvas
 			_properties.Clear();
 
 			_engine.Read(reader);
-			if (_engine.PropertyTag())
-			{
-				Util.GvasVersion = 2;
-			}
+			Util.GvasVersion = _engine.PropertyTag() ? 2U : 1;
 
 			for (; reader.BaseStream.Position < reader.BaseStream.Length;)
 			{
