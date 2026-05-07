@@ -21,14 +21,14 @@ namespace Gvas
 
 			if (_header != "GVAS") throw new Exception();
 
-			var version = reader.ReadUInt32();
+			var gameVersion = reader.ReadUInt32();
 
 			reader.BaseStream.Position += 8;
 			_majorVersion = reader.ReadUInt16();
 			_minorVersion = reader.ReadUInt16();
 			reader.BaseStream.Position += 2;
 
-			if (version == 3) reader.BaseStream.Position += 4;
+			if (gameVersion == 3) reader.BaseStream.Position += 4;
 
 			_detail.Read(reader);
 
