@@ -11,8 +11,8 @@ namespace Gvas
 		private String _header { get; set; } = String.Empty;
 		private GvasString _detail { get; set; } = new();
 		private readonly List<Guid> _guid = new();
-		private uint MajorVersion = 0;
-		private uint MinorVersion = 0;
+		private uint _majorVersion = 0;
+		private uint _minorVersion = 0;
 
 		public void Read(BinaryReader reader)
 		{
@@ -24,8 +24,8 @@ namespace Gvas
 			var version = reader.ReadUInt32();
 
 			reader.BaseStream.Position += 8;
-			MajorVersion = reader.ReadUInt16();
-			MinorVersion = reader.ReadUInt16();
+			_majorVersion = reader.ReadUInt16();
+			_minorVersion = reader.ReadUInt16();
 			reader.BaseStream.Position += 2;
 
 			if (version == 3) reader.BaseStream.Position += 4;
@@ -60,8 +60,8 @@ namespace Gvas
 
 		public bool PropertyTag()
 		{
-			if (MajorVersion < 5) return false;
-			if (MinorVersion < 4) return false;
+			if (_majorVersion < 5) return false;
+			if (_minorVersion < 4) return false;
 			return true;
 		}
 	}
