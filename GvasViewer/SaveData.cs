@@ -9,12 +9,12 @@ namespace GvasViewer
 	internal class SaveData
 	{
 		private String mFileName = String.Empty;
-		private Gvas.Gvas? mGvas;
+		private Gvas.Gvas _gvas = new();
 		private IFileFormat? mFileFormat;
 
 		public IReadOnlyList<GvasProperty>? Properties
 		{
-			get => mGvas?.Properties;
+			get => _gvas.Properties;
 		}
 
 		public bool Load(String filename)
@@ -40,7 +40,7 @@ namespace GvasViewer
 					if (buffer.Length < 4) continue;
 					if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") continue;
 
-					mGvas = CreateGvas(buffer);
+					ReadGvas(buffer);
 					mFileName = filename;
 					mFileFormat = fileFormat;
 					Backup();
@@ -59,9 +59,8 @@ namespace GvasViewer
 		public void Save()
 		{
 			if (mFileFormat == null) return;
-			if (mGvas == null) return;
 
-			var buffer = CreateGvasBuffer();
+			var buffer = WriteGvasBuffer();
 			if (buffer == null) return;
 
 			mFileFormat.Save(mFileName, buffer);
@@ -77,21 +76,20 @@ namespace GvasViewer
 
 		public void Import(String filename)
 		{
-			if (File.Exists(mFileName)) return;
 			if (!IsAction()) return;
 
 			var buffer = File.ReadAllBytes(filename);
 			if (buffer.Length < 4) return;
 			if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "GVAS") return;
 
-			mGvas = CreateGvas(buffer);
+			ReadGvas(buffer);
 		}
 
 		public void Export(String filename)
 		{
 			if (!IsAction()) return;
 
-			var buffer = CreateGvasBuffer();
+			var buffer = WriteGvasBuffer();
 			if (buffer == null) return;
 
 			File.WriteAllBytes(filename, buffer);
@@ -100,27 +98,24 @@ namespace GvasViewer
 		public bool IsAction()
 		{
 			if (mFileFormat == null) return false;
-			if (mGvas == null) return false;
 
 			return true;
 		}
 
-		private Gvas.Gvas CreateGvas(Byte[] buffer)
+		private void ReadGvas(Byte[] buffer)
 		{
 			using var ms = new MemoryStream(buffer);
 			using var reader = new BinaryReader(ms);
-			var gvas = new Gvas.Gvas();
-			gvas.Read(reader);
-			return gvas;
+			_gvas.Read(reader);
 		}
 
-		private Byte[]?  CreateGvasBuffer()
+		private Byte[]? WriteGvasBuffer()
 		{
-			if (mGvas == null) return null;
+			if (!IsAction()) return null;
 
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
-			mGvas.Write(writer);
+			_gvas.Write(writer);
 			writer.Flush();
 
 			return ms.ToArray();
