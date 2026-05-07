@@ -49,6 +49,7 @@
 						break;
 
 					case "ByteProperty":
+					case "StrProperty":
 					case "NameProperty":
 						name.Read(reader);
 						break;
