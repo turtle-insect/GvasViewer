@@ -29,7 +29,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			var size = reader.ReadUInt64();
+			reader.ReadUInt64();
 
 			mKey.Read(reader);
 			// ???
