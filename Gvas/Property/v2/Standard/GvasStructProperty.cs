@@ -1,10 +1,14 @@
-﻿namespace Gvas.Property.v2.Standard
+﻿using System.Diagnostics;
+
+namespace Gvas.Property.v2.Standard
 {
 	public class GvasStructProperty : GvasProperty
 	{
 		public GvasString Detail { get; set; } = new();
 		private GvasTree _tree = new();
-		private Byte _flag = 0;
+		private uint _version;
+		private GvasString _guid = new();
+		private Byte _flag;
 
 		public GvasStructProperty()
 			: base()
@@ -30,16 +34,22 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			reader.ReadUInt32();
-			Detail.Read(reader);
+			_version = reader.ReadUInt32();
 
+			Detail.Read(reader);
 			_tree.Read(reader);
+
+			if(_version == 2)
+			{
+				_guid.Read(reader);
+				reader.ReadUInt32();
+			}
 
 			// size
 			var size = reader.ReadInt32();
 			// flag
 			_flag = reader.ReadByte();
-			if(_flag == 8)
+			if(_flag != 0)
 			{
 				var property = new GvasLiteralProperty();
 				property.Read(reader, size);
@@ -62,9 +72,14 @@
 			WriteValue(bw);
 			bw.Flush();
 
-			writer.Write(1);
+			writer.Write(_version);
 			Detail.Write(writer);
 			_tree.Write(writer);
+			if (_version == 2)
+			{
+				_guid.Write(writer);
+				writer.Write(0);
+			}
 			writer.Write((int)ms.Length);
 			writer.Write(_flag);
 			writer.Write(ms.ToArray());
