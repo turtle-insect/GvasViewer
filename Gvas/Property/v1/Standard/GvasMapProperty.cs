@@ -69,26 +69,12 @@
 				switch(ValueType.Value)
 				{
 					case "BoolProperty":
-						{
-							var property = new GvasBoolProperty();
-							property.Name = name;
-							property.Value = reader.ReadBoolean();
-							AppendChildren(property);
-						}
-						break;
-
 					case "IntProperty":
-						{
-							var property = new GvasIntProperty();
-							property.Name = name;
-							property.Value = reader.ReadInt32();
-							AppendChildren(property);
-						}
-						break;
-
+					case "FloatProperty":
+					case "StrProperty":
 					case "NameProperty":
 						{
-							var property = new GvasNameProperty();
+							var property = Util.CreateProperty(ValueType);
 							property.Name = name;
 							property.ReadValue(reader);
 							AppendChildren(property);
