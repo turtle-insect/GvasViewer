@@ -74,6 +74,7 @@
 					case "FloatProperty":
 					case "StrProperty":
 					case "NameProperty":
+					case "EnumProperty":
 						{
 							var property = Util.CreateProperty(ValueType);
 							property.Name = name;
