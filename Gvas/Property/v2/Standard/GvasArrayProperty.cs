@@ -115,27 +115,18 @@
 				case "NameProperty":
 				case "StructProperty":
 					{
-						if(mValue.Length > 0)
+						using var ms = new MemoryStream();
+						using var bw = new BinaryWriter(ms);
+						foreach (var child in Children)
 						{
-							writer.Write(mValue.Length);
-							writer.Write('\0');
-							writer.Write(mValue);
+							child.WriteValue(bw);
 						}
-						else
-						{
-							using var ms = new MemoryStream();
-							using var bw = new BinaryWriter(ms);
-							foreach (var child in Children)
-							{
-								child.WriteValue(bw);
-							}
-							bw.Flush();
+						bw.Flush();
 
-							writer.Write((uint)ms.Length + 4);
-							writer.Write('\0');
-							writer.Write(Children.Count);
-							writer.Write(ms.ToArray());
-						}
+						writer.Write((uint)ms.Length + 4);
+						writer.Write('\0');
+						writer.Write(Children.Count);
+						writer.Write(ms.ToArray());
 					}
 					break;
 
