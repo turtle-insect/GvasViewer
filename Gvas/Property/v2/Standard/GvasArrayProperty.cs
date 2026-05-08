@@ -55,6 +55,7 @@
 				case "Int64Property":
 				case "UInt64Property":
 				case "FloatProperty":
+				case "StrProperty":
 				case "NameProperty":
 				case "StructProperty":
 					{
