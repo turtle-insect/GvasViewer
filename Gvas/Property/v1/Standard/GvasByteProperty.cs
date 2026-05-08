@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Gvas.Property.v1.Standard
+﻿namespace Gvas.Property.v1.Standard
 {
 	public class GvasByteProperty : GvasProperty
 	{
