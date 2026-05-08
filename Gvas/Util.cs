@@ -76,6 +76,7 @@ namespace Gvas
 					{
 						"BoolProperty" => new Property.v2.Standard.GvasBoolProperty(),
 						"ByteProperty" => new Property.v2.Standard.GvasByteProperty(),
+						"Int8Property" => new Property.v2.Standard.GvasInt8Property(),
 						"IntProperty" => new Property.v2.Standard.GvasIntProperty(),
 						"UInt32Property" => new Property.v2.Standard.GvasUInt32Property(),
 						"Int64Property" => new Property.v2.Standard.GvasInt64Property(),
