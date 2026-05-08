@@ -69,6 +69,7 @@
 				switch(ValueType.Value)
 				{
 					case "BoolProperty":
+					case "Int8Property":
 					case "IntProperty":
 					case "FloatProperty":
 					case "StrProperty":
