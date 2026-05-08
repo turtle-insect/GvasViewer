@@ -1,4 +1,4 @@
-﻿namespace Gvas.Property.v1.Standard
+﻿namespace Gvas.Property.v2.Standard
 {
 	public class GvasInt8Property : GvasProperty
 	{
@@ -41,7 +41,8 @@
 		{
 			Name.Write(writer);
 			Util.WriteString(writer, "Int8Property");
-			writer.Write((Int64)1);
+			writer.Write(0);
+			writer.Write(1);
 			writer.Write('\0');
 			writer.Write(mValue);
 		}
