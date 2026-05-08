@@ -323,6 +323,7 @@ namespace GvasViewer.ViewModel
 					// Since using try-catch slows things down, limit the search objects
 					switch (property)
 					{
+						case Gvas.Property.v1.Standard.GvasInt8Property:
 						case Gvas.Property.v1.Standard.GvasIntProperty:
 						case Gvas.Property.v1.Standard.GvasUInt32Property:
 						case Gvas.Property.v1.Standard.GvasInt64Property:
