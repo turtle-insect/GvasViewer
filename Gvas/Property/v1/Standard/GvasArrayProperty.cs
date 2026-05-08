@@ -55,6 +55,7 @@
 				case "Int64Property":
 				case "UInt64Property":
 				case "FloatProperty":
+				case "NameProperty":
 				case "EnumProperty":
 					{
 						uint count = reader.ReadUInt32();
@@ -64,29 +65,6 @@
 							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.ReadValue(reader);
 							AppendChildren(property);
-						}
-					}
-					break;
-
-				case "NameProperty":
-					{
-						var position = reader.BaseStream.Position;
-
-						try
-						{
-							uint count = reader.ReadUInt32();
-							for (uint index = 0; index < count; index++)
-							{
-								var property = new GvasNameProperty();
-								property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-								property.ReadValue(reader);
-								AppendChildren(property);
-							}
-						}
-						catch
-						{
-							reader.BaseStream.Position = position;
-							mValue = reader.ReadBytes((int)size);
 						}
 					}
 					break;
@@ -164,33 +142,6 @@
 					break;
 
 				case "NameProperty":
-					{
-						if(mValue.Length > 0)
-						{
-							writer.Write(mValue.LongLength);
-							PropertyType.Write(writer);
-							writer.Write('\0');
-							writer.Write(mValue);
-						}
-						else
-						{
-							using var ms = new MemoryStream();
-							using var bw = new BinaryWriter(ms);
-							foreach (var child in Children)
-							{
-								child.WriteValue(bw);
-							}
-							bw.Flush();
-
-							writer.Write(ms.Length + 4);
-							PropertyType.Write(writer);
-							writer.Write('\0');
-							writer.Write(Children.Count);
-							writer.Write(ms.ToArray());
-						}
-					}
-					break;
-
 				case "EnumProperty":
 					{
 						using var ms = new MemoryStream();
