@@ -55,6 +55,7 @@
 				case "Int64Property":
 				case "UInt64Property":
 				case "FloatProperty":
+				case "EnumProperty":
 					{
 						uint count = reader.ReadUInt32();
 						for (uint index = 0; index < count; index++)
@@ -187,6 +188,24 @@
 							writer.Write(Children.Count);
 							writer.Write(ms.ToArray());
 						}
+					}
+					break;
+
+				case "EnumProperty":
+					{
+						using var ms = new MemoryStream();
+						using var bw = new BinaryWriter(ms);
+						foreach (var child in Children)
+						{
+							child.WriteValue(bw);
+						}
+						bw.Flush();
+
+						writer.Write(ms.Length + 4);
+						PropertyType.Write(writer);
+						writer.Write('\0');
+						writer.Write(Children.Count);
+						writer.Write(ms.ToArray());
 					}
 					break;
 
