@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Gvas.Property.v2.Standard
+﻿namespace Gvas.Property.v2.Standard
 {
 	public class GvasStructProperty : GvasProperty
 	{
@@ -54,7 +52,6 @@ namespace Gvas.Property.v2.Standard
 				var property = new GvasLiteralProperty();
 				property.Read(reader, size);
 				AppendChildren(property);
-				
 			}
 			else
 			{
