@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property.v1.Standard
+﻿using System.Drawing;
+
+namespace Gvas.Property.v1.Standard
 {
 	public class GvasByteProperty : GvasProperty
 	{
@@ -59,7 +61,7 @@
 
 		public override void ReadValue(BinaryReader reader)
 		{
-			throw new NotImplementedException();
+			mValue = reader.ReadBytes(1);
 		}
 
 		public override void WriteValue(BinaryWriter writer)
