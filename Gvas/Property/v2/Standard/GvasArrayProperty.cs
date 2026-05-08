@@ -55,6 +55,7 @@
 				case "Int64Property":
 				case "UInt64Property":
 				case "FloatProperty":
+				case "NameProperty":
 				case "StructProperty":
 					{
 						uint count = reader.ReadUInt32();
@@ -64,29 +65,6 @@
 							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
 							property.ReadValue(reader);
 							AppendChildren(property);
-						}
-					}
-					break;
-
-				case "NameProperty":
-					{
-						var position = reader.BaseStream.Position;
-
-						try
-						{
-							uint count = reader.ReadUInt32();
-							for (uint index = 0; index < count; index++)
-							{
-								var property = new GvasNameProperty();
-								property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
-								property.ReadValue(reader);
-								AppendChildren(property);
-							}
-						}
-						catch
-						{
-							reader.BaseStream.Position = position;
-							mValue = reader.ReadBytes((int)size);
 						}
 					}
 					break;
