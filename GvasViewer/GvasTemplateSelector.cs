@@ -31,6 +31,7 @@ namespace GvasViewer
 				case Gvas.Property.v2.Standard.GvasByteProperty:
 					return GvasBytePropertyTemplate;
 
+				case Gvas.Property.v1.Standard.GvasInt8Property:
 				case Gvas.Property.v1.Standard.GvasIntProperty:
 				case Gvas.Property.v1.Standard.GvasUInt32Property:
 				case Gvas.Property.v1.Standard.GvasInt64Property:
