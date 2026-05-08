@@ -3,7 +3,6 @@
 	public class GvasStrProperty : GvasProperty
 	{
 		private GvasString mValue = new();
-		private Byte[] mBuffer = [];
 
 		public GvasStrProperty()
 			: base()
@@ -13,7 +12,6 @@
 			: base(property)
 		{
 			mValue = new(property.mValue);
-			mBuffer = property.mBuffer.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -34,14 +32,7 @@
 			// ???
 			reader.ReadByte();
 
-			try
-			{
-				mValue.Read(reader);
-			}
-			catch
-			{
-				mBuffer = reader.ReadBytes((int)size);
-			}
+			ReadValue(reader);
 		}
 
 		public override void Write(BinaryWriter writer)
@@ -49,28 +40,19 @@
 			Name.Write(writer);
 			Util.WriteString(writer, "StrProperty");
 
-			if (mBuffer.Length == 0)
-			{
-				writer.Write((UInt64)mValue.Size() + 4);
-				writer.Write('\0');
-				mValue.Write(writer);
-			}
-			else
-			{
-				writer.Write(mBuffer.LongLength);
-				writer.Write('\0');
-				writer.Write(mBuffer);
-			}
+			writer.Write((UInt64)mValue.Size() + 4);
+			writer.Write('\0');
+			mValue.Write(writer);
 		}
 
 		public override void ReadValue(BinaryReader reader)
 		{
-			throw new NotImplementedException();
+			mValue.Read(reader);
 		}
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			throw new NotImplementedException();
+			mValue.Write(writer);
 		}
 	}
 }
