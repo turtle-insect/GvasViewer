@@ -111,6 +111,7 @@
 					WritePropertyValue(writer, 8);
 					break;
 
+				case "StrProperty":
 				case "NameProperty":
 				case "StructProperty":
 					{
