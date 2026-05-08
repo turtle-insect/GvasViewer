@@ -11,7 +11,6 @@
 		public GvasByteProperty(GvasByteProperty property)
 			: base(property)
 		{
-			mPropertyName = property.mPropertyName;
 			mValue = property.mValue.ToArray();
 		}
 
@@ -32,14 +31,10 @@
 			}
 		}
 
-		private GvasString mPropertyName = new();
-
-
 		public override void Read(BinaryReader reader)
 		{
-			var size = reader.ReadUInt64();
-
-			mPropertyName.Read(reader);
+			reader.ReadUInt32();
+			var size = reader.ReadUInt32();
 
 			// ???
 			reader.ReadByte();
@@ -51,8 +46,8 @@
 		{
 			Name.Write(writer);
 			Util.WriteString(writer, "ByteProperty");
-			writer.Write(mValue.LongLength);
-			mPropertyName.Write(writer);
+			writer.Write(0);
+			writer.Write(mValue.Length);
 			writer.Write('\0');
 			writer.Write(mValue);
 		}
