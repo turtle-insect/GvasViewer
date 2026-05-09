@@ -27,9 +27,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			reader.ReadBytes(4);
-			var size = reader.ReadUInt32();
-			reader.ReadByte();
+			reader.ReadBytes(9);
 
 			ReadValue(reader);
 		}
