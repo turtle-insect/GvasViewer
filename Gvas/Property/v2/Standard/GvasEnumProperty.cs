@@ -31,10 +31,7 @@
 		{
 			_tree.Read(reader);
 
-			// size
-			reader.ReadUInt32();
-			// flag
-			reader.ReadByte();
+			reader.ReadBytes(5);
 
 			ReadValue(reader);
 		}
