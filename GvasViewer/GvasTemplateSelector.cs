@@ -41,6 +41,7 @@ namespace GvasViewer
 				case Gvas.Property.v1.Standard.GvasTextProperty:
 				case Gvas.Property.v1.Standard.GvasStrProperty:
 				case Gvas.Property.v1.Standard.GvasNameProperty:
+				case Gvas.Property.v2.Standard.GvasInt8Property:
 				case Gvas.Property.v2.Standard.GvasIntProperty:
 				case Gvas.Property.v2.Standard.GvasUInt32Property:
 				case Gvas.Property.v2.Standard.GvasInt64Property:
