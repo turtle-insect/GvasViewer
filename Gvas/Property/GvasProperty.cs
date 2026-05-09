@@ -3,14 +3,14 @@
 	public abstract class GvasProperty
 	{
 		public GvasString Name { get; set; } = new();
-		private GvasProperty? mParent;
-		private List<GvasProperty> mChildren { get; init; } = new();
+		private GvasProperty? _parent;
+		private List<GvasProperty> _children = new();
 
 		protected GvasProperty() { }
 		protected GvasProperty(GvasProperty property)
 		{
 			Name = new(property.Name);
-			foreach (var child in property.mChildren)
+			foreach (var child in property._children)
 			{
 				AppendChildren(child.Clone());
 			}
@@ -19,24 +19,24 @@
 
 		public IReadOnlyList<GvasProperty> Children
 		{
-			get => mChildren;
+			get => _children;
 		}
 		public void AppendChildren(GvasProperty property)
 		{
-			mChildren.Add(property);
-			property.mParent = this;
+			_children.Add(property);
+			property._parent = this;
 		}
 
 		public void ClearChildren()
 		{
-			mChildren.Clear();
+			_children.Clear();
 		}
 
 		public String Path()
 		{
 			var names = new List<String>();
 			names.Add(Name.Value);
-			for (var parent = mParent; parent != null; parent = parent.mParent)
+			for (var parent = _parent; parent != null; parent = parent._parent)
 			{
 				names.Add(parent.Name.Value);
 			}
