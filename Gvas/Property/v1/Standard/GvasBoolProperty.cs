@@ -2,7 +2,7 @@
 {
 	public class GvasBoolProperty : GvasProperty
 	{
-		private Boolean mValue;
+		private Boolean _value;
 
 		public GvasBoolProperty()
 			: base()
@@ -11,7 +11,7 @@
 		public GvasBoolProperty(GvasBoolProperty property)
 			: base(property)
 		{
-			mValue = property.mValue;
+			_value = property._value;
 		}
 
 		public override GvasProperty Clone()
@@ -21,12 +21,12 @@
 
 		public override object Value
 		{
-			get => mValue;
+			get => _value;
 			set
 			{
 				Boolean tmp;
 				Boolean.TryParse(value.ToString(), out tmp);
-				mValue = tmp;
+				_value = tmp;
 			}
 		}
 
@@ -45,18 +45,18 @@
 			Name.Write(writer);
 			Util.WriteString(writer, "BoolProperty");
 			writer.Write((Int64)0);
-			writer.Write(mValue);
+			writer.Write(_value);
 			writer.Write('\0');
 		}
 
 		public override void ReadValue(BinaryReader reader)
 		{
-			mValue = reader.ReadBoolean();
+			_value = reader.ReadBoolean();
 		}
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 	}
 }
