@@ -2,7 +2,7 @@
 {
 	public class GvasByteProperty : GvasProperty
 	{
-		private Byte[] mValue = [];
+		private Byte[] _value = [];
 
 		public GvasByteProperty()
 			: base()
@@ -11,7 +11,7 @@
 		public GvasByteProperty(GvasByteProperty property)
 			: base(property)
 		{
-			mValue = property.mValue.ToArray();
+			_value = property._value.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -21,13 +21,13 @@
 
 		public override object Value
 		{
-			get => mValue;
+			get => _value;
 			set
 			{
 				Byte[]? tmp = value as Byte[];
 				if (tmp == null) return;
 
-				mValue = tmp;
+				_value = tmp;
 			}
 		}
 
@@ -39,7 +39,7 @@
 			// ???
 			reader.ReadByte();
 
-			mValue = reader.ReadBytes((int)size);
+			_value = reader.ReadBytes((int)size);
 		}
 
 		public override void Write(BinaryWriter writer)
@@ -47,9 +47,9 @@
 			Name.Write(writer);
 			Util.WriteString(writer, "ByteProperty");
 			writer.Write(0);
-			writer.Write(mValue.Length);
+			writer.Write(_value.Length);
 			writer.Write('\0');
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 
 		public override void ReadValue(BinaryReader reader)
@@ -59,7 +59,7 @@
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 	}
 }
