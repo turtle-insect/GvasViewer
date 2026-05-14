@@ -6,7 +6,7 @@
 		{
 			get => _tree.Children[0].Name;
 		}
-		private Byte[] mValue = [];
+		private Byte[] _value = [];
 		private GvasTree _tree = new();
 
 		public GvasArrayProperty()
@@ -16,7 +16,7 @@
 		public GvasArrayProperty(GvasArrayProperty property)
 			: base(property)
 		{
-			mValue = property.mValue.ToArray();
+			_value = property._value.ToArray();
 			_tree = new(property._tree);
 		}
 
@@ -71,7 +71,7 @@
 					break;
 
 				default:
-					mValue = reader.ReadBytes((int)size);
+					_value = reader.ReadBytes((int)size);
 					break;
 			}
 		}
@@ -131,9 +131,9 @@
 					break;
 
 				default:
-					writer.Write(mValue.Length);
+					writer.Write(_value.Length);
 					writer.Write('\0');
-					writer.Write(mValue);
+					writer.Write(_value);
 					break;
 			}
 		}
