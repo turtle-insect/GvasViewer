@@ -2,7 +2,8 @@
 {
 	public class GvasByteProperty : GvasProperty
 	{
-		private Byte[] mValue = [];
+		private Byte[] _value = [];
+		private GvasString _propertyName = new();
 
 		public GvasByteProperty()
 			: base()
@@ -11,8 +12,8 @@
 		public GvasByteProperty(GvasByteProperty property)
 			: base(property)
 		{
-			mPropertyName = property.mPropertyName;
-			mValue = property.mValue.ToArray();
+			_propertyName = property._propertyName;
+			_value = property._value.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -22,49 +23,46 @@
 
 		public override object Value
 		{
-			get => mValue;
+			get => _value;
 			set
 			{
 				Byte[]? tmp = value as Byte[];
 				if (tmp == null) return;
 
-				mValue = tmp;
+				_value = tmp;
 			}
 		}
-
-		private GvasString mPropertyName = new();
-
 
 		public override void Read(BinaryReader reader)
 		{
 			var size = reader.ReadUInt64();
 
-			mPropertyName.Read(reader);
+			_propertyName.Read(reader);
 
 			// ???
 			reader.ReadByte();
 
-			mValue = reader.ReadBytes((int)size);
+			_value = reader.ReadBytes((int)size);
 		}
 
 		public override void Write(BinaryWriter writer)
 		{
 			Name.Write(writer);
 			Util.WriteString(writer, "ByteProperty");
-			writer.Write(mValue.LongLength);
-			mPropertyName.Write(writer);
+			writer.Write(_value.LongLength);
+			_propertyName.Write(writer);
 			writer.Write('\0');
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 
 		public override void ReadValue(BinaryReader reader)
 		{
-			mValue = reader.ReadBytes(1);
+			_value = reader.ReadBytes(1);
 		}
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 	}
 }
