@@ -2,7 +2,7 @@
 {
 	public class GvasDoubleProperty : GvasProperty
 	{
-		private double mValue;
+		private double _value;
 
 		public GvasDoubleProperty()
 			: base()
@@ -11,7 +11,7 @@
 		public GvasDoubleProperty(GvasDoubleProperty property)
 			: base(property)
 		{
-			mValue = property.mValue;
+			_value = property._value;
 		}
 
 		public override GvasProperty Clone()
@@ -21,12 +21,12 @@
 
 		public override object Value
 		{
-			get => mValue;
+			get => _value;
 			set
 			{
 				double tmp;
 				if (double.TryParse(value.ToString(), out tmp) == false) return;
-				mValue = tmp;
+				_value = tmp;
 			}
 		}
 
@@ -43,17 +43,17 @@
 			Util.WriteString(writer, "DoubleProperty");
 			writer.Write((Int64)8);
 			writer.Write('\0');
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 
 		public override void ReadValue(BinaryReader reader)
 		{
-			mValue = reader.ReadDouble();
+			_value = reader.ReadDouble();
 		}
 
 		public override void WriteValue(BinaryWriter writer)
 		{
-			writer.Write(mValue);
+			writer.Write(_value);
 		}
 	}
 }
