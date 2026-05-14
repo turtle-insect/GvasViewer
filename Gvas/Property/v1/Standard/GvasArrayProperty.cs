@@ -3,8 +3,8 @@
 	public class GvasArrayProperty : GvasProperty
 	{
 		public GvasString PropertyType { get; private set; } = new();
-		private GvasStructProperty? mBaseProperty;
-		private Byte[] mValue = [];
+		private GvasStructProperty? _baseProperty;
+		private Byte[] _value = [];
 
 		public GvasArrayProperty()
 			: base()
@@ -14,8 +14,8 @@
 			: base(property)
 		{
 			PropertyType = new(property.PropertyType);
-			mBaseProperty = property.mBaseProperty;
-			mValue = property.mValue.ToArray();
+			_baseProperty = property._baseProperty;
+			_value = property._value.ToArray();
 		}
 
 		public override GvasProperty Clone()
@@ -71,11 +71,11 @@
 
 				case "StructProperty":
 					{
-						mBaseProperty = new GvasStructProperty();
+						_baseProperty = new GvasStructProperty();
 						uint count = reader.ReadUInt32();
 
 						// name
-						mBaseProperty.Name.Read(reader);
+						_baseProperty.Name.Read(reader);
 
 						// type
 						// StructProperty
@@ -84,8 +84,8 @@
 						// size
 						reader.ReadUInt64();
 
-						mBaseProperty.Detail.Read(reader);
-						mBaseProperty.GUID = reader.ReadBytes(16);
+						_baseProperty.Detail.Read(reader);
+						_baseProperty.GUID = reader.ReadBytes(16);
 
 						// ???
 						reader.ReadByte();
@@ -93,16 +93,16 @@
 						for (uint index = 0; index < count; index++)
 						{
 							var property = new GvasStructProperty();
-							property.Name = mBaseProperty.Name;
-							property.Detail = mBaseProperty.Detail;
-							property.ReadChild(reader, mBaseProperty.Detail);
+							property.Name = _baseProperty.Name;
+							property.Detail = _baseProperty.Detail;
+							property.ReadChild(reader, _baseProperty.Detail);
 							AppendChildren(property);
 						}
 					}
 					break;
 
 				default:
-					mValue = reader.ReadBytes((int)size);
+					_value = reader.ReadBytes((int)size);
 					break;
 			}
 		}
@@ -171,29 +171,29 @@
 						bw.Flush();
 
 						// Implementation error
-						if (mBaseProperty == null) throw new NullReferenceException();
+						if (_baseProperty == null) throw new NullReferenceException();
 
 						// size
 						// (Children.Count ~ ms.ToArray()).size
-						writer.Write((Int64)4 + mBaseProperty.Name.Size() + 4 + 19 + 8 + mBaseProperty.Detail.Size() + 4 + 17 + ms.Length);
+						writer.Write((Int64)4 + _baseProperty.Name.Size() + 4 + 19 + 8 + _baseProperty.Detail.Size() + 4 + 17 + ms.Length);
 						PropertyType.Write(writer);
 						writer.Write('\0');
 						writer.Write(Children.Count);
-						mBaseProperty.Name.Write(writer);
+						_baseProperty.Name.Write(writer);
 						Util.WriteString(writer, "StructProperty");
 						writer.Write(ms.Length);
-						mBaseProperty.Detail.Write(writer);
-						writer.Write(mBaseProperty.GUID);
+						_baseProperty.Detail.Write(writer);
+						writer.Write(_baseProperty.GUID);
 						writer.Write('\0');
 						writer.Write(ms.ToArray());
 					}
 					break;
 
 				default:
-					writer.Write(mValue.LongLength);
+					writer.Write(_value.LongLength);
 					PropertyType.Write(writer);
 					writer.Write('\0');
-					writer.Write(mValue);
+					writer.Write(_value);
 					break;
 			}
 		}
