@@ -7,7 +7,7 @@ namespace Gvas
 	{
 		public GvasString Name { get; private set; } = new();
 
-		private Byte[] mBuffer = [];
+		private Byte[] _buffer = [];
 		private String _header { get; set; } = String.Empty;
 		private GvasString _detail { get; set; } = new();
 		private readonly List<Guid> _guid = new();
@@ -50,12 +50,12 @@ namespace Gvas
 			// TODO
 			long length = reader.BaseStream.Position;
 			reader.BaseStream.Position = 0;
-			mBuffer = reader.ReadBytes((int)length);
+			_buffer = reader.ReadBytes((int)length);
 		}
 
 		public void Write(BinaryWriter writer)
 		{
-			writer.Write(mBuffer);
+			writer.Write(_buffer);
 		}
 
 		public bool PropertyTag()
