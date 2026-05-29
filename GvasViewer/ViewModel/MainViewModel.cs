@@ -185,10 +185,10 @@ namespace GvasViewer.ViewModel
 			GvasProperty? child = null;
 			if (count == 0)
 			{
-				switch(property.Children[0])
+				var propertyType = getGvasArrayPropertyType(property);
+				switch (propertyType)
 				{
-					case Gvas.Property.v1.Standard.GvasNameProperty:
-					case Gvas.Property.v2.Standard.GvasNameProperty:
+					case "NameProperty":
 						child = property.Children[0].Clone();
 						child.Value = "dummy";
 						break;
@@ -379,6 +379,13 @@ namespace GvasViewer.ViewModel
 			if (property is Gvas.Property.v1.Standard.GvasArrayProperty) return true;
 			if (property is Gvas.Property.v2.Standard.GvasArrayProperty) return true;
 			return false;
+		}
+
+		private String getGvasArrayPropertyType(GvasProperty property)
+		{
+			if (property is Gvas.Property.v1.Standard.GvasArrayProperty v1) return v1.PropertyType.Value;
+			if (property is Gvas.Property.v2.Standard.GvasArrayProperty v2) return v2.PropertyType.Value;
+			return String.Empty;
 		}
 
 		private bool IsGvasMapProperty(GvasProperty property)
