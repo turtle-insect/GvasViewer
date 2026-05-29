@@ -5,6 +5,8 @@
 		public GvasString Detail { get; set; } = new();
 		public Byte[] GUID { get; set; } = [];
 
+		private UInt64 _size;
+
 		public GvasStructProperty()
 			: base()
 		{ }
@@ -15,6 +17,7 @@
 			Detail = new(property.Detail);
 			// not GUID = property.GUID.ToArray();
 			GUID = System.Guid.NewGuid().ToByteArray();
+			_size = property._size;
 		}
 
 		public override GvasProperty Clone()
@@ -30,7 +33,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			var size = reader.ReadUInt64();
+			_size = reader.ReadUInt64();
 
 			// name
 			Detail = Util.ReadString(reader);
@@ -49,50 +52,24 @@
 				// Date & Time
 				case "Timespan":
 				case "DateTime":
-					{
-						var property = new GvasLiteralProperty();
-						property.Read(reader, 8);
-						AppendChildren(property);
-					}
-					break;
 
 				// Vector
 				case "Vector2D":
-					{
-						var property = new GvasLiteralProperty();
-						property.Read(reader, 8);
-						AppendChildren(property);
-					}
-					break;
 				case "Vector":
 				case "Rotator":
-					{
-						var property = new GvasLiteralProperty();
-						property.Read(reader, 12);
-						AppendChildren(property);
-					}
-					break;
+
 				// Quaternion
 				case "Quat":
-					{
-						var property = new GvasLiteralProperty();
-						property.Read(reader, 16);
-						AppendChildren(property);
-					}
-					break;
 
 				// Color
 				case "Color":
-					{
-						var property = new GvasLiteralProperty();
-						property.Read(reader, 4);
-						AppendChildren(property);
-					}
-					break;
 				case "LinearColor":
+
+				// Guid
+				case "Guid":
 					{
 						var property = new GvasLiteralProperty();
-						property.Read(reader, 16);
+						property.Read(reader, (int)_size);
 						AppendChildren(property);
 					}
 					break;
