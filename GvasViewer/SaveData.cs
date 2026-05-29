@@ -50,10 +50,7 @@ namespace GvasViewer
 				{
 					throw;
 				}
-				catch
-				{
-					break;
-				}
+				catch { }
 			}
 
 			return false;
