@@ -188,12 +188,8 @@ namespace GvasViewer.ViewModel
 				switch(property.Children[0])
 				{
 					case Gvas.Property.v1.Standard.GvasNameProperty:
-						child = new Gvas.Property.v1.Standard.GvasNameProperty();
-						child.Value = "dummy";
-						break;
-
 					case Gvas.Property.v2.Standard.GvasNameProperty:
-						child = new Gvas.Property.v2.Standard.GvasNameProperty();
+						child = property.Children[0].Clone();
 						child.Value = "dummy";
 						break;
 
