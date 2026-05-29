@@ -8,7 +8,7 @@ namespace GvasViewer
 #pragma warning disable CS8618
 		// use xaml
 		public DataTemplate GvasTitleTemplate { get; set; }
-		public DataTemplate GvasBytePropertyTemplate { get; set; }
+		public DataTemplate GvasByteTemplate { get; set; }
 		public DataTemplate GvasArrayPropertyTemplate { get; set; }
 		public DataTemplate GvasMapPropertyTemplate { get; set; }
 		public DataTemplate GvasStructPropertyTemplate { get; set; }
@@ -29,7 +29,10 @@ namespace GvasViewer
 
 				case Gvas.Property.v1.Standard.GvasByteProperty:
 				case Gvas.Property.v2.Standard.GvasByteProperty:
-					return GvasBytePropertyTemplate;
+					return GvasByteTemplate;
+
+				case Gvas.Property.GvasLiteralProperty:
+					return GvasByteTemplate;
 
 				case Gvas.Property.v1.Standard.GvasInt8Property:
 				case Gvas.Property.v1.Standard.GvasIntProperty:

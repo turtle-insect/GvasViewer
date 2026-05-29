@@ -77,7 +77,7 @@
 						</Label>
 					</DataTemplate>
 
-					<DataTemplate x:Key="GvasBytePropertyTemplateResource">
+					<DataTemplate x:Key="GvasByteTemplateResource">
 						<StackPanel Orientation="Horizontal">
 							<Label>
 								<ContentPresenter
@@ -85,10 +85,10 @@
 								RecognizesAccessKey="False"/>
 							</Label>
 							<Button Content="Export"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ExportBytePropertyCommand}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ExportByteCommand}"
 									CommandParameter="{Binding}"/>
 							<Button Content="Import"
-									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ImportBytePropertyCommand}"
+									Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}, Path=DataContext.ImportByteCommand}"
 									CommandParameter="{Binding}"/>
 						</StackPanel>
 					</DataTemplate>
@@ -170,7 +170,7 @@
 					<!-- GvasTemplateSelector -->
 					<local:GvasTemplateSelector x:Key="GvasDataTemplateSelector"
 												GvasTitleTemplate="{StaticResource GvasTitleTemplateResource}"
-												GvasBytePropertyTemplate="{StaticResource GvasBytePropertyTemplateResource}"
+												GvasByteTemplate="{StaticResource GvasByteTemplateResource}"
 												GvasArrayPropertyTemplate="{StaticResource GvasArrayPropertyTemplateResource}"
 												GvasMapPropertyTemplate="{StaticResource GvasMapPropertyTemplateResource}"
 												GvasStructPropertyTemplate="{StaticResource GvasStructPropertyTemplateResource}"

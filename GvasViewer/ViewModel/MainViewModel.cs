@@ -19,8 +19,8 @@ namespace GvasViewer.ViewModel
 		public ICommand CopyPropertyNameCommand { get; init; }
 		public ICommand CopyPropertyPathCommand { get; init; }
 		public ICommand SearchPropertyCommand { get; init; }
-		public ICommand ExportBytePropertyCommand { get; init; }
-		public ICommand ImportBytePropertyCommand { get; init; }
+		public ICommand ExportByteCommand { get; init; }
+		public ICommand ImportByteCommand { get; init; }
 		public ICommand CreateArrayPropertyCommand { get; init; }
 		public ICommand ImportArrayPropertyCommand { get; init; }
 		public ICommand CreateMapPropertyCommand { get; init; }
@@ -48,8 +48,8 @@ namespace GvasViewer.ViewModel
 			CopyPropertyNameCommand = new ActionCommand(CopyPropertyName);
 			CopyPropertyPathCommand = new ActionCommand(CopyPropertyPath);
 			SearchPropertyCommand = new ActionCommand(SearchProperty);
-			ExportBytePropertyCommand = new ActionCommand(ExportByteProperty);
-			ImportBytePropertyCommand = new ActionCommand(ImportByteProperty);
+			ExportByteCommand = new ActionCommand(ExportByte);
+			ImportByteCommand = new ActionCommand(ImportByte);
 			CreateArrayPropertyCommand = new ActionCommand(CreateArrayProperty);
 			ImportArrayPropertyCommand = new ActionCommand(ImportArrayProperty);
 			CreateMapPropertyCommand = new ActionCommand(CreateMapProperty);
@@ -140,13 +140,14 @@ namespace GvasViewer.ViewModel
 			LoadProperty();
 		}
 
-		private void ExportByteProperty(Object? parameter)
+		private void ExportByte(Object? parameter)
 		{
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
-			var property = vm.Property as Gvas.Property.v1.Standard.GvasByteProperty;
-			if (property == null) return;
+			var property = vm.Property;
+			if (!(IsGvasByteProperty(property) == true ||
+				IsGvasLiteralProperty(property) == true)) return;
 
 			Byte[]? buffer = property.Value as Byte[];
 			if (buffer == null) return;
@@ -157,13 +158,14 @@ namespace GvasViewer.ViewModel
 			File.WriteAllBytes(dlg.FileName, buffer);
 		}
 
-		private void ImportByteProperty(Object? parameter)
+		private void ImportByte(Object? parameter)
 		{
 			var vm = parameter as GvasPropertyViewModel;
 			if (vm == null) return;
 
 			var property = vm.Property;
-			if (IsGvasByteProperty(property) == false) return;
+			if (!(IsGvasByteProperty(property) == true ||
+				IsGvasLiteralProperty(property) == true)) return;
 
 			var dlg = new OpenFileDialog();
 			if (dlg.ShowDialog() == false) return;
@@ -361,6 +363,12 @@ namespace GvasViewer.ViewModel
 			{
 				LoadProperty(child);
 			}
+		}
+
+		private bool IsGvasLiteralProperty(GvasProperty property)
+		{
+			if (property is Gvas.Property.GvasLiteralProperty) return true;
+			return false;
 		}
 
 		private bool IsGvasByteProperty(GvasProperty property)
