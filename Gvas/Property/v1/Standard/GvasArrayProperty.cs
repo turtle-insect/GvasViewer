@@ -1,4 +1,6 @@
-﻿namespace Gvas.Property.v1.Standard
+﻿using System.Diagnostics;
+
+namespace Gvas.Property.v1.Standard
 {
 	public class GvasArrayProperty : GvasProperty
 	{
@@ -74,27 +76,22 @@
 						_baseProperty = new GvasStructProperty();
 						uint count = reader.ReadUInt32();
 
-						// name
 						_baseProperty.Name.Read(reader);
 
 						// type
 						// StructProperty
 						Util.ReadString(reader);
 
-						// size
-						reader.ReadUInt64();
-
-						_baseProperty.Detail.Read(reader);
-						_baseProperty.GUID = reader.ReadBytes(16);
-
-						// ???
-						reader.ReadByte();
+						_baseProperty.ReadHeader(reader);
 
 						for (uint index = 0; index < count; index++)
 						{
-							var property = new GvasStructProperty();
-							property.Name = _baseProperty.Name;
-							property.Detail = _baseProperty.Detail;
+							var property = _baseProperty.Clone() as GvasStructProperty;
+							if(property == null)
+							{
+								throw new UnreachableException();
+							}
+							property.Size = _baseProperty.Size / count;
 							property.ReadChild(reader, _baseProperty.Detail);
 							AppendChildren(property);
 						}

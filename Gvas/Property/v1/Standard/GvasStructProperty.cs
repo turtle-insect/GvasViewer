@@ -4,8 +4,7 @@
 	{
 		public GvasString Detail { get; set; } = new();
 		public Byte[] GUID { get; set; } = [];
-
-		private UInt64 _size;
+		public UInt64 Size { get; set; }
 
 		public GvasStructProperty()
 			: base()
@@ -17,7 +16,7 @@
 			Detail = new(property.Detail);
 			// not GUID = property.GUID.ToArray();
 			GUID = System.Guid.NewGuid().ToByteArray();
-			_size = property._size;
+			Size = property.Size;
 		}
 
 		public override GvasProperty Clone()
@@ -31,9 +30,9 @@
 			set => throw new NotImplementedException();
 		}
 
-		public override void Read(BinaryReader reader)
+		public void ReadHeader(BinaryReader reader)
 		{
-			_size = reader.ReadUInt64();
+			Size = reader.ReadUInt64();
 
 			// name
 			Detail = Util.ReadString(reader);
@@ -41,6 +40,11 @@
 			GUID = reader.ReadBytes(16);
 			// ???
 			reader.ReadByte();
+		}
+
+		public override void Read(BinaryReader reader)
+		{
+			ReadHeader(reader);
 
 			ReadChild(reader, Detail);
 		}
@@ -69,7 +73,7 @@
 				case "Guid":
 					{
 						var property = new GvasLiteralProperty();
-						property.Read(reader, (int)_size);
+						property.Read(reader, (int)Size);
 						AppendChildren(property);
 					}
 					break;
