@@ -27,6 +27,7 @@ namespace GvasViewer.FileFormat.Platform
 				Platform.Steam,
 				new()
 				{
+					{ 0x001, "SVKEY_s2xtp2FaPkNQBQbrVEPyFySi5W" },
 					// Demo
 					{ 0x0100, "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH" },
 				}
@@ -38,6 +39,15 @@ namespace GvasViewer.FileFormat.Platform
 					{ 0x0001, "SVKEY_jXRJ79k-mFGiycZiEg3XRCwhdL" },
 					// Demo
 					{ 0x0100, "SVKEY_SMu9925aiVxMsSncwbZFw_tY4K" },
+				}
+			},
+			{
+				Platform.PS5,
+				new()
+				{
+					{ 0x0001, "SVKEY_fRUVsaYRALkwMPTaSTcSmjDt6S" },
+					// Demo
+					{ 0x0100, "SVKEY_6CGD4DyhPDsU9RyFHWkjK7XP37" },
 				}
 			}
 		};

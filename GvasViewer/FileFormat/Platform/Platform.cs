@@ -4,5 +4,6 @@
 	{
 		Steam,
 		Switch,
+		PS5,
 	}
 }
