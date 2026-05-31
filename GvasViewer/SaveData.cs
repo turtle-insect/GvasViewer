@@ -29,6 +29,7 @@ namespace GvasViewer
 				new FileFormat.Platform.Switch.RomancingSaga2(),
 				new DragonQuest7(Platform.Steam),
 				new DragonQuest7(Platform.Switch),
+				new DragonQuest7(Platform.PS5),
 				new OctopathTraveler0(),
 			];
 
