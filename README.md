@@ -10,7 +10,7 @@ GvasViewer
 # Advance
 * Windows 11(or 10)
 * [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-* ※ oo2core_9_win64.dll
+* ※ oo2core.dll
 
 # Usage
 * Prepare GVAS files
@@ -45,12 +45,12 @@ abc	def	ghi
 abc	def
 ```
 
-## oo2core_9_win64.dll
+## oo2core.dll
 * Download `EpicInstaller` from the [Epic Games Store](https://www.epicgames.com/)
 * Install the Epic Games Launcher
-* Install Unreal Engine 5.7.4
-* Search for `oo2core_9_win64.dll` in the Unreal Engine installation folder
-* Copy `oo2core_9_win64.dll` to the same folder as the executable file
+* Install Unreal Engine 5.8.0
+* Search for `oo2core.dll` in the Unreal Engine installation folder
+* Copy `oo2core.dll` to the same folder as the executable file
 
 # Build
 * [Visual Studio 2026](https://visualstudio.microsoft.com/)
