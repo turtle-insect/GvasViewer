@@ -8,7 +8,7 @@ namespace GvasViewer.FileFormat.Util
 {
 	internal class Oodle
 	{
-		[DllImport("oo2core_9_win64.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("oo2core.dll", CallingConvention = CallingConvention.Cdecl)]
 		// return file size?
 		private static extern long OodleLZ_Compress(
 			int compressor,
@@ -23,7 +23,7 @@ namespace GvasViewer.FileFormat.Util
 			long scratchSize
 		);
 
-		[DllImport("oo2core_9_win64.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("oo2core.dll", CallingConvention = CallingConvention.Cdecl)]
 		private static extern long OodleLZ_Decompress(
 			byte[] compBuf,
 			long compBufSize,
@@ -41,7 +41,7 @@ namespace GvasViewer.FileFormat.Util
 			int threadPhase
 		);
 
-		[DllImport("oo2core_9_win64.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("oo2core.dll", CallingConvention = CallingConvention.Cdecl)]
 		private static extern long OodleLZ_GetCompressedBufferSizeNeeded(
 			int compressor,
 			long rawSize
