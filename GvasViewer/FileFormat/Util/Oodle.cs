@@ -2,6 +2,9 @@
 
 namespace GvasViewer.FileFormat.Util
 {
+	// Unreal Engine
+	// Engine\Source\Programs\Shared\EpicGames.Oodle\Oodle.cs
+
 	internal class Oodle
 	{
 		[DllImport("oo2core.dll", CallingConvention = CallingConvention.Cdecl)]
