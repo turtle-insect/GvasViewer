@@ -27,7 +27,7 @@ namespace GvasViewer.FileFormat.Platform
 				Platform.Steam,
 				new()
 				{
-					{ 0x001, "SVKEY_s2xtp2FaPkNQBQbrVEPyFySi5W" },
+					{ 0x0001, "SVKEY_s2xtp2FaPkNQBQbrVEPyFySi5W" },
 					// Demo
 					{ 0x0100, "SVKEY_AHj6kPzYp2BKD5-s63YAYLKXPH" },
 				}
