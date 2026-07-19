@@ -19,11 +19,9 @@ namespace GvasViewer.FileFormat.Platform
 
 		public void Save(String filename, Byte[] buffer)
 		{
-			var length = buffer.Length;
-			
 			Oodle oodle = new();
 			buffer = [
-				.. BitConverter.GetBytes(length),
+				.. BitConverter.GetBytes(buffer.Length),
 				.. BitConverter.GetBytes(0),
 				.. oodle.Compress(buffer),
 			];
