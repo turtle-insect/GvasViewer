@@ -99,7 +99,11 @@ namespace GvasViewer.FileFormat.Platform
 			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
 			using var cryptor = aes.CreateEncryptor();
 			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
-			buffer = [.. BitConverter.GetBytes(mVersion), .. BitConverter.GetBytes(buffer.Length), .. buffer];
+			buffer = [
+				.. BitConverter.GetBytes(mVersion),
+				.. BitConverter.GetBytes(buffer.Length),
+				.. buffer
+			];
 
 			System.IO.File.WriteAllBytes(filename, buffer);
 		}
