@@ -347,12 +347,11 @@ namespace GvasViewer.ViewModel
 					break;
 			}
 
-			if(String.IsNullOrEmpty(value) == false)
+			if (String.IsNullOrEmpty(value)) return;
+
+			if (value.Contains(Keyword.ToLower()))
 			{
-				if (value.Contains(Keyword.ToLower()))
-				{
-					GvasProperties.Add(new GvasPropertyViewModel(property));
-				}
+				GvasProperties.Add(new GvasPropertyViewModel(property));
 			}
 
 			foreach (var child in property.Children)
