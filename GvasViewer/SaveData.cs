@@ -1,6 +1,7 @@
 ﻿using Gvas.Property;
 using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Platform;
+using GvasViewer.FileFormat.Platform.Steam;
 using System.Diagnostics;
 using System.IO;
 
@@ -30,6 +31,7 @@ namespace GvasViewer
 				new DragonQuest7(Platform.Steam),
 				new DragonQuest7(Platform.Switch),
 				new DragonQuest7(Platform.PS5),
+				new Palworld(),
 				new OctopathTraveler0(),
 			];
 
