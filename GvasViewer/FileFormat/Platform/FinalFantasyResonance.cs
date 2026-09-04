@@ -20,13 +20,7 @@ namespace GvasViewer.FileFormat.Platform
 
 			mVersion = BitConverter.ToUInt32(buffer, 4);
 			buffer = buffer[32..];
-
-			using var aes = Aes.Create();
-			aes.Mode = CipherMode.ECB;
-			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKey);
-			using var cryptor = aes.CreateDecryptor();
-			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
+			buffer = Crypt(buffer, false);
 
 			// 16Byte padding
 			// Search "None"
@@ -45,12 +39,7 @@ namespace GvasViewer.FileFormat.Platform
 			// 16Byte padding
 			Array.Resize(ref buffer, (buffer.Length + 15) / 16 * 16);
 
-			using var aes = Aes.Create();
-			aes.Mode = CipherMode.ECB;
-			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKey);
-			using var cryptor = aes.CreateEncryptor();
-			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
+			buffer = Crypt(buffer, true);
 
 			using var sha1 = SHA1.Create();
 			buffer = [
@@ -62,6 +51,20 @@ namespace GvasViewer.FileFormat.Platform
 			];
 
 			System.IO.File.WriteAllBytes(filename, buffer);
+		}
+
+		private Byte[] Crypt(Byte[] buffer, bool encrypt)
+		{
+			using var aes = Aes.Create();
+			aes.Mode = CipherMode.ECB;
+			aes.Padding = PaddingMode.None;
+			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKey);
+
+			using var cryptor = encrypt
+				? aes.CreateEncryptor()
+				: aes.CreateDecryptor();
+
+			return cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 		}
 	}
 }
