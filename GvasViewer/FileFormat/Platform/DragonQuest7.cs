@@ -102,7 +102,7 @@ namespace GvasViewer.FileFormat.Platform
 			buffer = [
 				.. BitConverter.GetBytes(mVersion),
 				.. BitConverter.GetBytes(buffer.Length),
-				.. buffer
+				.. buffer,
 			];
 
 			System.IO.File.WriteAllBytes(filename, buffer);
