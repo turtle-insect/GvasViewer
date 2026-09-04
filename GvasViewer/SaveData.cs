@@ -31,7 +31,7 @@ namespace GvasViewer
 				new DragonQuest7(Platform.Steam),
 				new DragonQuest7(Platform.Switch),
 				new DragonQuest7(Platform.PS5),
-				//new FinalFantasyResonance(),
+				new FinalFantasyResonance(),
 				new Palworld(),
 				new OctopathTraveler0(),
 			];
