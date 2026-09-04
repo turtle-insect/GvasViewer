@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Security.Cryptography;
 
 namespace GvasViewer.FileFormat.Platform
 {
@@ -21,7 +16,6 @@ namespace GvasViewer.FileFormat.Platform
 		public byte[] Load(String filename)
 		{
 			Byte[] buffer = System.IO.File.ReadAllBytes(filename);
-			var tmp = BitConverter.ToString(buffer, 0, 4);
 			if (System.Text.Encoding.UTF8.GetString(buffer, 0, 4) != "SVHD") return [];
 
 			mVersion = BitConverter.ToUInt32(buffer, 4);
