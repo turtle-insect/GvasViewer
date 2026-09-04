@@ -1,4 +1,6 @@
 ﻿using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Input;
 
 namespace GvasViewer.FileFormat.Platform
 {
@@ -64,12 +66,7 @@ namespace GvasViewer.FileFormat.Platform
 			if (!mKeys[mPlatform].ContainsKey(mVersion)) return [];
 
 			buffer = buffer[8..];
-			using var aes = Aes.Create();
-			aes.Mode = CipherMode.ECB;
-			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
-			using var cryptor = aes.CreateDecryptor();
-			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
+			buffer = Crypt(buffer, false);
 
 			buffer = buffer[12..(BitConverter.ToInt32(buffer) + 12)];
 			buffer = Util.Zlib.Decompress(buffer);
@@ -93,12 +90,7 @@ namespace GvasViewer.FileFormat.Platform
 			Array.Copy(BitConverter.GetBytes(sum), 0, tmp, tmp.Length - 12, 4);
 			buffer = tmp;
 
-			using var aes = Aes.Create();
-			aes.Mode = CipherMode.ECB;
-			aes.Padding = PaddingMode.None;
-			aes.Key = System.Text.Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
-			using var cryptor = aes.CreateEncryptor();
-			buffer = cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
+			buffer = Crypt(buffer, true);
 			buffer = [
 				.. BitConverter.GetBytes(mVersion),
 				.. BitConverter.GetBytes(buffer.Length),
@@ -106,6 +98,20 @@ namespace GvasViewer.FileFormat.Platform
 			];
 
 			System.IO.File.WriteAllBytes(filename, buffer);
+		}
+
+		private Byte[] Crypt(Byte[] buffer, bool encrypt)
+		{
+			using var aes = Aes.Create();
+			aes.Mode = CipherMode.ECB;
+			aes.Padding = PaddingMode.None;
+			aes.Key = Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
+
+			using var cryptor = encrypt
+				? aes.CreateEncryptor()
+				: aes.CreateDecryptor();
+
+			return cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
 		}
 	}
 }
