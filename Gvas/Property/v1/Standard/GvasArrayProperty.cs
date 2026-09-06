@@ -64,7 +64,7 @@ namespace Gvas.Property.v1.Standard
 						for (uint index = 0; index < count; index++)
 						{
 							var property = Util.CreateProperty(PropertyType);
-							property.Name = new($"[{index}]", System.Text.Encoding.UTF8);
+							property.Name = new($"[{index}]");
 							property.ReadValue(reader);
 							AppendChildren(property);
 						}

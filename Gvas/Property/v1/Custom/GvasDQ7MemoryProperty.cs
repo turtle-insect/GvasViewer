@@ -25,7 +25,7 @@
 
 		public override void Read(BinaryReader reader)
 		{
-			Name = new("Memory", System.Text.Encoding.UTF8);
+			Name = new("Memory");
 
 			for (uint index = 0; index < 2; index++)
 			{

@@ -8,13 +8,16 @@ namespace Gvas.Property
 		private Encoding _encoding = Encoding.UTF8;
 
 		public GvasString() { }
-		public GvasString(String value, Encoding encoding)
+		public GvasString(String value)
 		{
 			Value = value;
-			_encoding = encoding;
 		}
+
 		public GvasString(GvasString str)
-			: this(str.Value, str._encoding) { }
+			: this(str.Value)
+		{
+			this._encoding = str._encoding;
+		}
 
 		public void Read(BinaryReader reader)
 		{

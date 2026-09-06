@@ -205,7 +205,7 @@ namespace GvasViewer.ViewModel
 
 			if (child == null) return;
 
-			child.Name = new($"[{count}]", System.Text.Encoding.UTF8);
+			child.Name = new($"[{count}]");
 			vm.AppendChildren(child);
 		}
 
@@ -232,7 +232,7 @@ namespace GvasViewer.ViewModel
 				if (line.StartsWith('#')) continue;
 
 				var child = clone.Clone();
-				child.Name = new($"[{property.Children.Count}]", System.Text.Encoding.UTF8);
+				child.Name = new($"[{property.Children.Count}]");
 				child.Value = line;
 				vm.AppendChildren(child);
 			}
@@ -282,7 +282,7 @@ namespace GvasViewer.ViewModel
 				if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(value)) continue;
 
 				var child = clone.Clone();
-				child.Name = new(key, System.Text.Encoding.UTF8);
+				child.Name = new(key);
 				child.Value = value;
 				vm.AppendChildren(child);
 			}

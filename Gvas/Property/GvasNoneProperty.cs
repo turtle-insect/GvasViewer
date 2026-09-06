@@ -5,7 +5,7 @@
 		public GvasNoneProperty()
 			: base()
 		{
-			Name = new GvasString("None", System.Text.Encoding.UTF8);
+			Name = new GvasString("None");
 		}
 
 		public GvasNoneProperty(GvasNoneProperty property)
