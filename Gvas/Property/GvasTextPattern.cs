@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
-
-namespace Gvas.Property
+﻿namespace Gvas.Property
 {
 	internal abstract class GvasTextPattern
 	{
