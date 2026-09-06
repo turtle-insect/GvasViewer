@@ -45,7 +45,7 @@
 				switch (keyProperty.Value)
 				{
 					case "IntProperty":
-						name = new(reader.ReadInt32().ToString(), System.Text.Encoding.UTF8);
+						name.Value = reader.ReadInt32().ToString();
 						break;
 
 					case "ByteProperty":
