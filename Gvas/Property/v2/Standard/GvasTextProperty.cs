@@ -26,7 +26,7 @@
 		public override object Value
 		{
 			get => _pattern.Value;
-			set => _pattern.Value = value.ToString() ?? "";
+			set => _pattern.Value = value.ToString() ?? String.Empty;
 		}
 
 		public override void Read(BinaryReader reader)
