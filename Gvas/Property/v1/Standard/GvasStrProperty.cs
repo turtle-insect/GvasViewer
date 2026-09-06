@@ -22,7 +22,7 @@
 		public override object Value
 		{
 			get => mValue.Value;
-			set => mValue.Value = value.ToString() ?? "";
+			set => mValue.Value = value.ToString() ?? String.Empty;
 		}
 
 		public override void Read(BinaryReader reader)
