@@ -44,15 +44,16 @@ namespace Gvas.Property
 			}
 
 			length++;
+			var count = 1;
 			if (_encoding == Encoding.Unicode)
 			{
+				count = 2;
 				length = -length;
 			}
 
 			writer.Write(length);
 			writer.Write(_encoding.GetBytes(Value));
-			writer.Write('\0');
-			if (_encoding == Encoding.Unicode)
+			foreach (var _ in Enumerable.Range(0, count))
 			{
 				writer.Write('\0');
 			}
