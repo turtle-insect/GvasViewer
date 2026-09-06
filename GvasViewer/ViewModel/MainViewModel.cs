@@ -341,13 +341,11 @@ namespace GvasViewer.ViewModel
 						case Gvas.Property.v2.Standard.GvasTextProperty:
 						case Gvas.Property.v2.Standard.GvasStrProperty:
 						case Gvas.Property.v2.Standard.GvasNameProperty:
-							value = property.Value.ToString()?.ToLower();
+							value = property.Value.ToString()?.ToLower() ?? String.Empty;
 							break;
 					}
 					break;
 			}
-
-			if (String.IsNullOrEmpty(value)) return;
 
 			if (value.Contains(Keyword.ToLower()))
 			{
