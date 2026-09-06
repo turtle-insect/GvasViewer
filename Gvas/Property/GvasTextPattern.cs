@@ -96,7 +96,7 @@
 
 		public override String Value
 		{
-			get => "";
+			get => String.Empty;
 			set { }
 		}
 
