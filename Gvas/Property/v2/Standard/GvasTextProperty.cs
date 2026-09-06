@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Gvas.Property.v2.Standard
+﻿namespace Gvas.Property.v2.Standard
 {
 	public class GvasTextProperty : GvasProperty
 	{
@@ -41,7 +39,6 @@ namespace Gvas.Property.v2.Standard
 			_flag = reader.ReadUInt32();
 			_type = reader.ReadByte();
 
-			Debug.WriteLine(_type);
 			switch (_type)
 			{
 				case 0x0b:
