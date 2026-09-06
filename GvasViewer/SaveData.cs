@@ -2,7 +2,6 @@
 using GvasViewer.FileFormat;
 using GvasViewer.FileFormat.Platform;
 using GvasViewer.FileFormat.Platform.Steam;
-using System.Diagnostics;
 using System.IO;
 
 namespace GvasViewer
