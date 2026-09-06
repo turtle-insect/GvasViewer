@@ -1,5 +1,4 @@
 ﻿using Gvas.Property;
-using System.Text;
 
 namespace Gvas
 {
@@ -17,7 +16,7 @@ namespace Gvas
 		public void Read(BinaryReader reader)
 		{
 			Byte[] buffer = reader.ReadBytes(4);
-			_header = Encoding.UTF8.GetString(buffer);
+			_header = System.Text.Encoding.UTF8.GetString(buffer);
 
 			if (_header != "GVAS") throw new Exception();
 
