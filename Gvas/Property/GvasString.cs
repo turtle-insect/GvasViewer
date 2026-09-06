@@ -21,48 +21,40 @@ namespace Gvas.Property
 			int length = reader.ReadInt32();
 			if (length == 0) return;
 
-			if (length < 0)
+			var size = 1;
+			if(length < 0)
 			{
-				length = -length - 1;
-				var buffer = reader.ReadBytes(length * 2);
-				reader.ReadBytes(2);
+				size = 2;
+				length = -length;
 				_encoding = Encoding.Unicode;
-				Value = _encoding.GetString(buffer);
 			}
-			else
-			{
-				var buffer = reader.ReadBytes(length - 1);
-				reader.ReadByte();
-				_encoding = Encoding.UTF8;
-				Value = _encoding.GetString(buffer);
-			}
+
+			var buffer = reader.ReadBytes((length - 1) * size);
+			reader.ReadBytes(size);
+			Value = _encoding.GetString(buffer);
 		}
 
 		public void Write(BinaryWriter writer)
 		{
 			int length = Value.Length;
-			if (length != 0) length++;
+			if (length == 0)
+			{
+				writer.Write(length);
+				return;
+			}
 
-			if(_encoding == Encoding.Unicode)
+			length++;
+			if (_encoding == Encoding.Unicode)
 			{
 				length = -length;
-				writer.Write(length);
-				if (length != 0)
-				{
-					var tmp = _encoding.GetBytes(Value);
-					writer.Write(tmp);
-					writer.Write('\0');
-					writer.Write('\0');
-				}
 			}
-			else
+
+			writer.Write(length);
+			writer.Write(_encoding.GetBytes(Value));
+			writer.Write('\0');
+			if (_encoding == Encoding.Unicode)
 			{
-				writer.Write(length);
-				if(length != 0)
-				{
-					writer.Write(_encoding.GetBytes(Value));
-					writer.Write('\0');
-				}
+				writer.Write('\0');
 			}
 		}
 
