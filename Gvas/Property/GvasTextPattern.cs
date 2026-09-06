@@ -25,7 +25,7 @@
 		public GvasTextPatternNone(GvasTextPatternNone pattern)
 		{
 			_flag = pattern._flag;
-			_source = new GvasString(pattern._source);
+			_source = new(pattern._source);
 		}
 
 		public override GvasTextPattern Clone()
@@ -67,8 +67,8 @@
 
 		public GvasTextPatternNormal(GvasTextPatternNormal pattern)
 		{
-			_namespace = new GvasString(pattern._namespace);
-			_source = new GvasString(pattern._source);
+			_namespace = new(pattern._namespace);
+			_source = new(pattern._source);
 		}
 
 		public override GvasTextPattern Clone()
