@@ -5,7 +5,7 @@ namespace Gvas
 	public class Gvas
 	{
 		private GvasEngine _engine = new();
-		private List<GvasProperty> _properties = new();
+		private readonly List<GvasProperty> _properties = new();
 
 		public IReadOnlyList<GvasProperty> Properties => _properties;
 
