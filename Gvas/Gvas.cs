@@ -7,10 +7,7 @@ namespace Gvas
 		private GvasEngine _engine = new();
 		private List<GvasProperty> _properties = new();
 
-		public IReadOnlyList<GvasProperty> Properties
-		{
-			get => _properties;
-		}
+		public IReadOnlyList<GvasProperty> Properties => _properties;
 
 		public void Read(BinaryReader reader)
 		{
