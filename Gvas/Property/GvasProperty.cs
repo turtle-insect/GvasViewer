@@ -17,10 +17,8 @@
 		}
 		public abstract GvasProperty Clone();
 
-		public IReadOnlyList<GvasProperty> Children
-		{
-			get => _children;
-		}
+		public IReadOnlyList<GvasProperty> Children => _children;
+
 		public void AppendChildren(GvasProperty property)
 		{
 			_children.Add(property);
