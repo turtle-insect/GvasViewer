@@ -12,10 +12,7 @@ namespace GvasViewer
 		private Gvas.Gvas _gvas = new();
 		private IFileFormat? _fileFormat;
 
-		public IReadOnlyList<GvasProperty>? Properties
-		{
-			get => _gvas.Properties;
-		}
+		public IReadOnlyList<GvasProperty>? Properties => _gvas.Properties;
 
 		public bool Load(String filename)
 		{
