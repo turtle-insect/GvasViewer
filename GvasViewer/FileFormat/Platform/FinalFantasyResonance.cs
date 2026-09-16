@@ -37,7 +37,7 @@ namespace GvasViewer.FileFormat.Platform
 		public void Save(String filename, Byte[] buffer)
 		{
 			// 16Byte padding
-			Array.Resize(ref buffer, (buffer.Length + 15) / 16 * 16);
+			Array.Resize(ref buffer, (buffer.Length + 15) & ~15);
 
 			buffer = Crypt(buffer, true);
 
