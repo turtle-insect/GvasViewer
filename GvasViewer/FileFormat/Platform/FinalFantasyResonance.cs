@@ -10,7 +10,7 @@ namespace GvasViewer.FileFormat.Platform
 		// Checksum
 		// "FFRS-Win64-Shipping.exe"+134B000 - 40 53
 		private UInt32 mVersion;
-		private const String mKey = "";
+		private const String mKey = "wwrqPkdwzPvgfchQ8kTYHVbn4umTf3d7";
 
 
 		public byte[] Load(String filename)
