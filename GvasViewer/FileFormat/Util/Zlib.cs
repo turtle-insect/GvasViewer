@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace GvasViewer.FileFormat.Util
+﻿namespace GvasViewer.FileFormat.Util
 {
 	internal class Zlib
 	{
