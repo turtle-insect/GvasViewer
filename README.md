@@ -9,7 +9,7 @@ GvasViewer
 
 # Advance
 * Windows 11(or 10)
-* [.NET 10](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+* [.NET 11](https://dotnet.microsoft.com/en-us/download/dotnet/11.0)
 * ※ oo2core.dll
 
 # Usage
