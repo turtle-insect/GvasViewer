@@ -6,23 +6,24 @@ namespace GvasViewer.FileFormat.Util
 	{
 		public static Byte[] Compression(Byte[] buffer)
 		{
-			using MemoryStream input = new(buffer);
-			using MemoryStream output = new();
-			using System.IO.Compression.ZLibStream zlib = new(output, System.IO.Compression.CompressionLevel.Optimal);
+			using System.IO.MemoryStream output = new();
+			using (System.IO.Compression.ZLibStream zlib = new(output, System.IO.Compression.CompressionLevel.Optimal))
+			{
+				zlib.Write(buffer);
+			}
 
-			input.CopyTo(zlib);
-			zlib.Flush();
 			return output.ToArray();
 		}
 
 		public static Byte[] Decompress(Byte[] buffer)
 		{
-			using MemoryStream input = new(buffer);
-			using System.IO.Compression.ZLibStream zlib = new(input, System.IO.Compression.CompressionMode.Decompress);
-			using MemoryStream output = new();
+			using System.IO.MemoryStream input = new(buffer);
+			using System.IO.MemoryStream output = new();
+			using (System.IO.Compression.ZLibStream zlib = new(input, System.IO.Compression.CompressionMode.Decompress))
+			{
+				zlib.CopyTo(output);
+			}
 
-			zlib.CopyTo(output);
-			output.Flush();
 			return output.ToArray();
 		}
 	}
