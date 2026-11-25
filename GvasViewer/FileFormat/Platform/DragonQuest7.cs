@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Input;
 
 namespace GvasViewer.FileFormat.Platform
 {
