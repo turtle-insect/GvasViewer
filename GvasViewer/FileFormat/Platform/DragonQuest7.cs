@@ -103,15 +103,11 @@ namespace GvasViewer.FileFormat.Platform
 		private Byte[] Crypt(Byte[] buffer, bool encrypt)
 		{
 			using var aes = Aes.Create();
-			aes.Mode = CipherMode.ECB;
-			aes.Padding = PaddingMode.None;
 			aes.Key = Encoding.UTF8.GetBytes(mKeys[mPlatform][mVersion]);
 
-			using var cryptor = encrypt
-				? aes.CreateEncryptor()
-				: aes.CreateDecryptor();
-
-			return cryptor.TransformFinalBlock(buffer, 0, buffer.Length);
+			return encrypt
+				? aes.EncryptEcb(buffer, PaddingMode.None)
+				: aes.DecryptEcb(buffer, PaddingMode.None);
 		}
 	}
 }
